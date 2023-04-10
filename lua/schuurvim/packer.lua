@@ -20,38 +20,36 @@ return require('packer').startup(function(use)
 		  vim.cmd('colorscheme kanagawa')
 	  end
   }
-
+  use ('tpope/vim-commentary')
   use ('mbbill/undotree')
   use ('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate'})
   use ('tpope/vim-fugitive')
   use {
-  'VonHeikemen/lsp-zero.nvim',
-  branch = 'v2.x',
-  requires = {
-    -- LSP Support
-    {'neovim/nvim-lspconfig'},             -- Required
-    {                                      -- Optional
-      'williamboman/mason.nvim',
-      run = function()
-        pcall(vim.cmd, 'MasonUpdate')
-      end,
-    },
-    {'williamboman/mason-lspconfig.nvim'}, -- Optional
+      'VonHeikemen/lsp-zero.nvim',
+      branch = 'v2.x',
+      requires = {
+          -- LSP Support
+          {'neovim/nvim-lspconfig'},             -- Required
+          {                                      -- Optional
+          'williamboman/mason.nvim',
+          run = function()
+              pcall(vim.cmd, 'MasonUpdate')
+          end,
+      },
+      {'williamboman/mason-lspconfig.nvim'}, -- Optional
 
-    -- Autocompletion
-    {'hrsh7th/nvim-cmp'},     -- Required
-    {'hrsh7th/cmp-nvim-lsp'}, -- Required
-    {'L3MON4D3/LuaSnip'},     -- Required
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},     -- Required
+      {'hrsh7th/cmp-nvim-lsp'}, -- Required
+      {'L3MON4D3/LuaSnip'},     -- Required
   }
 }
 use {
-  'nvim-tree/nvim-tree.lua',
-  requires = {
-    'nvim-tree/nvim-web-devicons', -- optional
-  },
-  config = function()
-    require("nvim-tree").setup {}
-  end
+    'nvim-tree/nvim-tree.lua',
+    config = function()
+        require("nvim-tree").setup {}
+    end
 }
+use ('vim-scripts/vim-gitgutter')
 end
 )
