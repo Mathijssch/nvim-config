@@ -20,7 +20,7 @@ return require('packer').startup(function(use)
 		  vim.cmd('colorscheme kanagawa')
 	  end
   }
-  use ('tpope/vim-commentary')
+  use ('preservim/nerdcommenter')
   use ('mbbill/undotree')
   use ('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate'})
   use ('tpope/vim-fugitive')
@@ -45,11 +45,16 @@ return require('packer').startup(function(use)
   }
 }
 use {
-    'nvim-tree/nvim-tree.lua',
-    config = function()
-        require("nvim-tree").setup {}
-    end
+  'nvim-tree/nvim-tree.lua',
+  requires = {
+    'nvim-tree/nvim-web-devicons', -- optional
+  },
+  config = function()
+    require("nvim-tree").setup {}
+  end
 }
 use ('vim-scripts/vim-gitgutter')
+use ('lervag/vimtex')
+use ('peterbjorgensen/sved')
 end
 )
