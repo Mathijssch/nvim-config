@@ -41,7 +41,7 @@ return require('packer').startup(function(use)
       -- Autocompletion
       {'hrsh7th/nvim-cmp'},     -- Required
       {'hrsh7th/cmp-nvim-lsp'}, -- Required
-      {'L3MON4D3/LuaSnip'},     -- Required
+      {'L3MON4D3/LuaSnip'},     -- Required: snippets
   }
 }
 use {
@@ -55,6 +55,7 @@ use {
 }
 use ('vim-scripts/vim-gitgutter')
 use ('lervag/vimtex')
-use ('peterbjorgensen/sved')
+use ('peterbjorgensen/sved') -- Fixes reverse syncing with latex in evince 
+use ('feline-nvim/feline.nvim') -- Nice statusbar
 end
 )
