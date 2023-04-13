@@ -5,8 +5,9 @@ local i = ls.insert_node
 local sn = ls.snippet_node
 local t = ls.text_node
 local d = ls.dynamic_node
+local fmt = require("luasnip.extras.fmt").fmt
 
-local ruler = t("-------------------------------------")
+local ruler = t("%-------------------------------------")
 
 
 -- from https://www.ejmastnak.com/tutorials/vim-latex/luasnip/#getting-started
@@ -39,10 +40,15 @@ local title = s(
     dscr="Draw a title line in comments",
     regTrig=false
 },
-{
-    ruler,
-    i(1),
-    ruler
-})
+    fmt(
+    [[
+        %-------------------------------------------------------------
+        %<>
+        %-------------------------------------------------------------
+    ]]
+    , { i(1) },
+    {delimiters = "<>"}
+)    
+)
 
 return {align, title}

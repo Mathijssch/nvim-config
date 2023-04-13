@@ -14,12 +14,13 @@ return require('packer').startup(function(use)
   }
 
   use {
-	  'rebelot/kanagawa.nvim', 
-	  as = "kanagawa",
-	  config = function()
-		  vim.cmd('colorscheme kanagawa')
-	  end
+      'rebelot/kanagawa.nvim',
+      as = "kanagawa",
+      --config = function()
+          --vim.cmd('colorscheme kanagawa')
+      --end
   }
+  use ('rmehri01/onenord.nvim')
   use ('preservim/nerdcommenter')
   use ('mbbill/undotree')
   use ('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate'})
@@ -53,9 +54,10 @@ use {
     require("nvim-tree").setup {}
   end
 }
-use ('vim-scripts/vim-gitgutter')
-use ('lervag/vimtex')
+use ('vim-scripts/vim-gitgutter') -- Gutter with git information
+use ('lervag/vimtex') -- LaTeX support 
 use ('peterbjorgensen/sved') -- Fixes reverse syncing with latex in evince 
 use ('feline-nvim/feline.nvim') -- Nice statusbar
+use ('wincent/ferret') -- project-wide search and replace
 end
 )
