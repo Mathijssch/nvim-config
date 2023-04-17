@@ -58,6 +58,8 @@ use ('vim-scripts/vim-gitgutter') -- Gutter with git information
 use ('lervag/vimtex') -- LaTeX support 
 use ('peterbjorgensen/sved') -- Fixes reverse syncing with latex in evince 
 use ('feline-nvim/feline.nvim') -- Nice statusbar
-use ('wincent/ferret') -- project-wide search and replace
+use {'nvim-pack/nvim-spectre',
+      requires = { 'nvim-lua/plenary.nvim' }
+}
 end
 )
