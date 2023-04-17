@@ -92,7 +92,7 @@ local c = {
 		provider = {
 			name = "file_info",
 			opts = {
-				type = "relative-short",
+				type = "relative",
 			},
 		},
 		hl = {
