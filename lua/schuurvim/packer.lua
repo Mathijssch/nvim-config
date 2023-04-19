@@ -32,7 +32,7 @@ return require('packer').startup(function(use)
             -- LSP Support
             { 'neovim/nvim-lspconfig' }, -- Required
             {
-                                     -- Optional
+                -- Optional
                 'williamboman/mason.nvim',
                 run = function()
                     pcall(vim.cmd, 'MasonUpdate')
@@ -41,9 +41,9 @@ return require('packer').startup(function(use)
             { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
             -- Autocompletion
-            { 'hrsh7th/nvim-cmp' }, -- Required
+            { 'hrsh7th/nvim-cmp' },     -- Required
             { 'hrsh7th/cmp-nvim-lsp' }, -- Required
-            { 'L3MON4D3/LuaSnip' }, -- Required: snippets
+            { 'L3MON4D3/LuaSnip' },     -- Required: snippets
         }
     }
     use {
@@ -55,13 +55,16 @@ return require('packer').startup(function(use)
             require("nvim-tree").setup {}
         end
     }
-    use('vim-scripts/vim-gitgutter')   -- Gutter with git information
-    use('lervag/vimtex')               -- LaTeX support
-    use('peterbjorgensen/sved')        -- Fixes reverse syncing with latex in evince
-    use { 'freddiehaddad/feline.nvim', -- Nice statusbar
+    use('vim-scripts/vim-gitgutter')             -- Gutter with git information
+    use('lervag/vimtex')                         -- LaTeX support
+    use('peterbjorgensen/sved')                  -- Fixes reverse syncing with latex in evince
+    use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
         requires = { 'lewis6991/gitsigns.nvim' } -- For git info
     }
     use { 'nvim-pack/nvim-spectre',
+        requires = { 'nvim-lua/plenary.nvim' }
+    }
+    use { 'ThePrimeagen/harpoon',
         requires = { 'nvim-lua/plenary.nvim' }
     }
 end

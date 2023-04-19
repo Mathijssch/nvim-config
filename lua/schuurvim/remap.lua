@@ -32,10 +32,10 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yank
 vim.keymap.set("n", "Q", "<nop>")                    -- Disable Q
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format) -- format
 
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz", { desc = "Go to the next item in the quickfix list" })
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz", { desc = "Go to the previous item in the quickfix list" })
-vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Go to the next item in the location list" })
-vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Go to the previous item in the location list" })
+vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Go to the next item in the quickfix list" })
+vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Go to the previous item in the quickfix list" })
+vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = "Go to the next item in the location list" })
+vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Go to the previous item in the location list" })
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
     { desc = "Replace the word currently underneath the cursor, over the whole file" })
