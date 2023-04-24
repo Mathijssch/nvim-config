@@ -12,7 +12,7 @@ return require('packer').startup(function(use)
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
-
+    -- Color schemes
     use {
         'rebelot/kanagawa.nvim',
         as = "kanagawa",
@@ -20,7 +20,10 @@ return require('packer').startup(function(use)
         --vim.cmd('colorscheme kanagawa')
         --end
     }
+    use { "neanias/everforest-nvim", as = "everforest" }
     use('rmehri01/onenord.nvim')
+    use { "wadackel/vim-dogrun", as = "dogrun" }
+    use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use('preservim/nerdcommenter')
     use('mbbill/undotree')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
@@ -67,5 +70,14 @@ return require('packer').startup(function(use)
     use { 'ThePrimeagen/harpoon',
         requires = { 'nvim-lua/plenary.nvim' }
     }
+    use({  -- Change/add/delete surrounding brackets etc.
+        "kylechui/nvim-surround",
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    })
 end
 )
