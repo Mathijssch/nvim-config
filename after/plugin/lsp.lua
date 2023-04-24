@@ -15,9 +15,6 @@ require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 	--['<C-Space>'] = cmp.mapping.complete(),
 --})
 
---lsp.setup_nvim_cmp({
-  --select_behavior = 'insert'
---})
 
 local lsp = require('lsp-zero').preset({
   name = 'minimal',
