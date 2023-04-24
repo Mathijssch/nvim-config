@@ -27,6 +27,11 @@ return require('packer').startup(function(use)
     use('preservim/nerdcommenter')
     use('mbbill/undotree')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
+    use({
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        after = "nvim-treesitter",
+        requires = "nvim-treesitter/nvim-treesitter",
+    })  -- Text objects and motions using treesitter.
     use('tpope/vim-fugitive')
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -71,7 +76,7 @@ return require('packer').startup(function(use)
         requires = { 'nvim-lua/plenary.nvim' }
     }
     use({
-                   -- Change/add/delete surrounding brackets etc.
+        -- Change/add/delete surrounding brackets etc.
         "kylechui/nvim-surround",
         tag = "*", -- Use for stability; omit to use `main` branch for the latest features
         config = function()
@@ -80,10 +85,10 @@ return require('packer').startup(function(use)
             })
         end
     })
-    use("puremourning/vimspector")  -- Debuggers
+    use("puremourning/vimspector") -- Debuggers
     use { "sagi-z/vimspectorpy",
         config = function()
-            vim.cmd([[:VimspectorpyUpdate]])
-        end }  -- Python debugging
+            pcall(vim.cmd, "VimspectorpyUpdate")
+        end } -- Python debugging
 end
 )

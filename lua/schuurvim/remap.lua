@@ -79,3 +79,6 @@ vim.keymap.set("n", "<C-Up>", [[<C-w>+]], { desc = "Increase height of current w
 -- Keymaps for the debugger. 
 vim.g.vimspector_enable_mappings = "VISUAL_STUDIO" -- Use VS-code mappings for vimspector
 
+-- Removing trailing whitespace
+vim.keymap.set("n", "<leader>wh", [[<cmd>%s/\s\(\n\)/\1/e<CR>]])
+
