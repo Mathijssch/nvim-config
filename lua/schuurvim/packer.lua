@@ -70,7 +70,8 @@ return require('packer').startup(function(use)
     use { 'ThePrimeagen/harpoon',
         requires = { 'nvim-lua/plenary.nvim' }
     }
-    use({  -- Change/add/delete surrounding brackets etc.
+    use({
+                   -- Change/add/delete surrounding brackets etc.
         "kylechui/nvim-surround",
         tag = "*", -- Use for stability; omit to use `main` branch for the latest features
         config = function()
@@ -79,5 +80,10 @@ return require('packer').startup(function(use)
             })
         end
     })
+    use("puremourning/vimspector")  -- Debuggers
+    use { "sagi-z/vimspectorpy",
+        config = function()
+            vim.cmd([[:VimspectorpyUpdate]])
+        end }  -- Python debugging
 end
 )
