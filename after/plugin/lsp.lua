@@ -12,22 +12,38 @@ end)
 -- (Optional) Configure lua language server for neovim
 local lspconfig = require("lspconfig")
 lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
-lspconfig.pyright.setup{
+lspconfig.pylsp.setup {
+    capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),
     settings = {
-        pyright = {
-            autoImportCompletion = true,
+        pylsp = {
+            plugins = {
+                jedi_completion = {
+                    enabled = true, 
+                    include_params = true,
+                },
+                pycodestyle = {
+                    ignore = {"E501"}
+                }
+            },
         },
-        python = {
-            analysis = {
-                autoSearchPaths = true,
-                autoImportCompletions = true,
-                diagnosticMode = 'openFilesOnly',
-                useLibraryCodeForTypes = true,
-                reportPrivateImportUsage = false,
-                typeCheckingMode = 'off'}
-            }
-        }
-    }
+    },
+}
+--lspconfig.pyright.setup{
+    --settings = {
+        --pyright = {
+            --autoImportCompletion = true,
+        --},
+        --python = {
+            --analysis = {
+                --autoSearchPaths = true,
+                --autoImportCompletions = true,
+                --diagnosticMode = 'openFilesOnly',
+                --useLibraryCodeForTypes = true,
+                --reportPrivateImportUsage = false,
+                --typeCheckingMode = 'off'}
+            --}
+        --}
+    --}
 --local cmp = require('cmp')
 --local cmp_select = {behavior = cmp.SelectBehavior.Select}
 --cmp_select = lsp.defaults.cmp_mappings({
@@ -49,4 +65,6 @@ lsp.set_sign_icons({
   info = '»'
 })
 
+
 lsp.setup()
+
