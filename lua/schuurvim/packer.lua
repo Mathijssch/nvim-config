@@ -26,6 +26,7 @@ return require('packer').startup(function(use)
     use { "wadackel/vim-dogrun", as = "dogrun" }
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use { "catppuccin/nvim", as = "catppuccin" }
+    use 'JoosepAlviste/palenightfall.nvim'
     -----------------------------------------------------------
     use('preservim/nerdcommenter')
     use('mbbill/undotree')
