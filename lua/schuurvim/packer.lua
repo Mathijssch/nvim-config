@@ -13,6 +13,7 @@ return require('packer').startup(function(use)
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
     -- Color schemes
+    -- ----------------------------------------------------
     use {
         'rebelot/kanagawa.nvim',
         as = "kanagawa",
@@ -24,6 +25,8 @@ return require('packer').startup(function(use)
     use('rmehri01/onenord.nvim')
     use { "wadackel/vim-dogrun", as = "dogrun" }
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
+    use { "catppuccin/nvim", as = "catppuccin" }
+    -----------------------------------------------------------
     use('preservim/nerdcommenter')
     use('mbbill/undotree')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
@@ -63,7 +66,7 @@ return require('packer').startup(function(use)
             require("nvim-tree").setup {}
         end
     }
-    use('vim-scripts/vim-gitgutter')             -- Gutter with git information
+    --use('vim-scripts/vim-gitgutter')             -- Gutter with git information
     use('lervag/vimtex')                         -- LaTeX support
     use('peterbjorgensen/sved')                  -- Fixes reverse syncing with latex in evince
     use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
