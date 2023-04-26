@@ -80,8 +80,20 @@ vim.keymap.set("n", "<C-Up>", [[<C-w>+]], { desc = "Increase height of current w
 vim.g.vimspector_enable_mappings = "VISUAL_STUDIO" -- Use VS-code mappings for vimspector
 
 -- Removing trailing whitespace
-vim.keymap.set("n", "<leader>wh", [[<cmd>%s/\s\(\n\)/\1/e<CR>]])
+vim.keymap.set("n", "<leader>wh", [[<cmd>%s/\s+\(\n\)/\1/e<CR>]])
 
 -- Go back to previously opened file
 vim.keymap.set("n", "<C-`>", "<C-^>", { desc = "Go to previously opened file" })
 
+
+-- Open a new terminal to the side.
+vim.cmd.set("splitbelow")
+vim.keymap.set("n", "<leader>t", [[<cmd>:split | resize 20 | terminal<CR>i]], { desc = "Open a new terminal below" })
+
+-- Exit terminal mode
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+vim.keymap.set("n", "<leader>ls", vim.diagnostic.show, {desc = "Show linting diagnostics"})
+vim.keymap.set("n", "<leader>lh", vim.diagnostic.hide, {desc = "Hide linting diagnostics"})
+
+vim.api.nvim_create_user_command("DebugStop", function() vim.cmd('VimspectorReset') end, {})
