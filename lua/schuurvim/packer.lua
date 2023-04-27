@@ -26,7 +26,16 @@ return require('packer').startup(function(use)
     use { "wadackel/vim-dogrun", as = "dogrun" }
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use { "catppuccin/nvim", as = "catppuccin" }
-    use 'JoosepAlviste/palenightfall.nvim'
+    use { "JoosepAlviste/palenightfall.nvim", as = "palenightfall",
+        config = function()
+            require('palenightfall').setup({
+                color_overrides = {
+                    references = '#3E4B6E',
+                    highlight  = '#3F4654'
+                }
+            })
+        end
+    }
     -----------------------------------------------------------
     use('preservim/nerdcommenter')
     use('mbbill/undotree')
@@ -35,7 +44,7 @@ return require('packer').startup(function(use)
         "nvim-treesitter/nvim-treesitter-textobjects",
         after = "nvim-treesitter",
         requires = "nvim-treesitter/nvim-treesitter",
-    })  -- Text objects and motions using treesitter.
+    }) -- Text objects and motions using treesitter.
     use('tpope/vim-fugitive')
     use {
         'VonHeikemen/lsp-zero.nvim',
@@ -73,6 +82,7 @@ return require('packer').startup(function(use)
     use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
         requires = { 'lewis6991/gitsigns.nvim' } -- For git info
     }
+    use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' } -- Nice diff view
     use { 'nvim-pack/nvim-spectre',
         requires = { 'nvim-lua/plenary.nvim' }
     }
@@ -94,5 +104,9 @@ return require('packer').startup(function(use)
         config = function()
             pcall(vim.cmd, "VimspectorpyUpdate")
         end } -- Python debugging
+    use { "gennaro-tedesco/nvim-possession",
+        requires = { "ibhagwan/fzf-lua" },
+        config = function() require("nvim-possession").setup({}) end
+    }
 end
 )

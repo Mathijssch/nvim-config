@@ -3,4 +3,11 @@ function SetColors(theme)
 	vim.cmd.colorscheme(theme)
 end
 
+--require('palenightfall').setup({
+  --color_overrides = {
+    --references = '#3E4B6E',
+--}})
+
+
+
 SetColors()
