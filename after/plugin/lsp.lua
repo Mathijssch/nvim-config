@@ -1,4 +1,7 @@
-local lsp = require('lsp-zero').preset({
+local status_ok, lsp = pcall(require, 'lsp-zero')
+if not status_ok then return end
+
+lsp.preset({
   name = 'minimal',
   set_lsp_keymaps = true,
   manage_nvim_cmp = true,
@@ -10,7 +13,8 @@ lsp.on_attach(function(client, bufnr)
 end)
 
 -- (Optional) Configure lua language server for neovim
-local lspconfig = require("lspconfig")
+local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_ok then return end
 lspconfig.lua_ls.setup(lsp.nvim_lua_ls())
 lspconfig.pylsp.setup {
     capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()),

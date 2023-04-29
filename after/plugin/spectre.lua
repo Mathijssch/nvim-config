@@ -1,4 +1,5 @@
-local spectre = require("spectre");
+local status_ok, spectre = pcall(require, "spectre")
+if not status_ok then return end;
 
 vim.keymap.set('n', '<leader>H', spectre.open, {
     desc = "Open Spectre"

@@ -1,3 +1,5 @@
+local status_ok, _ = pcall(require, "harpoon")
+if not status_ok then return end
 local mark = require("harpoon.mark")
 local ui = require("harpoon.ui")
 

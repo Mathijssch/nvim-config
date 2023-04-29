@@ -1,4 +1,5 @@
-local lsp_signature = require("lsp_signature")
+local status_ok, lsp_signature = pcall(require, "lsp_signature")
+if not status_ok then return end
 
 local cfg = {
   hint_prefix = "  ",  -- Panda for parameter, NOTE: for the terminal not support emoji, might crash

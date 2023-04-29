@@ -1,4 +1,5 @@
-local builtin = require('telescope.builtin')
+local status_ok, builtin = pcall(require, 'telescope.builtin')
+if not status_ok then return end
 
 vim.keymap.set('n', '<leader>?', builtin.oldfiles, {desc  = '[?] find recently opened files'})
 

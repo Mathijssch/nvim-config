@@ -1,4 +1,5 @@
-local possession = require("nvim-possession")
+local status_ok, possession = pcall(require, "nvim-possession")
+if not status_ok then return end
 
 vim.keymap.set("n", "<leader>sl", function() possession.list() end)
 vim.keymap.set("n", "<leader>sn", function() possession.new() end)

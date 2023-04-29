@@ -1,4 +1,9 @@
-require('gitsigns').setup() -- Git sign in statusline
+local gitsigns_ok, gitsigns = pcall(require, "gitsigns")
+if gitsigns_ok then
+    if gitsigns ~= nil then
+        gitsigns.setup() -- Git sign in statusline
+    end
+end
 
 local line_ok, feline = pcall(require, "feline")
 if not line_ok then
@@ -20,13 +25,18 @@ local one_monokai = {
 }
 
 -- Based on https://github.com/JoosepAlviste/palenightfall.nvim/blob/main/lua/palenightfall/init.lua
-local palenight = require("palenightfall").colors
-
-palenight.darkblue = palenight.highlight
-palenight.fg = palenight.foreground
-palenight.bg = palenight.statusline
-palenight.peanut = palenight.brown
-palenight.aqua = palenight.cyan
+local status_ok, palenight = pcall(require, "palenightfall")
+if status_ok
+then
+    palenight = palenight.colors
+    palenight.darkblue = palenight.highlight
+    palenight.fg = palenight.foreground
+    palenight.bg = palenight.statusline
+    palenight.peanut = palenight.brown
+    palenight.aqua = palenight.cyan
+else
+    palenight = one_monokai
+end
 
 local vi_mode_colors = {
     NORMAL = "green",
@@ -114,10 +124,16 @@ local c = {
     },
     session = {
         provider = function()
-            local status = require("nvim-possession").status()
+            local possessions_ok, possessions = pcall(
+                require, "nvim-possession"
+            )
+            if not possessions_ok then return '' end
+            local status = possessions.status()
             if status ~= nil
-                then return status
-                else return ''
+            then
+                return status
+            else
+                return ''
             end
         end,
         left_sep = " | ",
@@ -213,7 +229,7 @@ local left = {
     c.vim_mode,
     c.gitBranch,
     c.gitDiffAdded,
-  c.gitDiffRemoved,
+    c.gitDiffRemoved,
     c.gitDiffChanged,
     c.separator,
 }
@@ -261,22 +277,20 @@ feline.setup({
     vi_mode_colors = vi_mode_colors,
     --force_inactive={},
     disable = {
-            filetypes = {
-                'NvimTree',
-                '^NvimTree$',
-                '^packer$',
-                '^startify$',
-                '^fugitive$',
-                '^fugitiveblame$',
-                '^qf$',
-                '^help$'
-            },
-            buftypes = {
-                '^NvimTree$',
-                '^terminal$'
-            },
-            bufnames = {"NvimTree"}
+        filetypes = {
+            'NvimTree',
+            '^NvimTree$',
+            '^packer$',
+            '^startify$',
+            '^fugitive$',
+            '^fugitiveblame$',
+            '^qf$',
+            '^help$'
+        },
+        buftypes = {
+            '^NvimTree$',
+            '^terminal$'
+        },
+        bufnames = { "NvimTree" }
     }
 })
-
-

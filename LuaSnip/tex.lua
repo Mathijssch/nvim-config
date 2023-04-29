@@ -1,5 +1,7 @@
 -- Two common LuaSnip abbreviations
-local ls = require("luasnip")
+local status_ok, ls = pcall(require, "luasnip")
+if not status_ok then return end
+
 local s = ls.snippet
 local i = ls.insert_node
 local sn = ls.snippet_node
