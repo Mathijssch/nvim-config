@@ -114,5 +114,10 @@ return require('packer').startup(function(use)
     }
     use {'superDross/run-with-me.vim'}  -- Run scripts in integrated terminal 
     use {'nanozuki/tabby.nvim'}         -- Pretty tabs in nvim
+    use {                               -- Autogenerate documentation
+        'kkoomen/vim-doge',
+        run = ':call doge#install()'
+    }
+    use 'rcarriga/nvim-notify'          -- Nicer notifiations
 end
 )
