@@ -250,11 +250,33 @@ local components = {
     },
 }
 
+
+--feline.setup()
+
+
 feline.setup({
     components = components,
     --theme = one_monokai,
     theme = palenight,
     vi_mode_colors = vi_mode_colors,
+    --force_inactive={},
+    disable = {
+            filetypes = {
+                'NvimTree',
+                '^NvimTree$',
+                '^packer$',
+                '^startify$',
+                '^fugitive$',
+                '^fugitiveblame$',
+                '^qf$',
+                '^help$'
+            },
+            buftypes = {
+                '^NvimTree$',
+                '^terminal$'
+            },
+            bufnames = {"NvimTree"}
+    }
 })
 
 
