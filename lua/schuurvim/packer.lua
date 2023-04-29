@@ -68,6 +68,9 @@ return require('packer').startup(function(use)
         }
     }
     use {
+        "ray-x/lsp_signature.nvim",
+    }
+    use {
         'nvim-tree/nvim-tree.lua',
         requires = {
             'nvim-tree/nvim-web-devicons', -- optional
@@ -100,13 +103,16 @@ return require('packer').startup(function(use)
         end
     })
     use("puremourning/vimspector") -- Debuggers
-    use { "sagi-z/vimspectorpy",
-        config = function()
-            pcall(vim.cmd, "VimspectorpyUpdate")
-        end } -- Python debugging
+    use { "sagi-z/vimspectorpy",   -- Python debugging 
+        --config = function()
+            --pcall(vim.cmd, "VimspectorpyUpdate")
+        --end } -- Python debugging
+    }
     use { "gennaro-tedesco/nvim-possession",
         requires = { "ibhagwan/fzf-lua" },
         config = function() require("nvim-possession").setup({}) end
     }
+    use {'superDross/run-with-me.vim'}  -- Run scripts in integrated terminal 
+    use {'nanozuki/tabby.nvim'}         -- Pretty tabs in nvim
 end
 )

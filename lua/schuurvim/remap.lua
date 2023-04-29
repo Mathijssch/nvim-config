@@ -15,7 +15,6 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Keep cursor in the middle duri
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("i", "<C-BS>", "<C-w>")
-
 vim.keymap.set("i", "<C-c>", "<Esc>") -- This is almost the same as the default, but it fixes some minor differences.
 
 -- leader-paste: replace the current word with whatever is pasted.
@@ -93,5 +92,6 @@ vim.keymap.set("n", "<leader>t", [[<cmd>:split | resize 20 | terminal<CR>i]], { 
 -- Exit terminal mode
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
+vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {desc = "Get signature help" })
 
 vim.api.nvim_create_user_command("DebugStop", function() vim.cmd('VimspectorReset') end, {})

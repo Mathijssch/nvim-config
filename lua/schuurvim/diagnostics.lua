@@ -5,7 +5,7 @@ vim.diagnostic.config({
     float = {
         show_header = true,
         focusable = false,
-        border = 'rounded'  
+        border = 'rounded'
     },
 })
 
@@ -29,7 +29,7 @@ vim.keymap.set("n", "<leader>lh", vim.diagnostic.hide, { desc = "Hide linting di
 -- Show all diagnostics on current line in floating window
 vim.keymap.set(
     'n', '<Leader>lo', vim.diagnostic.open_float,
-    { noremap = true, silent = true , desc = "[O]pen [l]inting diagnostics" }
+    { noremap = true, silent = true, desc = "[O]pen [l]inting diagnostics" }
 )
 
 -- Go to next diagnostic (if there are multiple on the same line, only shows
