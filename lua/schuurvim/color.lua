@@ -1,13 +1,18 @@
 function SetColors(theme)
 	theme = theme or "palenightfall" -- "catppuccin-frappe" -- "tokyonight" -- "kanagawa" -- "catppuccin-frappe" -- "kanagawa"
 	vim.cmd.colorscheme(theme)
+    --feline = require("after.plugin.feline")
+    --feline.SetupFeline()
+    vim.cmd([[lua SetupFeline()]])
 end
 
---require('palenightfall').setup({
-  --color_overrides = {
-    --references = '#3E4B6E',
---}})
+function LightMode()
+    SetColors("catppuccin-latte")
+end
+
+function DarkMode()
+    SetColors("palenightfall")
+end
 
 
-
-SetColors()
+vim.cmd([[au TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=150}]])

@@ -94,4 +94,3 @@ vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {desc = "Get signature help" })
 
-vim.api.nvim_create_user_command("DebugStop", function() vim.cmd('VimspectorReset') end, {})

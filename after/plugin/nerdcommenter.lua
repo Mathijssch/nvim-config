@@ -7,3 +7,7 @@ local modes = {'n', 'v'} -- normal and visual mode
 for i in pairs(modes) do
         map(modes[i], '<C-/>', ':call nerdcommenter#Comment(0, "toggle")<CR>' , opts)
 end
+
+
+-- Align line-wise comment delimiters flush left instead of following code indentation
+vim.g.NERDDefaultAlign = 'left'

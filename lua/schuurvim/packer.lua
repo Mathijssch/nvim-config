@@ -79,6 +79,7 @@ return require('packer').startup(function(use)
             require("nvim-tree").setup {}
         end
     }
+    use('norcalli/nvim-colorizer.lua')
     --use('vim-scripts/vim-gitgutter')             -- Gutter with git information
     use('lervag/vimtex')                         -- LaTeX support
     use('peterbjorgensen/sved')                  -- Fixes reverse syncing with latex in evince

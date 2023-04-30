@@ -5,48 +5,52 @@ if gitsigns_ok then
     end
 end
 
+local mod = {}
+
 local line_ok, feline = pcall(require, "feline")
 if not line_ok then
-    return
+    return {"SetupFeline", function() end}
 end
 
-local one_monokai = {
-    fg = "#abb2bf",
-    bg = "#1e2024",
-    green = "#98c379",
-    yellow = "#e5c07b",
-    purple = "#c678dd",
-    orange = "#d19a66",
-    peanut = "#f6d5a4",
-    red = "#e06c75",
-    aqua = "#61afef",
-    darkblue = "#282c34",
-    dark_red = "#f75f5f",
-}
-
--- Based on https://github.com/JoosepAlviste/palenightfall.nvim/blob/main/lua/palenightfall/init.lua
-local status_ok, palenight = pcall(require, "palenightfall")
-if status_ok
-then
-    palenight = palenight.colors
-    palenight.darkblue = palenight.highlight
-    palenight.fg = palenight.foreground
-    palenight.bg = palenight.statusline
-    palenight.peanut = palenight.brown
-    palenight.aqua = palenight.cyan
-else
-    palenight = one_monokai
+local function get_color(group, bg)
+    local color = nil
+    local hl = vim.api.nvim_get_hl_by_name(group, true)
+    if bg then
+        color = hl.background
+    else
+        color = hl.foreground
+    end
+    return string.format("#%06x", color)
 end
+
+local function get_colorscheme()
+    local colors = {}
+    colors.fg = get_color("Normal", false)
+    colors.bg = get_color("StatusLine", true)
+
+    colors.green = get_color("DiagnosticSignOk", false)
+    colors.red = get_color("DiagnosticError", false)
+    colors.yellow = get_color("tag", false)
+    colors.lsp_col = get_color("Keyword", false)
+    colors.warningcolor = get_color("DiagnosticWarn", false)
+    colors.git_branch_col = get_color("Special", false)
+    colors.infocolor = get_color("DiagnosticInfo", false)
+    colors.encoding_color = get_color("Conceal", false)
+    colors.highlight_bg = get_color("Visual", true)
+    colors.block = "#f75f5f"
+    return colors
+end
+
 
 local vi_mode_colors = {
     NORMAL = "green",
     OP = "green",
     INSERT = "yellow",
-    VISUAL = "purple",
-    LINES = "orange",
-    BLOCK = "dark_red",
+    VISUAL = "lsp_col",
+    LINES = "warningcolor",
+    BLOCK = "block",
     REPLACE = "red",
-    COMMAND = "aqua",
+    COMMAND = "infocolor",
 }
 
 local c = {
@@ -61,7 +65,7 @@ local c = {
         hl = function()
             return {
                 fg = require("feline.providers.vi_mode").get_mode_color(),
-                bg = "darkblue",
+                bg = "highlight_bg",
                 style = "bold",
                 name = "NeovimModeHLColor",
             }
@@ -72,8 +76,8 @@ local c = {
     gitBranch = {
         provider = "git_branch",
         hl = {
-            fg = "peanut",
-            bg = "darkblue",
+            fg = "git_branch_col",
+            bg = "highlight_bg",
             style = "bold",
         },
         left_sep = "block",
@@ -83,7 +87,7 @@ local c = {
         provider = "git_diff_added",
         hl = {
             fg = "green",
-            bg = "darkblue",
+            bg = "highlight_bg",
         },
         left_sep = "block",
         right_sep = "block",
@@ -92,7 +96,7 @@ local c = {
         provider = "git_diff_removed",
         hl = {
             fg = "red",
-            bg = "darkblue",
+            bg = "highlight_bg",
         },
         left_sep = "block",
         right_sep = "block",
@@ -101,7 +105,7 @@ local c = {
         provider = "git_diff_changed",
         hl = {
             fg = "fg",
-            bg = "darkblue",
+            bg = "highlight_bg",
         },
         left_sep = "block",
         right_sep = "right_filled",
@@ -148,13 +152,13 @@ local c = {
     diagnostic_warnings = {
         provider = "diagnostic_warnings",
         hl = {
-            fg = "yellow",
+            fg = "warningcolor",
         },
     },
     diagnostic_hints = {
         provider = "diagnostic_hints",
         hl = {
-            fg = "aqua",
+            fg = "infocolor",
         },
     },
     diagnostic_info = {
@@ -163,8 +167,8 @@ local c = {
     lsp_client_names = {
         provider = "lsp_client_names",
         hl = {
-            fg = "purple",
-            bg = "darkblue",
+            fg = "lsp_col",
+            bg = "highlight_bg",
             style = "bold",
         },
         left_sep = "left_filled",
@@ -180,7 +184,7 @@ local c = {
         },
         hl = {
             fg = "red",
-            bg = "darkblue",
+            bg = "highlight_bg",
             style = "bold",
         },
         left_sep = "block",
@@ -189,8 +193,8 @@ local c = {
     file_encoding = {
         provider = "file_encoding",
         hl = {
-            fg = "orange",
-            bg = "darkblue",
+            fg = "encoding_color",
+            bg = "highlight_bg",
             style = "italic",
         },
         left_sep = "block",
@@ -200,7 +204,7 @@ local c = {
         provider = "position",
         hl = {
             fg = "green",
-            bg = "darkblue",
+            bg = "highlight_bg",
             style = "bold",
         },
         left_sep = "block",
@@ -209,8 +213,8 @@ local c = {
     line_percentage = {
         provider = "line_percentage",
         hl = {
-            fg = "aqua",
-            bg = "darkblue",
+            fg = "infocolor",
+            bg = "highlight_bg",
             style = "bold",
         },
         left_sep = "block",
@@ -267,30 +271,35 @@ local components = {
 }
 
 
---feline.setup()
+function SetupFeline()
+    local colorscheme = get_colorscheme()
 
+    feline.setup({
+        components = components,
+        --theme = one_monokai,
+        theme = colorscheme,
+        vi_mode_colors = vi_mode_colors,
+        --force_inactive={},
+        disable = {
+            filetypes = {
+                'NvimTree',
+                '^NvimTree$',
+                '^packer$',
+                '^startify$',
+                '^fugitive$',
+                '^fugitiveblame$',
+                '^qf$',
+                '^help$'
+            },
+            buftypes = {
+                '^NvimTree$',
+                '^terminal$'
+            },
+            bufnames = { "NvimTree" }
+        }
+    })
+end
 
-feline.setup({
-    components = components,
-    --theme = one_monokai,
-    theme = palenight,
-    vi_mode_colors = vi_mode_colors,
-    --force_inactive={},
-    disable = {
-        filetypes = {
-            'NvimTree',
-            '^NvimTree$',
-            '^packer$',
-            '^startify$',
-            '^fugitive$',
-            '^fugitiveblame$',
-            '^qf$',
-            '^help$'
-        },
-        buftypes = {
-            '^NvimTree$',
-            '^terminal$'
-        },
-        bufnames = { "NvimTree" }
-    }
-})
+SetupFeline()
+--return mod
+
