@@ -22,7 +22,7 @@ lspconfig.pylsp.setup {
         pylsp = {
             plugins = {
                 jedi_completion = {
-                    enabled = true, 
+                    enabled = true,
                     include_params = true,
                 },
                 pycodestyle = {
@@ -48,12 +48,12 @@ lspconfig.pylsp.setup {
             --}
         --}
     --}
---local cmp = require('cmp')
+
 --local cmp_select = {behavior = cmp.SelectBehavior.Select}
 --cmp_select = lsp.defaults.cmp_mappings({
 	--['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
 	--['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-	--['<Tab>'] = cmp.mapping.confirm( {select = true} ),
+    --['<Tab>'] = cmp.mapping.confirm( {select = true} ),
 	--['<C-Space>'] = cmp.mapping.complete(),
 --})
 
@@ -70,5 +70,37 @@ lsp.set_sign_icons({
 })
 
 
+
 lsp.setup()
+
+local cmp_ok, cmp = pcall(require, 'cmp')
+if not cmp_ok then return end
+
+local snip_ok, luasnip = pcall(require, "luasnip")
+
+cmp.setup({
+  experimental =  {ghost_text = true},
+  mapping = {
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif snip_ok and luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    --['<C-f>'] = cmp_action.luasnip_jump_forward(),
+
+    --['<C-b>']= cmp_action.luasnip_jump_backward(),
+  }
+})
+
+cmp.setup.filetype("VimspectorPrompt", {
+    sources = { name = 'nvim_lsp' }
+})
 
