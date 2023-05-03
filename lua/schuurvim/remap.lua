@@ -94,3 +94,17 @@ vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {desc = "Get signature help" })
 
+
+local function copyBuf()
+    local path = vim.fn.expand('%:p')
+    local cmd = string.format("let @+ = '%s'", path)
+    vim.cmd(cmd)
+    vim.notify(string.format(
+[[Copied current path
+%s
+to clipboard.]], path))
+end
+
+vim.api.nvim_create_user_command("CpBuf", copyBuf, {})
+
+
