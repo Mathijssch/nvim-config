@@ -16,7 +16,7 @@ vim.diagnostic.config({
 --vim.cmd('autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
 vim.o.updatetime = 1000
 vim.api.nvim_create_autocmd("CursorHold", {
-    callback = function(e) vim.diagnostic.open_float() end,
+    callback = function(e) vim.diagnostic.open_float( {focusable = false} ) end,
 })
 
 ---------------------------
