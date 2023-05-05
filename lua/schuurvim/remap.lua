@@ -36,8 +36,8 @@ vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Go to the previous it
 vim.keymap.set("n", "<leader>j", "<cmd>lnext<CR>zz", { desc = "Go to the next item in the location list" })
 vim.keymap.set("n", "<leader>k", "<cmd>lprev<CR>zz", { desc = "Go to the previous item in the location list" })
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-    { desc = "Replace the word currently underneath the cursor, over the whole file" })
+--vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+--    { desc = "Replace the word currently underneath the cursor, over the whole file" })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set("i", "<C-s>", "<Esc>:w<CR>a", { desc = "ctrl+S for save." })
@@ -92,7 +92,7 @@ vim.keymap.set("n", "<leader>t", [[<cmd>:split | resize 20 | terminal<CR>i]], { 
 -- Exit terminal mode
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {desc = "Get signature help" })
+vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, {desc = "Get signature help" })
 
 
 local function copyBuf()
@@ -107,4 +107,5 @@ end
 
 vim.api.nvim_create_user_command("CpBuf", copyBuf, {})
 
-
+vim.keymap.set("n", "<Leader><Tab>", [[gt]])
+vim.keymap.set("n", "<C-t>", [[<Cmd>tabnew<CR>]])
