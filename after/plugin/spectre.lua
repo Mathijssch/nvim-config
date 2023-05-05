@@ -4,7 +4,7 @@ if not status_ok then return end;
 vim.keymap.set('n', '<leader>H', spectre.open, {
     desc = "Open Spectre"
 })
-vim.keymap.set('n', '<leader>sw', function() 
+vim.keymap.set('n', '<leader>sw', function()
     spectre.open_visual({ select_word = true })
 end, {
     desc = "Search current word."
