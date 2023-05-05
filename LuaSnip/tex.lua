@@ -8,6 +8,7 @@ local sn = ls.snippet_node
 local t = ls.text_node
 local d = ls.dynamic_node
 local fmt = require("luasnip.extras.fmt").fmt
+local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
 
 local ruler = t("%-------------------------------------")
@@ -29,14 +30,50 @@ end
 
 local align = s(
     {
-        trig = "ali",
+        trig = "aa",
+        snippetType = "autosnippet",
+        wordTrig = false,
         dscr = "Wrap the selected text in an aligned block.",
     },
+    fmta([[
+        \begin{aligned}
+            <>
+        \end{aligned}
+        ]],
+        { d(1, get_visual) }
+    )
+)
+
+local wrapcmd = s(
     {
-        t("\\begin{aligned}"),
-        d(1, get_visual),
-        t("\\end{aligned}")
-    })
+        trig = "cc",
+        snippetType = "autosnippet",
+        wordTrig = false,
+        dscr = "Wrap current selection in a command"
+    },
+    fmta([[\<>{<><>}]],
+        { i(1), d(2, get_visual), i(3) }
+    )
+
+
+)
+
+
+local wrapenv = s(
+    {
+        trig = "bg",
+        snippetType = "autosnippet",
+        wordTrig = false,
+        dscr = "Wrap the selected text in an envrionment block.",
+    },
+    fmta([[
+        \begin{<>}<>
+            <>
+        \end{<>}
+        ]],
+        { i(1), i(2), d(3, get_visual), rep(1) }
+    )
+)
 
 local title = s(
     {
@@ -55,22 +92,85 @@ local title = s(
     )
 )
 
+local italic = s(
+    {
+        trig = "_i",
+        dscr = "Italics",
+        regTrig = true,
+    },
+    fmt([[
+\textit{<>}
+]],
+        { i(1) },
+        { delimiters = "<>" }
+    )
+)
+
+local boldface = s(
+    {
+        trig = "_b",
+        dscr = "Boldface",
+        regTrig = true,
+    },
+    fmt([[
+\textbf{<>}
+]],
+        { i(1) },
+        { delimiters = "<>" }
+    )
+)
+local textcolor = s(
+    {
+        trig = "_tc",
+        dscr = "textcolor",
+        regTrig = true,
+    },
+    fmt([[
+\textcolor{<>}{<>}
+]],
+        { i(1), i(2) },
+        { delimiters = "<>" }
+    )
+)
+local alert = s(
+    {
+        trig = "_al",
+        dscr = "alert",
+        regTrig = true,
+    },
+    fmt([[
+\alert{<>}
+]],
+        { i(1) },
+        { delimiters = "<>" }
+    )
+)
 local environment = s(
-{
-trig="begin",
-dscr="Insert a new environment", 
-regTrig = false, 
-},
-fmt([[
-\begin{<>}
-<>
+    {
+        trig = "begin",
+        dscr = "Insert a new environment",
+        regTrig = false,
+    },
+    fmt([[
+\begin{<>}<>
+    <>
 \end{<>}
 ]],
-{i(1), i(2), rep(1)},
-{delimiters = "<>"}
+        { i(1), i(2), i(3), rep(1) },
+        { delimiters = "<>" }
+    )
 )
-)
 
 
 
-return { align, title, environment }
+return {
+    alert,
+    textcolor,
+    align,
+    title,
+    environment,
+    italic,
+    boldface,
+    wrapenv, 
+    wrapcmd
+}
