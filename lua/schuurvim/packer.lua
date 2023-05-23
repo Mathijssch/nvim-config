@@ -23,7 +23,6 @@ return require('packer').startup(function(use)
     }
     use { "neanias/everforest-nvim", as = "everforest" }
     use { "Shatur/neovim-ayu", as = "ayu"}
-    use { "NLKNguyen/papercolor-theme", as = "papercolor"}
     use('rmehri01/onenord.nvim')
     use { "wadackel/vim-dogrun", as = "dogrun" }
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
