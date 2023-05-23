@@ -22,6 +22,8 @@ return require('packer').startup(function(use)
         --end
     }
     use { "neanias/everforest-nvim", as = "everforest" }
+    use { "Shatur/neovim-ayu", as = "ayu"}
+    use { "NLKNguyen/papercolor-theme", as = "papercolor"}
     use('rmehri01/onenord.nvim')
     use { "wadackel/vim-dogrun", as = "dogrun" }
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
@@ -40,6 +42,7 @@ return require('packer').startup(function(use)
     use('preservim/nerdcommenter')
     use('mbbill/undotree')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
+    use('nvim-treesitter/nvim-treesitter-context')
     use({
         "nvim-treesitter/nvim-treesitter-textobjects",
         after = "nvim-treesitter",
@@ -62,7 +65,9 @@ return require('packer').startup(function(use)
             { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
             -- Autocompletion
-            { 'hrsh7th/nvim-cmp' },     -- Required
+            { 'hrsh7th/nvim-cmp',
+            -- commit = "8b76965ed05016a3596b1d4d685c7b5caf1062a5" },     -- Required
+            },
             { 'hrsh7th/cmp-nvim-lsp' }, -- Required
             { 'L3MON4D3/LuaSnip' },     -- Required: snippets
         }
@@ -104,7 +109,7 @@ return require('packer').startup(function(use)
         end
     })
     use("puremourning/vimspector") -- Debuggers
-    use { "sagi-z/vimspectorpy",   -- Python debugging 
+    use { "sagi-z/vimspectorpy",   -- Python debugging
         --config = function()
             --pcall(vim.cmd, "VimspectorpyUpdate")
         --end } -- Python debugging
@@ -113,7 +118,7 @@ return require('packer').startup(function(use)
         requires = { "ibhagwan/fzf-lua" },
         config = function() require("nvim-possession").setup({}) end
     }
-    use {'superDross/run-with-me.vim'}  -- Run scripts in integrated terminal 
+    use {'superDross/run-with-me.vim'}  -- Run scripts in integrated terminal
     use {'nanozuki/tabby.nvim'}         -- Pretty tabs in nvim
     use {                               -- Autogenerate documentation
         'kkoomen/vim-doge',

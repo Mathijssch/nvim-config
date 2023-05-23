@@ -27,12 +27,69 @@ local get_visual = function(args, parent)
     end
 end
 -- ----------------------------------------------------------------------------
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
+end
+
+-- Check if the cursor is currently in a beamer frame
+local function is_in_frame(line_to_cursor, matched_trigger, captures)
+    -- Index 1 returns the position of the match.
+    local insideframe = vim.fn['vimtex#env#is_inside']('frame')[2]
+    return insideframe == 1
+end
+
+local columns = s(
+    {
+        trig = "_col",
+        wordTrig = false,
+        dscr = "Add a columns environment",
+        condition = is_in_frame
+    },
+    fmta([[
+    \begin{columns}
+        \begin{column}{<>\textwidth}
+        <>
+        \end{column}
+        \begin{column}{<>\textwidth}
+        <>
+        \end{column}
+    \end{columns}
+    ]],
+        { i(1), i(3), i(2), i(4) }
+    )
+)
+
+local wrapenv = s(
+    {
+        trig = "_bg",
+        snippetType = "autosnippet",
+        wordTrig = true,
+        dscr = "Wrap the selected text in an envrionment block.",
+        condition = in_select_mode
+    },
+    fmta([[
+        \begin{<>}<>
+            <>
+        \end{<>}
+        ]],
+        { i(1), i(2), d(3, get_visual), rep(1) }
+    )
+)
 
 local align = s(
     {
-        trig = "aa",
+        trig = "_aa",
         snippetType = "autosnippet",
-        wordTrig = false,
+        wordTrig = true,
         dscr = "Wrap the selected text in an aligned block.",
     },
     fmta([[
@@ -46,34 +103,28 @@ local align = s(
 
 local wrapcmd = s(
     {
-        trig = "cc",
+        trig = "_cm",
         snippetType = "autosnippet",
-        wordTrig = false,
-        dscr = "Wrap current selection in a command"
+        wordTrig = true,
+        dscr = "Wrap current selection in a command",
     },
     fmta([[\<>{<><>}]],
         { i(1), d(2, get_visual), i(3) }
     )
-
-
 )
 
-
-local wrapenv = s(
+local sidenote = s(
     {
-        trig = "bg",
+        trig = "_sn",
         snippetType = "autosnippet",
-        wordTrig = false,
-        dscr = "Wrap the selected text in an envrionment block.",
+        wordTrig = true,
+        dscr = "Wrap current selection in a sidenote",
     },
-    fmta([[
-        \begin{<>}<>
-            <>
-        \end{<>}
-        ]],
-        { i(1), i(2), d(3, get_visual), rep(1) }
+    fmta([[\sidenote[<>]{<>}]],
+        { d(1, get_visual), i(2) }
     )
 )
+
 
 local title = s(
     {
@@ -171,6 +222,8 @@ return {
     environment,
     italic,
     boldface,
-    wrapenv, 
-    wrapcmd
+    wrapenv,
+    wrapcmd,
+    columns,
+    sidenote
 }

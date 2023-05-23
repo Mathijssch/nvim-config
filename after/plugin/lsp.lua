@@ -32,6 +32,14 @@ lspconfig.pylsp.setup {
         },
     },
 }
+
+
+--lspconfig.rust_analyzer.setup {
+--    cmd = {
+--        "rustup", "run", "stable", "rust-analyzer"
+--    }
+--}
+
 --lspconfig.pyright.setup{
 --settings = {
 --pyright = {
@@ -79,7 +87,9 @@ if not cmp_ok then return end
 local snip_ok, luasnip = pcall(require, "luasnip")
 
 cmp.setup({
-    experimental = { ghost_text = true },
+    experimental = { 
+        ghost_text = true 
+    },
     mapping = {
         ["<CR>"] = cmp.mapping.confirm({
 			behavior = cmp.ConfirmBehavior.Insert,
