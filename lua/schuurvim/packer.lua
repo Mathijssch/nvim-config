@@ -25,6 +25,7 @@ return require('packer').startup(function(use)
     use { "Shatur/neovim-ayu", as = "ayu"}
     use('rmehri01/onenord.nvim')
     use { "wadackel/vim-dogrun", as = "dogrun" }
+    use { "easymotion/vim-easymotion" }
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "JoosepAlviste/palenightfall.nvim", as = "palenightfall",
