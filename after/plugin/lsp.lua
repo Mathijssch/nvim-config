@@ -33,6 +33,11 @@ lspconfig.pylsp.setup {
     },
 }
 
+--lspconfig.rust_analyzer.setup {
+--  flags = {
+--    exit_timeout = false,
+--    }
+--}
 
 --lspconfig.rust_analyzer.setup {
 --    cmd = {
