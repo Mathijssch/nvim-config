@@ -86,3 +86,10 @@ local function toggleMain()
 end
 
 vim.api.nvim_create_user_command("ToggleMain", toggleMain, {})
+
+
+vim.g.vimtex_quickfix_ignore_filters = {
+    'Underfull',
+    'Overfull',
+}
+
