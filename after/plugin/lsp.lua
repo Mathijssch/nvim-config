@@ -12,6 +12,12 @@ lsp.on_attach(function(client, bufnr)
     lsp.default_keymaps({ buffer = bufnr })
 end)
 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = false
+    }
+)
+
 -- (Optional) Configure lua language server for neovim
 local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_ok then return end
