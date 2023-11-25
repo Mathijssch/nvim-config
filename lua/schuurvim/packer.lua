@@ -8,7 +8,7 @@ return require('packer').startup(function(use)
     use 'wbthomason/packer.nvim'
 
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        'nvim-telescope/telescope.nvim', tag = '0.1.3',
         -- or                            , branch = '0.1.x',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
@@ -38,8 +38,24 @@ return require('packer').startup(function(use)
             })
         end
     }
+    use({
+      "epwalsh/obsidian.nvim",
+      config = function()
+        require("obsidian").setup({
+          dir = "~/obs-notes/Notebook",
+          -- Optional, for templates (see below).
+          templates = {
+            subdir = "templates",
+            date_format = "%d-%m-%Y",
+            time_format = "%H:%M",
+          },
+        })
+      end,
+    })
+    use('junegunn/goyo.vim')
     -----------------------------------------------------------
     use('preservim/nerdcommenter')
+    use('unblevable/quick-scope')
     use('mbbill/undotree')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/nvim-treesitter-context')
