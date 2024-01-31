@@ -5,10 +5,11 @@ vim.keymap.set("n", "<leader>pd", vim.cmd.Ex, { desc = "Open the directory view"
 -- This includes automatic indentation.
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", ">", ">gv")
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", "y", "ygv")
 
-
+vim.keymap.set("n", "<F12>", "<cmd>Goyo<CR>")
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Keep cursor in the middle during half-page jumping" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Keep cursor in the middle during half-page jumping" })
@@ -21,15 +22,16 @@ vim.keymap.set("i", "<C-c>", "<Esc>") -- This is almost the same as the default,
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- Yank to the system clipboard.
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank selected text to the system clipboard" })
-vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank the current line to the system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
+vim.keymap.set({ "v" }, "<C-c>", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
+vim.keymap.set("n", "<leader>Y", [["+Ygv]], { desc = "Yank the current line to the system clipboard" })
 
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking." })
 
-vim.keymap.set("n", "Q", "<nop>")                    -- Disable Q
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format) -- format
+vim.keymap.set("n", "Q", "<nop>")                     -- Disable Q
+vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format) -- format
 
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Go to the next item in the quickfix list" })
 vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Go to the previous item in the quickfix list" })
@@ -92,7 +94,7 @@ vim.keymap.set("n", "<leader>t", [[<cmd>:split | resize 20 | terminal<CR>i]], { 
 -- Exit terminal mode
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
-vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, {desc = "Get signature help" })
+vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Get signature help" })
 
 
 local function copyBuf()
@@ -100,7 +102,7 @@ local function copyBuf()
     local cmd = string.format("let @+ = '%s'", path)
     vim.cmd(cmd)
     vim.notify(string.format(
-[[Copied current path
+        [[Copied current path
 %s
 to clipboard.]], path))
 end

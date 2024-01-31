@@ -26,8 +26,14 @@ require'nvim-treesitter.configs'.setup {
     -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
     disable = function(lang, buf)
         if lang == "latex" then
-            return true
+            return true -- syntax highlighting should be controller vimtex, so turn it off for treesitter
         end
+        --if lang == "javascript" then 
+        --    return true
+        --end
+        --if lang == "html" then 
+        --    return true 
+        --end
         local max_filesize = 100 * 1024 -- 100 KB
         local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
         if ok and stats and stats.size > max_filesize then
@@ -164,7 +170,7 @@ treesitter_context.setup{
   zindex = 20, -- The Z-index of the context window
 }
 
---vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
+vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
 
 
 

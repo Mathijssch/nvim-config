@@ -3,7 +3,7 @@ vim.diagnostic.config({
     underline = true,
     signs = true,
     virtual_text = {
-        source = "rust_analyzer",  -- Only allow virtual text in rust
+        source = "rust",  -- Only allow virtual text in rust
     },
     float = {
         show_header = true,

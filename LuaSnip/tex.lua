@@ -47,6 +47,13 @@ local function is_in_frame(line_to_cursor, matched_trigger, captures)
     return insideframe == 1
 end
 
+local function in_select_mode(line_to_cursor, matched_trigger, captures)
+    -- Index 1 returns the position of the match.
+    --return #matched_trigger.snippet.env.SELECT_RAW > 0
+    return #require("luasnip.util").get_raw(1) > 0
+    --return mode == 'v' or mode == 'V' or mode == ''
+end
+
 local columns = s(
     {
         trig = "_col",
@@ -68,18 +75,42 @@ local columns = s(
     )
 )
 
+
+local standalone = s(
+    {
+        trig="_standalone",
+        dscr="Scaffolding for a standalone document",
+    },
+    fmt([[
+    \documentclass[tikz,dvipsnames]{standalone}
+    \usepackage{pgfplots}
+
+    \begin{document}
+    \begin{tikzpicture}
+    \tikzset{pt/.style={circle, inner sep=5pt, fill}}
+    <> 
+    \end{tikzpicture}
+    \end{document}
+    ]], 
+        { i(1) },
+        { delimiters = "<>" }
+    )
+    
+
+)
+
 local wrapenv = s(
     {
-        trig = "_bg",
-        snippetType = "autosnippet",
+        trig = "be",
+        --snippetType = "autosnippet",
         wordTrig = true,
         dscr = "Wrap the selected text in an envrionment block.",
-        condition = in_select_mode
+        --condition = in_select_mode
     },
     fmta([[
-        \begin{<>}<>
-            <>
-        \end{<>}
+\begin{<>}<>
+<>
+\end{<>}
         ]],
         { i(1), i(2), d(3, get_visual), rep(1) }
     )
@@ -87,7 +118,7 @@ local wrapenv = s(
 
 local align = s(
     {
-        trig = "_aa",
+        trig = "_a",
         snippetType = "autosnippet",
         wordTrig = true,
         dscr = "Wrap the selected text in an aligned block.",
@@ -103,7 +134,7 @@ local align = s(
 
 local wrapcmd = s(
     {
-        trig = "_cm",
+        trig = "_c",
         snippetType = "autosnippet",
         wordTrig = true,
         dscr = "Wrap current selection in a command",
@@ -145,14 +176,15 @@ local title = s(
 
 local italic = s(
     {
-        trig = "_i",
+        trig = "_it",
+        snippetType = "autosnippet",
         dscr = "Italics",
         regTrig = true,
     },
     fmt([[
 \textit{<>}
 ]],
-        { i(1) },
+        { d(1, get_visual) },
         { delimiters = "<>" }
     )
 )
@@ -160,19 +192,21 @@ local italic = s(
 local boldface = s(
     {
         trig = "_b",
+        snippetType = "autosnippet",
         dscr = "Boldface",
         regTrig = true,
     },
     fmt([[
 \textbf{<>}
 ]],
-        { i(1) },
+        { d(1, get_visual) },
         { delimiters = "<>" }
     )
 )
 local textcolor = s(
     {
         trig = "_tc",
+        snippetType = "autosnippet",
         dscr = "textcolor",
         regTrig = true,
     },
@@ -225,5 +259,6 @@ return {
     wrapenv,
     wrapcmd,
     columns,
-    sidenote
+    sidenote, 
+    standalone
 }
