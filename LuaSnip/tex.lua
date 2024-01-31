@@ -108,9 +108,9 @@ local wrapenv = s(
         --condition = in_select_mode
     },
     fmta([[
-        \begin{<>}<>
-            <>
-        \end{<>}
+\begin{<>}<>
+<>
+\end{<>}
         ]],
         { i(1), i(2), d(3, get_visual), rep(1) }
     )

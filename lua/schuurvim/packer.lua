@@ -25,7 +25,7 @@ return require('packer').startup(function(use)
     use { "Shatur/neovim-ayu", as = "ayu"}
     use('rmehri01/onenord.nvim')
     use { "wadackel/vim-dogrun", as = "dogrun" }
-    use { "easymotion/vim-easymotion" }
+    use { "easymotion/vim-easymotion" }  -- Super fast vim motions
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use { "catppuccin/nvim", as = "catppuccin" }
     use { "JoosepAlviste/palenightfall.nvim", as = "palenightfall",
@@ -52,10 +52,10 @@ return require('packer').startup(function(use)
         })
       end,
     })
-    use('junegunn/goyo.vim')
+    use('junegunn/goyo.vim')  -- Zen-mode in nvim
     -----------------------------------------------------------
     use('preservim/nerdcommenter')
-    use('unblevable/quick-scope')
+    use('unblevable/quick-scope')  -- highlight characters for quick horizontal movements
     use('mbbill/undotree')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/nvim-treesitter-context')
@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
         after = "nvim-treesitter",
         requires = "nvim-treesitter/nvim-treesitter",
     }) -- Text objects and motions using treesitter.
-    use('tpope/vim-fugitive')
+    use('tpope/vim-fugitive')  -- Git integration
     use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
@@ -100,15 +100,15 @@ return require('packer').startup(function(use)
             require("nvim-tree").setup {}
         end
     }
-    use('norcalli/nvim-colorizer.lua')
-    --use('vim-scripts/vim-gitgutter')             -- Gutter with git information
+    use('norcalli/nvim-colorizer.lua')           -- Syntax colors
+    --use('vim-scripts/vim-gitgutter')           -- Gutter with git information
     use('lervag/vimtex')                         -- LaTeX support
     use('peterbjorgensen/sved')                  -- Fixes reverse syncing with latex in evince
     use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
         requires = { 'lewis6991/gitsigns.nvim' } -- For git info
     }
     use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' } -- Nice diff view
-    use { 'nvim-pack/nvim-spectre',
+    use { 'nvim-pack/nvim-spectre',              -- Project-wide search and replace
         requires = { 'nvim-lua/plenary.nvim' }
     }
     use { 'ThePrimeagen/harpoon',
@@ -130,7 +130,7 @@ return require('packer').startup(function(use)
             --pcall(vim.cmd, "VimspectorpyUpdate")
         --end } -- Python debugging
     }
-    use { "gennaro-tedesco/nvim-possession",
+    use { "gennaro-tedesco/nvim-possession",  -- Store and load vim sessions
         requires = { "ibhagwan/fzf-lua" },
         config = function() require("nvim-possession").setup({}) end
     }
