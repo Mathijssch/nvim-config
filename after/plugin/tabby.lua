@@ -1,3 +1,5 @@
+local status_ok, builtin = pcall(require, 'tabby.tabline')
+if not status_ok then return end
 
 function tab_name(tab) 
    return string.gsub(tab,"%[..%]","") 

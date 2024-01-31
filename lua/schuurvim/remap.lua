@@ -83,7 +83,7 @@ vim.keymap.set("n", "<leader>wh", [[<cmd>%s/\s\+\(\n\)/\1/e<CR>]])
 
 -- Go back to previously opened file
 vim.keymap.set("n", "<C-`>", "<C-^>", { desc = "Go to previously opened file" })
-
+vim.keymap.set("n", "<C-§>", "<C-^>", { desc = "Go to previously opened file" })
 
 -- Open a new terminal to the side.
 vim.cmd.set("splitbelow")
