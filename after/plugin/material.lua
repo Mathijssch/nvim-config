@@ -78,7 +78,7 @@ material.setup({
     custom_highlights = {
         NvimTreeRootFolder = { fg = colors.main.green },
         ["@constant"] = { fg = colors.main.paleblue },
-        ColorColumn = { bg = colors.backgrounds.sidebars }
+        ColorColumn = { link = "NormalFloat" }
     }, -- Overwrite highlights with your own
 })
 
