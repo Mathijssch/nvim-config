@@ -9,16 +9,36 @@ local mod = {}
 
 local line_ok, feline = pcall(require, "feline")
 if not line_ok then
-    return {"SetupFeline", function() end}
+    return { "SetupFeline", function()
+    end }
+end
+
+-- Stupid utility function to dump a table to stdout
+function dump(o)
+    if type(o) == 'table' then
+        local s = '{ '
+        for k, v in pairs(o) do
+            if type(k) ~= 'number' then k = '"' .. k .. '"' end
+            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+        end
+        return s .. '} '
+    else
+        return tostring(o)
+    end
 end
 
 local function get_color(group, bg)
     local color = nil
-    local hl = vim.api.nvim_get_hl_by_name(group, true)
+    --local hl = vim.api.nvim_get_hl_by_name(group, true)
+    local hl = vim.api.nvim_get_hl(0, { name = group, link = false }) 
+    --print(dump(hl))
     if bg then
-        color = hl.background
+        color = hl.bg
     else
-        color = hl.foreground
+        color = hl.fg
+    end
+    if color == nil then
+        print("color is nil")
     end
     return string.format("#%06x", color)
 end
@@ -26,7 +46,7 @@ end
 local function get_colorscheme()
     local colors = {}
     colors.fg = get_color("Normal", false)
-    colors.bg = get_color("StatusLine", true)
+    colors.bg = get_color("NormalFloat", true)
 
     colors.green = get_color("DiagnosticSignOk", false)
     colors.red = get_color("DiagnosticError", false)
@@ -37,6 +57,7 @@ local function get_colorscheme()
     colors.infocolor = get_color("DiagnosticInfo", false)
     colors.encoding_color = get_color("Conceal", false)
     colors.highlight_bg = get_color("Visual", true)
+    --colors.block = get_color("Normal", true)
     colors.block = "#f75f5f"
     return colors
 end
@@ -302,4 +323,3 @@ end
 
 SetupFeline()
 --return mod
-

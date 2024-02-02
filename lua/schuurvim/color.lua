@@ -1,15 +1,10 @@
 function SetColors(theme)
-	theme = theme or "palenightfall" -- "catppuccin-frappe" -- "tokyonight" -- "kanagawa" -- "catppuccin-frappe" -- "kanagawa"
+	theme = theme or "kanagawa" -- "catppuccin-frappe" -- "tokyonight" -- "kanagawa" -- "catppuccin-frappe" -- "kanagawa"
 	vim.cmd.colorscheme(theme)
-    --feline = require("after.plugin.feline")
-    --feline.SetupFeline()
-    vim.cmd([[lua SetupFeline()]])
+    --vim.cmd([[lua SetupFeline()]]) -- Disabled, since switching to lualine
 end
 
 function LightMode()
-    --SetColors("catppuccin-latte")
-    --SetColors("ayu-light")
-    
     vim.cmd[[set background=light]]
     SetColors("catppuccin-latte")
     --local ayucolor="light"  " for light version of theme
@@ -22,11 +17,10 @@ function LightMode()
 end
 
 function DarkMode()
-    SetColors("palenightfall")
+    SetColors("material")
 end
+
 vim.api.nvim_set_hl(0, 'TreesitterContextBottom', { underline = true })
 vim.api.nvim_create_user_command("DarkMode", DarkMode, {})
 vim.api.nvim_create_user_command("LightMode", LightMode, {})
-
 vim.cmd([[au TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=150}]])
-

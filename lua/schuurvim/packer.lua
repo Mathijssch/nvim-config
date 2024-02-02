@@ -28,16 +28,17 @@ return require('packer').startup(function(use)
     use { "easymotion/vim-easymotion" }  -- Super fast vim motions
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use { "catppuccin/nvim", as = "catppuccin" }
-    use { "JoosepAlviste/palenightfall.nvim", as = "palenightfall",
-        config = function()
-            require('palenightfall').setup({
-                color_overrides = {
-                    references = '#3E4B6E',
-                    highlight  = '#3F4654'
-                }
-            })
-        end
-    }
+    --use { "JoosepAlviste/palenightfall.nvim", as = "palenightfall",
+    --    config = function()
+    --        require('palenightfall').setup({
+    --            color_overrides = {
+    --                references = '#3E4B6E',
+    --                highlight  = '#3F4654'
+    --            }
+    --        })
+    --    end
+    --}
+    use 'marko-cerovac/material.nvim'
     use({
       "epwalsh/obsidian.nvim",
       config = function()
@@ -104,8 +105,12 @@ return require('packer').startup(function(use)
     --use('vim-scripts/vim-gitgutter')           -- Gutter with git information
     use('lervag/vimtex')                         -- LaTeX support
     use('peterbjorgensen/sved')                  -- Fixes reverse syncing with latex in evince
-    use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
-        requires = { 'lewis6991/gitsigns.nvim' } -- For git info
+    --use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
+        --requires = { 'lewis6991/gitsigns.nvim' } -- For git info
+    --}
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
     use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' } -- Nice diff view
     use { 'nvim-pack/nvim-spectre',              -- Project-wide search and replace
