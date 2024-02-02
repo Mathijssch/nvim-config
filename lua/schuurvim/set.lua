@@ -28,5 +28,10 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 --vim.opt.colorcolumn = "80"
+--vim.cmd([[let &colorcolumn="80,".join(range(0,80),",")]])
 vim.cmd([[let &colorcolumn="80,".join(range(80,400),",")]])
 vim.cmd([[set spell spelllang=en_us]])
+
+vim.cmd([[set fillchars+=vert:▏]])
+
+vim.opt.fillchars.vert = "▏"

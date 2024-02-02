@@ -7,7 +7,7 @@ material.setup({
         sidebars = true,             -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
         floating_windows = true,     -- Enable contrast for floating windows
         cursor_line = true,          -- Enable darker background for the cursor line
-        non_current_windows = false, -- Enable contrasted background for non-current windows
+        non_current_windows = true, -- Enable contrasted background for non-current windows
         filetypes = {},              -- Specify which filetypes get the contrasted (darker) background
     },
 
@@ -40,7 +40,7 @@ material.setup({
         -- "neotest",
         -- "neo-tree",
         -- "neorg",
-        -- "noice",
+        -- "noice", 
         "nvim-cmp",
         -- "nvim-navic",
         "nvim-tree",
@@ -58,7 +58,7 @@ material.setup({
         borders = false,        -- Disable borders between verticaly split windows
         background = false,     -- Prevent the theme from setting the background (NeoVim then uses your terminal background)
         term_colors = false,    -- Prevent the theme from setting terminal colors
-        eob_lines = false       -- Hide the end-of-buffer lines
+        eob_lines = true       -- Hide the end-of-buffer lines
     },
 
     high_visibility = {
@@ -70,16 +70,21 @@ material.setup({
 
     async_loading = true,      -- Load parts of the theme asyncronously for faster startup (turned on by default)
 
-    custom_colors = function(colors)
-        colors.git.modified = colors.main.orange
-        colors.syntax.type = colors.main.yellow
+    custom_colors = function(colordefs)
+        colordefs.git.modified = colordefs.main.orange
+        colordefs.syntax.type = colordefs.main.yellow
+        --local swap = colors.editor.bg_alt
+        --colordefs.editor.bg_alt = colordefs.editor.bg
+        --colordefs.editor.bg = swap
     end, -- If you want to override the default colors, set this to a function
 
     custom_highlights = {
         NvimTreeRootFolder = { fg = colors.main.green },
         ["@constant"] = { fg = colors.main.paleblue },
-        ColorColumn = { link = "NormalFloat" }
+        ColorColumn = { link = "NormalFloat" },
+        TreeSitterContext = { link = "NormalFloat" },
     }, -- Overwrite highlights with your own
 })
 
 require('material.functions').change_style("palenight")
+

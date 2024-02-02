@@ -170,7 +170,7 @@ treesitter_context.setup{
   zindex = 20, -- The Z-index of the context window
 }
 
-vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
+--vim.cmd([[hi TreesitterContextBottom gui=underline guisp=Grey]])
 
 
 

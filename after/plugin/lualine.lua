@@ -17,8 +17,18 @@ local colors = {
     red      = '#ec5f67',
 }
 
+local colors_ok, material_colors
+require "material.colors"
+
+if colors_ok then
+    colors.bg = material_colors.editor.bg_alt
+end
+
 
 local conditions = {
+    buffer_not_terminal = function()
+        return vim.bo.buftype ~= 'terminal'
+    end,
     buffer_not_empty = function()
         return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
     end,
@@ -35,12 +45,13 @@ local conditions = {
 -- Config
 local config = {
     options = {
+        always_divide_middle = false,
         component_separators = { left = '', right = '' },
         section_separators = { left = '', right = '' },
         theme = 'auto',
         disabled_filetypes = {
-            statusline = { "NvimTree" },
-            winbar = { "NvimTree" },
+            statusline = { "NvimTree", "packer", "fugitive", "fugitiveblame", "qf", "help" },
+            winbar = { "NvimTree", "packer", "fugitive", "fugitiveblame", "qf", "help" },
         },
     },
     sections = {
@@ -59,10 +70,15 @@ local config = {
         lualine_b = {},
         lualine_y = {},
         lualine_z = {},
+        -- These will be filled later
         lualine_c = {},
         lualine_x = {},
     },
 }
+
+local function ins_c_inactive(component)
+    table.insert(config.inactive_sections.lualine_c, component)
+end
 
 -- Inserts a component in lualine_a at left section
 local function ins_a(component)
@@ -83,22 +99,71 @@ end
 local function ins_x(component)
     table.insert(config.sections.lualine_x, component)
 end
+
 -- Inserts a component in lualine_z at right section
 local function ins_z(component)
     table.insert(config.sections.lualine_z, component)
 end
+
 -- Inserts a component in lualine_y at right section
 local function ins_y(component)
     table.insert(config.sections.lualine_y, component)
 end
 
---ins_a {
---    function()
---        return '▊'
---    end,
---    --color = { fg = colors.blue },    -- Sets highlighting of component
---    padding = { left = 0, right = 1 }, -- We don't need space before this
---}
+-- Inserts a component in lualine_a at left section
+local function ins_a_inactive(component)
+    table.insert(config.inactive_sections.lualine_a, component)
+end
+
+-- Inserts a component in lualine_b at left section
+local function ins_b_inactive(component)
+    table.insert(config.inactive_sections.lualine_b, component)
+end
+
+-- Inserts a component in lualine_x at right section
+local function ins_x_inactive(component)
+    table.insert(config.inactive_sections.lualine_x, component)
+end
+-- Inserts a component in lualine_z at right section
+local function ins_z_inactive(component)
+    table.insert(config.inactive_sections.lualine_z, component)
+end
+-- Inserts a component in lualine_y at right section
+local function ins_y_inactive(component)
+    table.insert(config.inactive_sections.lualine_y, component)
+end
+
+ins_a_inactive {
+    function()
+        return " "
+    end,
+    color = { fg = colors.fg }
+}
+
+ins_x_inactive {
+    draw_empty=true,
+    color = { bg = colors.bg }
+}
+
+ins_y_inactive {
+    draw_empty=true,
+    color = { bg = colors.bg }
+}
+
+ins_b_inactive {
+    'filename',
+    cond = conditions.buffer_not_terminal,
+    path = 1,
+    symbols = { modified = '●', unmodified = ' ' },
+    color = { bg = colors.bg }
+}
+
+ins_c_inactive {
+    function()
+        return ""
+    end,
+    color = { bg = colors.bg }
+}
 
 ins_a {
     -- mode component
@@ -132,7 +197,6 @@ ins_a {
         return { bg = mode_color[vim.fn.mode()] }
     end,
     color = { gui = 'bold' }
-    --padding = { right = 1, left = 1 },
 }
 
 ins_y {
