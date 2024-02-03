@@ -7,7 +7,7 @@ material.setup({
         sidebars = true,             -- Enable contrast for sidebar-like windows ( for example Nvim-Tree )
         floating_windows = true,     -- Enable contrast for floating windows
         cursor_line = true,          -- Enable darker background for the cursor line
-        non_current_windows = true, -- Enable contrasted background for non-current windows
+        non_current_windows = false, -- Enable contrasted background for non-current windows
         filetypes = {},              -- Specify which filetypes get the contrasted (darker) background
     },
 
@@ -73,9 +73,10 @@ material.setup({
     custom_colors = function(colordefs)
         colordefs.git.modified = colordefs.main.orange
         colordefs.syntax.type = colordefs.main.yellow
+        --colordefs.editor.fg = colordefs.main.paleblue
         --local swap = colors.editor.bg_alt
         --colordefs.editor.bg_alt = colordefs.editor.bg
-        --colordefs.editor.bg = swap
+        colordefs.editor.selection = "#3b5063"
     end, -- If you want to override the default colors, set this to a function
 
     custom_highlights = {

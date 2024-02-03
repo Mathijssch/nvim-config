@@ -21,15 +21,21 @@ local colors_ok, material_colors
 require "material.colors"
 
 if colors_ok then
-    colors.bg = material_colors.editor.bg_alt
+    colors.bg = material_colors.editor.bg
 end
 
+local tiny = function()
+    return vim.fn.winwidth(0) < 50
+end
 
 local conditions = {
     buffer_not_terminal = function()
+        if tiny() then return false end
         return vim.bo.buftype ~= 'terminal'
     end,
+    not_tiny = function() return not tiny() end,
     buffer_not_empty = function()
+        if tiny() then return false end
         return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
     end,
     hide_in_width = function()
@@ -41,6 +47,7 @@ local conditions = {
         return gitdir and #gitdir > 0 and #gitdir < #filepath
     end,
 }
+
 
 -- Config
 local config = {
@@ -74,11 +81,23 @@ local config = {
         lualine_c = {},
         lualine_x = {},
     },
+    winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+    },
+    inactive_winbar = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+    }
 }
-
-local function ins_c_inactive(component)
-    table.insert(config.inactive_sections.lualine_c, component)
-end
 
 -- Inserts a component in lualine_a at left section
 local function ins_a(component)
@@ -110,60 +129,19 @@ local function ins_y(component)
     table.insert(config.sections.lualine_y, component)
 end
 
--- Inserts a component in lualine_a at left section
-local function ins_a_inactive(component)
-    table.insert(config.inactive_sections.lualine_a, component)
-end
 
--- Inserts a component in lualine_b at left section
-local function ins_b_inactive(component)
-    table.insert(config.inactive_sections.lualine_b, component)
-end
-
--- Inserts a component in lualine_x at right section
-local function ins_x_inactive(component)
-    table.insert(config.inactive_sections.lualine_x, component)
-end
--- Inserts a component in lualine_z at right section
-local function ins_z_inactive(component)
-    table.insert(config.inactive_sections.lualine_z, component)
-end
--- Inserts a component in lualine_y at right section
-local function ins_y_inactive(component)
-    table.insert(config.inactive_sections.lualine_y, component)
-end
-
-ins_a_inactive {
-    function()
-        return " "
-    end,
-    color = { fg = colors.fg }
-}
-
-ins_x_inactive {
-    draw_empty=true,
-    color = { bg = colors.bg }
-}
-
-ins_y_inactive {
-    draw_empty=true,
-    color = { bg = colors.bg }
-}
-
-ins_b_inactive {
-    'filename',
+local filename_config = {
+    "filename",
     cond = conditions.buffer_not_terminal,
     path = 1,
     symbols = { modified = '●', unmodified = ' ' },
-    color = { bg = colors.bg }
 }
 
-ins_c_inactive {
-    function()
-        return ""
-    end,
-    color = { bg = colors.bg }
-}
+local empty_content = function() return " " end
+local empty_config = { empty_content, cond = conditions.not_tiny };
+table.insert(config.winbar.lualine_b, empty_config)
+table.insert(config.winbar.lualine_c, filename_config)
+table.insert(config.inactive_winbar.lualine_c, filename_config)
 
 ins_a {
     -- mode component
@@ -202,11 +180,12 @@ ins_a {
 ins_y {
     -- filesize component
     'filesize',
-    cond = conditions.buffer_not_empty,
+    cond = function() return conditions.buffer_not_empty() and conditions.not_tiny() end,
 }
 
 ins_b {
     'diagnostics',
+    cond = conditions.not_tiny,
     sources = { 'nvim_diagnostic' },
     symbols = { error = ' ', warn = ' ', info = ' ' },
     --diagnostics_color = {
@@ -218,7 +197,9 @@ ins_b {
 
 ins_c {
     'filename',
-    cond = conditions.buffer_not_empty,
+    cond = function()
+        return conditions.buffer_not_empty() and conditions.not_tiny()
+    end,
     path = 1,
     symbols = { modified = '●', unmodified = ' ' },
     color = {
@@ -244,6 +225,7 @@ ins_x {
         end
         return msg
     end,
+    cond = conditions.hide_in_width,
     icon = ' ',
     --color = { fg = '#ffffff', gui = 'bold' },
 }
@@ -259,6 +241,7 @@ ins_y {
 ins_b {
     'branch',
     icon = '',
+    cond = conditions.not_tiny,
     --color = { gui = 'bold' },
 }
 
