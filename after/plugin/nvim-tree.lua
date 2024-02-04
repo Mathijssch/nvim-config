@@ -91,11 +91,8 @@ local function on_attach(bufnr)
         end)
     end
 
-    vim.keymap.set("n", "bmr", bulk_trash, opts("Bulk Trash Files"))
+    vim.keymap.set("v", "<leader>dd", bulk_trash, opts("Bulk Trash Files"))
 end
-
-
-
 
 
 -- setup with some options
@@ -113,8 +110,6 @@ require("nvim-tree").setup({
         --update_root = true
     }
 })
-
-
 
 
 vim.keymap.set("n", "<C-b>", "<Cmd>NvimTreeToggle<CR>")

@@ -28,9 +28,17 @@ local tiny = function()
     return vim.fn.winwidth(0) < 50
 end
 
+local function is_fugitive()
+    return vim.bo.filetype == 'fugitive'
+end
+
 local conditions = {
+    buffer_is_git = function()
+        return is_fugitive()
+    end,
     buffer_not_terminal = function()
         if tiny() then return false end
+        if is_fugitive() then return false end
         return vim.bo.buftype ~= 'terminal'
     end,
     not_tiny = function() return not tiny() end,
@@ -58,7 +66,7 @@ local config = {
         theme = 'auto',
         disabled_filetypes = {
             statusline = { "NvimTree", "packer", "fugitive", "fugitiveblame", "qf", "help" },
-            winbar = { "NvimTree", "packer", "fugitive", "fugitiveblame", "qf", "help" },
+            winbar = { "NvimTree", "packer", "fugitiveblame", "qf", "help" },
         },
     },
     sections = {
@@ -129,9 +137,22 @@ local function ins_y(component)
     table.insert(config.sections.lualine_y, component)
 end
 
+local git_config = {
+    function()
+        return "Git status"
+    end,
+    cond = conditions.buffer_is_git
+}
+
+local term_config = {
+    function()
+        return "Terminal"
+    end,
+    cond = function() return not conditions.buffer_not_terminal() end
+}
 
 local filename_config = {
-    "filename",
+    'filename',
     cond = conditions.buffer_not_terminal,
     path = 1,
     symbols = { modified = '●', unmodified = ' ' },
@@ -141,7 +162,11 @@ local empty_content = function() return " " end
 local empty_config = { empty_content, cond = conditions.not_tiny };
 table.insert(config.winbar.lualine_b, empty_config)
 table.insert(config.winbar.lualine_c, filename_config)
+table.insert(config.winbar.lualine_c, git_config)
+table.insert(config.winbar.lualine_c, term_config)
 table.insert(config.inactive_winbar.lualine_c, filename_config)
+table.insert(config.inactive_winbar.lualine_c, git_config)
+table.insert(config.inactive_winbar.lualine_c, term_config)
 
 ins_a {
     -- mode component
@@ -198,7 +223,7 @@ ins_b {
 ins_c {
     'filename',
     cond = function()
-        return conditions.buffer_not_empty() and conditions.not_tiny()
+        return conditions.buffer_not_terminal() and conditions.buffer_not_empty() and conditions.not_tiny()
     end,
     path = 1,
     symbols = { modified = '●', unmodified = ' ' },
@@ -208,10 +233,12 @@ ins_c {
     },
 }
 
+ins_c(term_config)
+
 ins_x {
     -- Lsp server name .
     function()
-        local msg = 'No Active Lsp'
+        local msg = 'No Lsp'
         local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
         local clients = vim.lsp.get_active_clients()
         if next(clients) == nil then

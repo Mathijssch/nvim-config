@@ -30,7 +30,7 @@ vim.keymap.set("n", "<leader>Y", [["+Ygv]], { desc = "Yank the current line to t
 
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking." })
 
-vim.keymap.set("n", "Q", "<nop>")                     -- Disable Q
+vim.keymap.set("n", "q", "<nop>")                     -- Disable Q
 vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format) -- format
 
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Go to the next item in the quickfix list" })
@@ -85,7 +85,7 @@ vim.keymap.set("n", "<leader>wh", [[<cmd>%s/\s\+\(\n\)/\1/e<CR>]])
 
 -- Go back to previously opened file
 vim.keymap.set("n", "<C-`>", "<C-^>", { desc = "Go to previously opened file" })
-vim.keymap.set("v", "<C-`>", "<C-^>", { desc = "Go to previously opened file" })
+vim.keymap.set("v", "<C-`>", "<ESC><C-^>", { desc = "Go to previously opened file" })
 
 
 -- Open a new terminal to the side.
