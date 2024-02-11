@@ -86,6 +86,8 @@ vim.keymap.set("n", "<leader>wh", [[<cmd>%s/\s\+\(\n\)/\1/e<CR>]])
 -- Go back to previously opened file
 vim.keymap.set("n", "<C-`>", "<C-^>", { desc = "Go to previously opened file" })
 vim.keymap.set("v", "<C-`>", "<ESC><C-^>", { desc = "Go to previously opened file" })
+vim.keymap.set("n", "<C-1>", "<C-^>", { desc = "Go to previously opened file" })
+vim.keymap.set("v", "<C-1>", "<ESC><C-^>", { desc = "Go to previously opened file" })
 
 
 -- Open a new terminal to the side.

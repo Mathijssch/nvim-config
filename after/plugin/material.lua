@@ -12,7 +12,7 @@ material.setup({
     },
 
     styles = {
-               -- Give comments style such as bold, italic, underline etc.
+        -- Give comments style such as bold, italic, underline etc.
         comments = { --[[ italic = true ]] },
         strings = { --[[ bold = true ]] },
         keywords = { --[[ underline = true ]] },
@@ -40,7 +40,7 @@ material.setup({
         -- "neotest",
         -- "neo-tree",
         -- "neorg",
-        -- "noice", 
+        -- "noice",
         "nvim-cmp",
         -- "nvim-navic",
         "nvim-tree",
@@ -58,7 +58,7 @@ material.setup({
         borders = false,        -- Disable borders between verticaly split windows
         background = false,     -- Prevent the theme from setting the background (NeoVim then uses your terminal background)
         term_colors = false,    -- Prevent the theme from setting terminal colors
-        eob_lines = true       -- Hide the end-of-buffer lines
+        eob_lines = true        -- Hide the end-of-buffer lines
     },
 
     high_visibility = {
@@ -84,8 +84,16 @@ material.setup({
         ["@constant"] = { fg = colors.main.paleblue },
         ColorColumn = { link = "NormalFloat" },
         TreeSitterContext = { link = "NormalFloat" },
+        SpellBad = { italic = true, undercurl = true },
+        TexCmd = { link = "Function" },
+        TexCmdRef = { fg = colors.main.purple },
+        TexMathCmd = { link = "@lsp.type.decorator" },
+        TexCmdGreek = { link = "TexCmd" },
+        TexMathSuperSub = { link = "Normal" },
+        TexMathZone = { link = "@lsp.type.enumMember" },
+        TexFootnoteArg = { link = "@string.escape" },
+        ["@lsp.type.selfKeyword"] = { link = "@character" }
     }, -- Overwrite highlights with your own
 })
 
 require('material.functions').change_style("palenight")
-
