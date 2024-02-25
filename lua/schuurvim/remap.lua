@@ -24,6 +24,7 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 -- Yank to the system clipboard.
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
 vim.keymap.set({ "v" }, "<C-c>", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
+vim.keymap.set({ "i" }, "<C-v>", [[<Esc>"+pi]], { desc = "Paste selected text from the system clipboard" })
 vim.keymap.set("n", "<leader>Y", [["+Ygv]], { desc = "Yank the current line to the system clipboard" })
 
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
@@ -47,6 +48,8 @@ vim.keymap.set("n", "<C-s>", ":w<CR>", { desc = "ctrl+S for save in normal mode.
 
 vim.keymap.set("i", "<C-z>", "<Esc>ua", { desc = "ctrl+z for undo" })
 vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select everything" })
+
+vim.keymap.set("n", "<C-x>", "<cmd>Telescope bibtex<CR>", { desc = "Open citation picker" })
 
 -- Create a new file
 require('schuurvim.pathman')
@@ -89,6 +92,9 @@ vim.keymap.set("v", "<C-`>", "<ESC><C-^>", { desc = "Go to previously opened fil
 vim.keymap.set("n", "<C-1>", "<C-^>", { desc = "Go to previously opened file" })
 vim.keymap.set("v", "<C-1>", "<ESC><C-^>", { desc = "Go to previously opened file" })
 
+-- Make split
+vim.keymap.set("n", "<leader>\\", vim.cmd.vsplit, { desc = "Make a horizontal split" })
+vim.keymap.set("n", "<leader>-", vim.cmd.split, { desc = "Make a vertical split" })
 
 -- Open a new terminal to the side.
 vim.cmd.set("splitbelow")
@@ -111,6 +117,21 @@ to clipboard.]], path))
 end
 
 vim.api.nvim_create_user_command("CpBuf", copyBuf, {})
+vim.api.nvim_create_user_command("W", function() vim.cmd([[:w]]) end, {})
 
 vim.keymap.set("n", "<Leader><Tab>", [[gt]])
 vim.keymap.set("n", "<C-t>", [[<Cmd>tabnew<CR>]])
+
+
+-- Map caps lock to escape
+-- When Neovim enters
+local function set_caps(on)
+    local cmd = [[!xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape']]
+    if on then
+        cmd = [[!xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock']]
+    end
+    vim.cmd(cmd)
+end
+
+vim.api.nvim_create_user_command("CapsOn", function() set_caps(true) end, {})
+vim.api.nvim_create_user_command("CapsOff", function() set_caps(false) end, {})

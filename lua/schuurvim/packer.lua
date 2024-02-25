@@ -22,10 +22,10 @@ return require('packer').startup(function(use)
         --end
     }
     use { "neanias/everforest-nvim", as = "everforest" }
-    use { "Shatur/neovim-ayu", as = "ayu"}
+    use { "Shatur/neovim-ayu", as = "ayu" }
     use('rmehri01/onenord.nvim')
     use { "wadackel/vim-dogrun", as = "dogrun" }
-    use { "easymotion/vim-easymotion" }  -- Super fast vim motions
+    use { "easymotion/vim-easymotion" } -- Super fast vim motions
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use { "catppuccin/nvim", as = "catppuccin" }
     --use { "JoosepAlviste/palenightfall.nvim", as = "palenightfall",
@@ -40,23 +40,24 @@ return require('packer').startup(function(use)
     --}
     use 'marko-cerovac/material.nvim'
     use({
-      "epwalsh/obsidian.nvim",
-      config = function()
-        require("obsidian").setup({
-          dir = "~/obs-notes/Notebook",
-          -- Optional, for templates (see below).
-          templates = {
-            subdir = "templates",
-            date_format = "%d-%m-%Y",
-            time_format = "%H:%M",
-          },
-        })
-      end,
+        "epwalsh/obsidian.nvim",
+        tag = "*", -- recommended, use latest release instead of latest commit
+        requires = {
+            -- Required.
+            "nvim-lua/plenary.nvim",
+            "hrsh7th/nvim-cmp",
+            "nvim-telescope/telescope.nvim",
+        },
     })
-    use('junegunn/goyo.vim')  -- Zen-mode in nvim
+    use { "/home/mathijs/side-projects/forks/telescope-bibtex.nvim",
+          requires = {
+                {'nvim-telescope/telescope.nvim'},
+        },
+    }
+    use('junegunn/goyo.vim') -- Zen-mode in nvim
     -----------------------------------------------------------
     use('preservim/nerdcommenter')
-    use('unblevable/quick-scope')  -- highlight characters for quick horizontal movements
+    use('unblevable/quick-scope') -- highlight characters for quick horizontal movements
     use('mbbill/undotree')
     use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
     use('nvim-treesitter/nvim-treesitter-context')
@@ -64,8 +65,8 @@ return require('packer').startup(function(use)
         "nvim-treesitter/nvim-treesitter-textobjects",
         after = "nvim-treesitter",
         requires = "nvim-treesitter/nvim-treesitter",
-    }) -- Text objects and motions using treesitter.
-    use('tpope/vim-fugitive')  -- Git integration
+    })                        -- Text objects and motions using treesitter.
+    use('tpope/vim-fugitive') -- Git integration
     use {
         'VonHeikemen/lsp-zero.nvim',
         branch = 'v2.x',
@@ -83,7 +84,7 @@ return require('packer').startup(function(use)
 
             -- Autocompletion
             { 'hrsh7th/nvim-cmp',
-            -- commit = "8b76965ed05016a3596b1d4d685c7b5caf1062a5" },     -- Required
+                -- commit = "8b76965ed05016a3596b1d4d685c7b5caf1062a5" },     -- Required
             },
             { 'hrsh7th/cmp-nvim-lsp' }, -- Required
             { 'L3MON4D3/LuaSnip' },     -- Required: snippets
@@ -101,19 +102,19 @@ return require('packer').startup(function(use)
             require("nvim-tree").setup {}
         end
     }
-    use('norcalli/nvim-colorizer.lua')           -- Syntax colors
+    use('norcalli/nvim-colorizer.lua') -- Syntax colors
     --use('vim-scripts/vim-gitgutter')           -- Gutter with git information
-    use('lervag/vimtex')                         -- LaTeX support
-    use('peterbjorgensen/sved')                  -- Fixes reverse syncing with latex in evince
+    use('lervag/vimtex')               -- LaTeX support
+    use('peterbjorgensen/sved')        -- Fixes reverse syncing with latex in evince
     --use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
-        --requires = { 'lewis6991/gitsigns.nvim' } -- For git info
+    --requires = { 'lewis6991/gitsigns.nvim' } -- For git info
     --}
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
     use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' } -- Nice diff view
-    use { 'nvim-pack/nvim-spectre',              -- Project-wide search and replace
+    use { 'nvim-pack/nvim-spectre',                                      -- Project-wide search and replace
         requires = { 'nvim-lua/plenary.nvim' }
     }
     use { 'ThePrimeagen/harpoon',
@@ -132,19 +133,23 @@ return require('packer').startup(function(use)
     use("puremourning/vimspector") -- Debuggers
     use { "sagi-z/vimspectorpy",   -- Python debugging
         --config = function()
-            --pcall(vim.cmd, "VimspectorpyUpdate")
+        --pcall(vim.cmd, "VimspectorpyUpdate")
         --end } -- Python debugging
     }
-    use { "gennaro-tedesco/nvim-possession",  -- Store and load vim sessions
+    use { "gennaro-tedesco/nvim-possession", -- Store and load vim sessions
         requires = { "ibhagwan/fzf-lua" },
         config = function() require("nvim-possession").setup({}) end
     }
-    use {'superDross/run-with-me.vim'}  -- Run scripts in integrated terminal
-    use {'nanozuki/tabby.nvim'}         -- Pretty tabs in nvim
-    use {                               -- Autogenerate documentation
+    use { 'superDross/run-with-me.vim' } -- Run scripts in integrated terminal
+    use { 'nanozuki/tabby.nvim' }      -- Pretty tabs in nvim
+    use {                              -- Autogenerate documentation
         'kkoomen/vim-doge',
         run = ':call doge#install()'
     }
-    use 'rcarriga/nvim-notify'          -- Nicer notifiations
+    use 'rcarriga/nvim-notify' -- Nicer notifiations
+    --use { 'mrcjkb/rustaceanvim',
+    --      version = '^4', -- Recommended
+    --      ft = { 'rust' },
+    --}
 end
 )

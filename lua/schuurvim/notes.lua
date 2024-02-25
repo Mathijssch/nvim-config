@@ -11,3 +11,4 @@ function MoveFile()
 end
 
 vim.cmd([[command! Tikz2Note lua MoveFile()]])
+

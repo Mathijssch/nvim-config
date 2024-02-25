@@ -14,7 +14,7 @@ end)
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = false
+        virtual_text = true
     }
 )
 
@@ -38,6 +38,16 @@ lspconfig.pylsp.setup {
         },
     },
 }
+
+local opts = { noremap = true, silent = true }
+
+local function quickfix()
+    vim.lsp.buf.code_action({
+        filter = function(a) return a.isPreferred end,
+        apply = true
+    })
+end
+vim.keymap.set('n', '<leader>qf', quickfix, opts)
 
 --lspconfig.rust_analyzer.setup {
 --  flags = {
@@ -98,14 +108,14 @@ if not cmp_ok then return end
 local snip_ok, luasnip = pcall(require, "luasnip")
 
 cmp.setup({
-    experimental = { 
-        ghost_text = true 
+    experimental = {
+        ghost_text = true
     },
     mapping = {
         ["<CR>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Insert,
-			select = false,
-		}),
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = false,
+        }),
         --['<CR>'] = cmp.mapping(function(fallback)
         --        if cmp.visible() then
         --            vim.notify("Going for it!")

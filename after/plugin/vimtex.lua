@@ -68,7 +68,7 @@ local function toggleMain()
     local currBuf = vim.fn.expand('%:p:r')
     if currBuf == nil then return end
 
-    local texmain_path = currBuf .. '.latexmain'
+    local texmain_path = currBuf .. '.tex.latexmain'
     local file_info = vim.loop.fs_stat(texmain_path)
 
     if file_info then

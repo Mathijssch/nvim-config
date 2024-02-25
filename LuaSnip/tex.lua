@@ -28,16 +28,16 @@ local get_visual = function(args, parent)
 end
 -- ----------------------------------------------------------------------------
 function dump(o)
-   if type(o) == 'table' then
-      local s = '{ '
-      for k,v in pairs(o) do
-         if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. dump(v) .. ','
-      end
-      return s .. '} '
-   else
-      return tostring(o)
-   end
+    if type(o) == 'table' then
+        local s = '{ '
+        for k, v in pairs(o) do
+            if type(k) ~= 'number' then k = '"' .. k .. '"' end
+            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+        end
+        return s .. '} '
+    else
+        return tostring(o)
+    end
 end
 
 -- Check if the cursor is currently in a beamer frame
@@ -78,8 +78,8 @@ local columns = s(
 
 local standalone = s(
     {
-        trig="_standalone",
-        dscr="Scaffolding for a standalone document",
+        trig = "_standalone",
+        dscr = "scaffolding for a standalone document",
     },
     fmt([[
     \documentclass[tikz,dvipsnames]{standalone}
@@ -88,15 +88,13 @@ local standalone = s(
     \begin{document}
     \begin{tikzpicture}
     \tikzset{pt/.style={circle, inner sep=5pt, fill}}
-    <> 
+    <>
     \end{tikzpicture}
     \end{document}
-    ]], 
+    ]],
         { i(1) },
         { delimiters = "<>" }
     )
-    
-
 )
 
 local wrapenv = s(
@@ -119,7 +117,7 @@ local wrapenv = s(
 local align = s(
     {
         trig = "_a",
-        snippetType = "autosnippet",
+        --snippetType = "autosnippet",
         wordTrig = true,
         dscr = "Wrap the selected text in an aligned block.",
     },
@@ -246,7 +244,41 @@ local environment = s(
     )
 )
 
+local axis = s(
+    {
+        trig = "_axis",
+        dscr = "Insert a new axis",
+    },
+    fmt([[
+    \begin{axis}[
+        width=\textwidth,
+        height=\textwidth,
+        axis lines=center,
+        xlabel={$x$},
+        ylabel={$y$},
+        enlarge x limits=0.01,
+        enlarge y limits=0.01,
+    ]
+    <>
+    \end{axis}
+    ]],
+        { i(1) },
+        { delimiters = "<>" }
+    )
+)
 
+local addplot = s(
+    {
+        trig = "_plot",
+        dscr = "Add a plot",
+    },
+    fmt([[
+    \addplot[domain=-1:1] {<>};
+    ]],
+        { i(1) },
+        { delimiters = "<>" }
+    )
+)
 
 return {
     alert,
@@ -259,6 +291,7 @@ return {
     wrapenv,
     wrapcmd,
     columns,
-    sidenote, 
-    standalone
+    sidenote,
+    standalone,
+    axis, addplot
 }

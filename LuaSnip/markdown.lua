@@ -56,7 +56,7 @@ local color = s(
     )
 )
 
-local fragment = s( {
+local fragment = s({
         trig = "_frag",
         snippetType = "autosnippet",
         dscr = "Add a fragment.",
@@ -151,8 +151,8 @@ local div = s(
     {}
 </div>
 ]],
-{ i(1), i(2) },
-{ delimiters = '{}' })
+        { i(1), i(2) },
+        { delimiters = '{}' })
 )
 
-return { wrapenv, color, wrapcmd, sidenote, align, fragment, remrk, div}
+return { wrapenv, color, wrapcmd, sidenote, align, fragment, remrk, div }
