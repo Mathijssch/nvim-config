@@ -165,6 +165,7 @@ M.slug_unicode = function(str)
     ['␣'] = '', -- OPEN BOX
     ['◦'] = '', -- WHITE BULLET
     ['✁'] = '', -- UPPER BLADE SCISSORS
+    [':'] = '-', -- COLON
     --Derived accented characters
     ['À'] = 'A', -- LATIN CAPITAL LETTER A WITH GRAVE
     ['Á'] = "A", -- LATIN CAPITAL LETTER A WITH ACUTE
