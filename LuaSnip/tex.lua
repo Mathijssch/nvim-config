@@ -11,6 +11,8 @@ local fmt = require("luasnip.extras.fmt").fmt
 local fmta = require("luasnip.extras.fmt").fmta
 local rep = require("luasnip.extras").rep
 
+local snippets = {}
+
 local ruler = t("%-------------------------------------")
 
 
@@ -27,14 +29,16 @@ local get_visual = function(args, parent)
     end
 end
 -- ----------------------------------------------------------------------------
-function dump(o)
+
+
+local function dump(o)
     if type(o) == 'table' then
-        local s = '{ '
+        local str = '{ '
         for k, v in pairs(o) do
             if type(k) ~= 'number' then k = '"' .. k .. '"' end
-            s = s .. '[' .. k .. '] = ' .. dump(v) .. ','
+            str = str .. '[' .. k .. '] = ' .. dump(v) .. ','
         end
-        return s .. '} '
+        return str .. '} '
     else
         return tostring(o)
     end
@@ -54,7 +58,7 @@ local function in_select_mode(line_to_cursor, matched_trigger, captures)
     --return mode == 'v' or mode == 'V' or mode == ''
 end
 
-local columns = s(
+table.insert(snippets, s(
     {
         trig = "_col",
         wordTrig = false,
@@ -73,10 +77,11 @@ local columns = s(
     ]],
         { i(1), i(3), i(2), i(4) }
     )
+    )
 )
 
 
-local standalone = s(
+table.insert(snippets, s(
     {
         trig = "_standalone",
         dscr = "scaffolding for a standalone document",
@@ -95,9 +100,29 @@ local standalone = s(
         { i(1) },
         { delimiters = "<>" }
     )
-)
+))
 
-local wrapenv = s(
+table.insert(snippets, s(
+    {
+        trig = "_article",
+        dscr = "scaffolding for an article",
+    },
+    fmt([[
+    \documentclass{article}
+    \title{}
+    \author{}
+    \date{}
+
+    \begin{document}
+    <>
+    \end{document}
+    ]],
+        { i(1) },
+        { delimiters = "<>" }
+    )
+))
+
+table.insert(snippets, s(
     {
         trig = "be",
         --snippetType = "autosnippet",
@@ -112,9 +137,9 @@ local wrapenv = s(
         ]],
         { i(1), i(2), d(3, get_visual), rep(1) }
     )
-)
+))
 
-local align = s(
+table.insert(snippets, s(
     {
         trig = "_a",
         --snippetType = "autosnippet",
@@ -128,9 +153,9 @@ local align = s(
         ]],
         { d(1, get_visual) }
     )
-)
+))
 
-local wrapcmd = s(
+table.insert(snippets, s(
     {
         trig = "_c",
         snippetType = "autosnippet",
@@ -140,9 +165,9 @@ local wrapcmd = s(
     fmta([[\<>{<><>}]],
         { i(1), d(2, get_visual), i(3) }
     )
-)
+))
 
-local sidenote = s(
+table.insert(snippets, s(
     {
         trig = "_sn",
         snippetType = "autosnippet",
@@ -152,10 +177,10 @@ local sidenote = s(
     fmta([[\sidenote[<>]{<>}]],
         { d(1, get_visual), i(2) }
     )
-)
+))
 
 
-local title = s(
+table.insert(snippets, s(
     {
         trig = "_title",
         dscr = "Draw a title line in comments",
@@ -170,9 +195,9 @@ local title = s(
         , { i(1) },
         { delimiters = "<>" }
     )
-)
+))
 
-local italic = s(
+table.insert(snippets, s(
     {
         trig = "_it",
         snippetType = "autosnippet",
@@ -185,9 +210,9 @@ local italic = s(
         { d(1, get_visual) },
         { delimiters = "<>" }
     )
-)
+))
 
-local boldface = s(
+table.insert(snippets, s(
     {
         trig = "_b",
         snippetType = "autosnippet",
@@ -200,8 +225,8 @@ local boldface = s(
         { d(1, get_visual) },
         { delimiters = "<>" }
     )
-)
-local textcolor = s(
+))
+table.insert(snippets, s(
     {
         trig = "_tc",
         snippetType = "autosnippet",
@@ -214,8 +239,8 @@ local textcolor = s(
         { i(1), i(2) },
         { delimiters = "<>" }
     )
-)
-local alert = s(
+))
+table.insert(snippets, s(
     {
         trig = "_al",
         dscr = "alert",
@@ -227,8 +252,9 @@ local alert = s(
         { i(1) },
         { delimiters = "<>" }
     )
-)
-local environment = s(
+))
+
+table.insert(snippets, s(
     {
         trig = "begin",
         dscr = "Insert a new environment",
@@ -242,9 +268,9 @@ local environment = s(
         { i(1), i(2), i(3), rep(1) },
         { delimiters = "<>" }
     )
-)
+))
 
-local axis = s(
+table.insert(snippets, s(
     {
         trig = "_axis",
         dscr = "Insert a new axis",
@@ -265,9 +291,9 @@ local axis = s(
         { i(1) },
         { delimiters = "<>" }
     )
-)
+))
 
-local addplot = s(
+table.insert(snippets, s(
     {
         trig = "_plot",
         dscr = "Add a plot",
@@ -279,19 +305,6 @@ local addplot = s(
         { delimiters = "<>" }
     )
 )
+)
 
-return {
-    alert,
-    textcolor,
-    align,
-    title,
-    environment,
-    italic,
-    boldface,
-    wrapenv,
-    wrapcmd,
-    columns,
-    sidenote,
-    standalone,
-    axis, addplot
-}
+return snippets
