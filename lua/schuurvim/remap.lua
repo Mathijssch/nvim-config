@@ -124,14 +124,14 @@ vim.keymap.set("n", "<C-t>", [[<Cmd>tabnew<CR>]])
 
 
 -- Map caps lock to escape
--- When Neovim enters
 local function set_caps(on)
     local cmd = [[!xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape']]
     if on then
-        cmd = [[!xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock']]
+        cmd = [[! xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock']]
     end
-    vim.cmd(cmd)
+    vim.cmd([[silent exec "]] .. cmd .. [["]])
 end
 
 vim.api.nvim_create_user_command("CapsOn", function() set_caps(true) end, {})
 vim.api.nvim_create_user_command("CapsOff", function() set_caps(false) end, {})
+set_caps(false)
