@@ -55,6 +55,9 @@ return require('packer').startup(function(use)
         },
     }
     use('junegunn/goyo.vim') -- Zen-mode in nvim
+    use {'akinsho/git-conflict.nvim', tag = "*", config = function() -- Fix merge conflicts
+        require('git-conflict').setup()
+    end}
     -----------------------------------------------------------
     use('preservim/nerdcommenter')
     use('unblevable/quick-scope') -- highlight characters for quick horizontal movements
@@ -103,7 +106,7 @@ return require('packer').startup(function(use)
         end
     }
     use('norcalli/nvim-colorizer.lua') -- Syntax colors
-    --use('vim-scripts/vim-gitgutter')           -- Gutter with git information
+    use('vim-scripts/vim-gitgutter')           -- Gutter with git information
     use('lervag/vimtex')               -- LaTeX support
     use('peterbjorgensen/sved')        -- Fixes reverse syncing with latex in evince
     --use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
@@ -136,10 +139,10 @@ return require('packer').startup(function(use)
         --pcall(vim.cmd, "VimspectorpyUpdate")
         --end } -- Python debugging
     }
-    use { "gennaro-tedesco/nvim-possession", -- Store and load vim sessions
-        requires = { "ibhagwan/fzf-lua" },
-        config = function() require("nvim-possession").setup({}) end
-    }
+    --use { "gennaro-tedesco/nvim-possession", -- Store and load vim sessions
+    --    requires = { "ibhagwan/fzf-lua" },
+    --    config = function() require("nvim-possession").setup({}) end
+    --}
     use { 'superDross/run-with-me.vim' } -- Run scripts in integrated terminal
     use { 'nanozuki/tabby.nvim' }      -- Pretty tabs in nvim
     use {                              -- Autogenerate documentation
