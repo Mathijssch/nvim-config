@@ -12,6 +12,7 @@ vim.opt.smartindent = false
 vim.opt.wrap = false
 
 vim.opt.conceallevel = 1
+vim.cmd([[ let g:vimtex_syntax_conceal_disable = 1 ]])
 vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
