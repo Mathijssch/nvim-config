@@ -6,8 +6,12 @@ local options = {};
 
 options.workspaces = {
     {
-        name = "work",
+        name = "old",
         path = "~/Work/Obsidian-notes/Notebook",
+    },
+    {
+        name = "new",
+        path = "~/Work/notebook/notes",
     },
 };
 
@@ -44,7 +48,8 @@ options.date_format = "%d-%M-%Y"
 options.note_id_func = function(title)
     if title ~= nil then
       -- If title is given, transform it into valid file name.
-      return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+      --return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+      return title
     else
       return tostring(os.time())
     end
@@ -112,10 +117,9 @@ local function title_to_date(offset)
     return format_date(monday)
 end
 
-
 substitutions.this_week = function() return title_to_date(0) end
 substitutions.next_week = function() return title_to_date(1) end
-substitutions.previous_week = function() return title_to_date(-1) end
+substitutions.last_week = function() return title_to_date(-1) end
 
 options.templates.substitutions = substitutions;
 
@@ -125,6 +129,7 @@ options.preferred_link_style = "wiki";
 options.attachments = {};
 options.attachments.img_folder = "Attachments";
 
+options.ui = {enable = false}
 options.disable_frontmatter = true;
 --options.note_frontmatter_func = function(note)
 --    local today = os.date("%d-%m-%Y")
@@ -159,3 +164,5 @@ end
 vim.api.nvim_create_user_command("WeekNote", function()
     vim.cmd(":e " .. get_weekly_note_file())
 end, {})
+
+

@@ -4,6 +4,9 @@ local action_state = require('telescope.actions.state')
 local actions = require "telescope.actions"
 local utils = require "telescope-bibtex.utils"
 
+local options = {}
+options.literature_dir = "literature"
+
 local function write_text(txt)
     local mode = vim.api.nvim_get_mode().mode
     if mode == 'i' then
@@ -146,14 +149,20 @@ local function format_author_list(author_list)
 end
 
 local function generate_filename(reference)
-    local authors = format_authors_short(authors_to_list(reference.author), { sep="_" })
+    local authors = format_authors_short(authors_to_list(reference.author), { sep = "_" })
     local year = format_year(reference.year)
     local prefix = string.format("%s%s", authors, year)
     local separator = ""
     if prefix:len() > 0 then
         separator = "-"
     end
-    return sluggify(string.format("%s%s%s", prefix, separator, truncate_title(reference.title)))
+
+    local filename = sluggify(string.format("%s%s%s", prefix, separator, truncate_title(reference.title)))
+
+    if options.literature_dir ~= nil then
+        filename = options.literature_dir .. "/" .. filename;
+    end
+    return filename
 end
 
 local function format_citation_tex(reference)
@@ -163,7 +172,7 @@ end
 
 local function format_citation_md(reference)
     local authors = authors_to_list(reference.author)
-    local author_str = format_authors_short(authors, {max_authors = 1})
+    local author_str = format_authors_short(authors, { max_authors = 1 })
     local year = format_year(reference.year)
     local filename = generate_filename(reference)
     return string.format("[[%s|%s %s]]", filename, author_str, year)
@@ -224,10 +233,30 @@ local function file_exists(path)
     end
 end
 
+local function create_dir(path)
+    local mkdir = io.popen('mkdir -p "' .. path .. '"')
+    if mkdir ~= nil then
+        local result = mkdir:read('*a')
+        mkdir:close()
+        return true
+    else
+        vim.notify(string.format("Could not make the directory %s", path),
+            vim.log.levels.ERROR
+        )
+        return false
+    end
+end
+
+local function strip_filename(path)
+    return path:match("(.+)/") -- Match everything up to the last '/'
+end
 
 local function create_if_not_exists(ref)
     local path = generate_filename(ref) .. ".md"
     if not file_exists(path) then
+        local directory = strip_filename(path)
+        if not create_dir(directory) then return false end
+
         local file = io.open(path, "w")
         if file then
             local contents = generate_literature_page(ref)
