@@ -154,7 +154,6 @@ end
 
 obsidian.setup(options)
 
-
 local function get_weekly_note_file()
     local monday = get_monday_before()
     return "weekly/" .. format_date(monday) .. " - weekly update.md"
@@ -165,4 +164,23 @@ vim.api.nvim_create_user_command("WeekNote", function()
     vim.cmd(":e " .. get_weekly_note_file())
 end, {})
 
+vim.api.nvim_create_user_command("FromTemplate", function()
+    vim.cmd("ObsidianNew")
+    vim.cmd("normal! gg")
+    vim.cmd("normal! dG") -- go to end of file
+    vim.cmd("ObsidianTemplate")
+end, {})
+
+-- Define a function to handle opening URLs
+local function openUrl(url)
+    vim.system({'firefox', url})
+end
+
+vim.api.nvim_create_user_command("GotoPage", function()
+    local relative_filename = vim.fn.expand('%:~:.')
+    local output = vim.fn.system('oxidian where --file \"' .. relative_filename .. '\" ' .. vim.fn.getcwd())
+    local url = 'localhost:8080/' .. output
+    vim.notify('Opening ' .. url)
+    openUrl(url)
+end, {})
 
