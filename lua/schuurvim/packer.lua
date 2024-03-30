@@ -49,11 +49,16 @@ return require('packer').startup(function(use)
             "nvim-telescope/telescope.nvim",
         },
     })
-    use { "/home/mathijs/side-projects/forks/telescope-bibtex.nvim",
+    use {"nvim-telescope/telescope-bibtex.nvim" ,
           requires = {
                 {'nvim-telescope/telescope.nvim'},
         },
     }
+    --use { "/home/mathijs/side-projects/forks/telescope-bibtex.nvim",
+    --      requires = {
+    --            {'nvim-telescope/telescope.nvim'},
+    --    },
+    --}
     use('junegunn/goyo.vim') -- Zen-mode in nvim
     use {'akinsho/git-conflict.nvim', tag = "*", config = function() -- Fix merge conflicts
         require('git-conflict').setup()

@@ -2,7 +2,8 @@ local status_ok, telescope = pcall(require, "telescope")
 if not status_ok then return end
 local action_state = require('telescope.actions.state')
 local actions = require "telescope.actions"
-local utils = require "telescope-bibtex.utils"
+local status_ok_util, utils = pcall(require, "telescope-bibtex.utils")
+if not status_ok_util then return end
 
 local options = {}
 options.literature_dir = "literature"
