@@ -25,6 +25,10 @@ local paths = {
         name = "new",
         path = "~/Work/notebook/notes",
     },
+    {
+        name = "GET",
+        path = "~/Work/Research/GET/GET-notes/notes",
+    },
 }
 
 for _, pathInfo in ipairs(paths) do
