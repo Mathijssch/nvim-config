@@ -111,7 +111,7 @@ return require('packer').startup(function(use)
         end
     }
     use('norcalli/nvim-colorizer.lua') -- Syntax colors
-    use('vim-scripts/vim-gitgutter')   -- Gutter with git information
+    use('airblade/vim-gitgutter')   -- Gutter with git information
     use('lervag/vimtex')               -- LaTeX support
     use('peterbjorgensen/sved')        -- Fixes reverse syncing with latex in evince
     --use { 'freddiehaddad/feline.nvim',           -- Nice statusbar

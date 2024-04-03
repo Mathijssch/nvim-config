@@ -3,8 +3,20 @@ if not status_ok then return end
 
 local options = {};
 
+local function file_exists(path)
+    local file = io.open(path, "r")
+    if file then
+        io.close(file)
+        return true
+    else
+        return false
+    end
+end
 
-options.workspaces = {
+
+options.workspaces = {}
+
+local paths = {
     {
         name = "old",
         path = "~/Work/Obsidian-notes/Notebook",
@@ -13,7 +25,19 @@ options.workspaces = {
         name = "new",
         path = "~/Work/notebook/notes",
     },
-};
+}
+
+for _, pathInfo in ipairs(paths) do
+    local home = os.getenv("HOME")
+    local resolvedPath = pathInfo.path
+    if home ~= nil then
+        resolvedPath = pathInfo.path:gsub("^~", home)
+    end
+    if file_exists(resolvedPath) then
+        table.insert(options.workspaces, pathInfo)
+    end
+end
+
 
 options.completion = {
     -- Set to false to disable completion.
@@ -44,14 +68,14 @@ end
 options.date_format = "%d-%M-%Y"
 
 
-  -- Optional, customize how names/IDs for new notes are created.
+-- Optional, customize how names/IDs for new notes are created.
 options.note_id_func = function(title)
     if title ~= nil then
-      -- If title is given, transform it into valid file name.
-      --return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
-      return title
+        -- If title is given, transform it into valid file name.
+        --return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+        return title
     else
-      return tostring(os.time())
+        return tostring(os.time())
     end
 end
 
@@ -129,7 +153,7 @@ options.preferred_link_style = "wiki";
 options.attachments = {};
 options.attachments.img_folder = "Attachments";
 
-options.ui = {enable = false}
+options.ui = { enable = false }
 options.disable_frontmatter = true;
 --options.note_frontmatter_func = function(note)
 --    local today = os.date("%d-%m-%Y")
@@ -173,7 +197,7 @@ end, {})
 
 -- Define a function to handle opening URLs
 local function openUrl(url)
-    vim.system({'firefox', url})
+    vim.system({ 'firefox', url })
 end
 
 vim.api.nvim_create_user_command("GotoPage", function()
@@ -183,4 +207,3 @@ vim.api.nvim_create_user_command("GotoPage", function()
     vim.notify('Opening ' .. url)
     openUrl(url)
 end, {})
-
