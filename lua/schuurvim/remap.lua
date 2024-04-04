@@ -57,14 +57,7 @@ require('schuurvim.pathman')
 vim.keymap.set("n", "<C-n>", function()
         vim.ui.input({ prompt = 'new file: ' }, function(input)
             print(input)
-            local dir, file = SplitPath(input)
-            print(dir, file)
-            if dir ~= nil then
-                print(string.format("!mkdir -p %s", dir))
-                vim.cmd(string.format("silent !mkdir -p %s", dir))
-            end
-            vim.cmd.edit(input)
-            --vim.Open(input)
+            NewFile(input)
         end)
     end,
     { desc = "Create new file" }

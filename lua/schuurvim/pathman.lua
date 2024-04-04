@@ -26,3 +26,28 @@ function SplitPath(path)
 
     return path:sub(0, diridx), path:sub(diridx + 2)
 end
+
+function FileExists(path)
+    local file = io.open(path, "r")
+    if file then
+        io.close(file)
+        return true
+    else
+        return false
+    end
+end
+
+function NewFile(input)
+    if FileExists(input) then
+        vim.cmd.edit(input)
+        return
+    end
+
+    local dir, file = SplitPath(input)
+    print(dir, file)
+    if dir ~= nil then
+        vim.cmd(string.format("silent !mkdir -p %s", dir))
+    end
+    vim.cmd.edit(input)
+    --vim.Open(input)
+end

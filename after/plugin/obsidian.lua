@@ -189,7 +189,12 @@ end
 
 
 vim.api.nvim_create_user_command("WeekNote", function()
-    vim.cmd(":e " .. get_weekly_note_file())
+    local weekly_path = get_weekly_note_file()
+    require('schuurvim.pathman')
+
+    NewFile(weekly_path)
+    --SplitPath(weekly_path)
+    --vim.cmd(":e " .. get_weekly_note_file())
 end, {})
 
 vim.api.nvim_create_user_command("FromTemplate", function()
