@@ -6,5 +6,5 @@ vim.api.nvim_set_keymap('v', '<C-I>', [[c*<Esc>pa*]], { noremap = true })
 --vim.api.nvim_set_keymap('v', '<C-b>', [[d]], {noremap = true})
 --
 --vim.api.nvim_set_keymap('v', '<C-i>', '**<Esc>hi', {noremap = true})
-vim.api.nvim_set_keymap('n', [[<localleader>lv]], [[<cmd>GotoPage<CR>]], { noremap = true })
+vim.keymap.set('n', [[<localleader>lv]], [[<cmd>GotoPage<CR>]], { buffer = true})
 
