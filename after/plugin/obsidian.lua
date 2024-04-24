@@ -1,6 +1,13 @@
 local status_ok, obsidian = pcall(require, "obsidian")
 if not status_ok then return end
 
+local status_utils, _utils = pcall(require, "schuurvim.util") -- Exposes FormatDate
+if not status_utils then
+    vim.notify("Could not load utilities from schuurvim.", vim.log.levels.ERROR)
+    return
+end
+
+
 local options = {};
 
 local function file_exists(path)
@@ -65,7 +72,7 @@ local ObsidianSmartAction = function(opts)
     if obs_util.cursor_on_markdown_link(nil, nil, true) then
         vim.cmd("ObsidianFollowLink")
     else
-        vim.cmd("SmartToggleTask")
+        vim.cmd("ObsidianToggleCheckbox")
     end
 end
 
@@ -123,10 +130,6 @@ local function get_monday_before(date, offset)
     --print(string.format("%04d-%02d-%02d", monday.year, monday.month, monday.day))
 end
 
-local function format_date(date)
-    return string.format("%04d-%02d-%02d", date.year, date.month, date.day);
-end
-
 local substitutions = {};
 
 --- Expecting to get a title in the form YYYY-MM-DD - <whatever>
@@ -142,7 +145,7 @@ local function title_to_date(offset)
         vim.notify("Could not parse date from title. Using today's date.", vim.log.levels.WARN)
     end
     local monday = get_monday_before(date, offset)
-    return format_date(monday)
+    return FormatDate(monday)
 end
 
 substitutions.this_week = function() return title_to_date(0) end
@@ -151,7 +154,7 @@ substitutions.last_week = function() return title_to_date(-1) end
 
 options.templates.substitutions = substitutions;
 
-options.new_notes_location = "current_dir";
+options.new_notes_location = "notes_subdir";
 -- Either 'wiki' or 'markdown'.
 options.preferred_link_style = "wiki";
 options.attachments = {};
@@ -184,7 +187,7 @@ obsidian.setup(options)
 
 local function get_weekly_note_file()
     local monday = get_monday_before()
-    return "weekly/" .. format_date(monday) .. " - weekly update.md"
+    return "weekly/" .. FormatDate(monday) .. " - weekly update.md"
 end
 
 

@@ -5,4 +5,5 @@ require("schuurvim.packer")
 require("schuurvim.color")
 require("schuurvim.diagnostics")
 require("schuurvim.notes")
+require("schuurvim.util")
 

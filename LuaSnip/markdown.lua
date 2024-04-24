@@ -24,8 +24,10 @@ local get_visual = function(args, parent)
 end
 -- ----------------------------------------------------------------------------
 -- Title
+--
+local snippets = {}
 
-local wrapenv = s(
+table.insert(snippets, s(
     {
         trig = "_<",
         snippetType = "autosnippet",
@@ -41,9 +43,24 @@ local wrapenv = s(
         { i(1), d(2, get_visual), rep(1) },
         { delimiters = "{}" }
     )
-)
+))
 
-local color = s(
+table.insert(snippets, s(
+    {
+    trig = "_subtitle",
+        snippetType = "autosnippet",
+        dscr = "Add a subtitle.",
+    },
+    fmt([[
+    <span class="subtitle">
+    {}
+    </span>
+    ]],
+        { d(1, get_visual) },
+        { delimiters = '{}' })
+))
+
+table.insert(snippets, s(
     {
         trig = "_clr",
         snippetType = "autosnippet",
@@ -54,9 +71,9 @@ local color = s(
         { i(1), d(2, get_visual) },
         { delimiters = "{}" }
     )
-)
+))
 
-local fragment = s({
+table.insert(snippets, s({
         trig = "_frag",
         snippetType = "autosnippet",
         dscr = "Add a fragment.",
@@ -68,10 +85,10 @@ local fragment = s({
     ]],
         { d(1, get_visual) },
         { delimiters = '{}' })
-)
+))
 
 
-local remrk = s(
+table.insert(snippets, s(
     {
         trig = "_rmrk",
         snippetType = "autosnippet",
@@ -80,11 +97,11 @@ local remrk = s(
     fmt([[<span class="sidenote">{}</span>]],
         { i(1) },
         { delimiters = '{}' })
-)
+))
 
-local wrapenv = s(
+table.insert(snippets, s(
     {
-        trig = "be",
+        trig = [[begin]],
         --snippetType = "autosnippet",
         wordTrig = true,
         dscr = "Wrap the selected text in an envrionment block.",
@@ -97,9 +114,9 @@ local wrapenv = s(
         ]],
         { i(1), i(2), d(3, get_visual), rep(1) }
     )
-)
+))
 
-local align = s(
+table.insert(snippets, s(
     {
         trig = "_a",
         snippetType = "autosnippet",
@@ -113,9 +130,9 @@ local align = s(
         ]],
         { d(1, get_visual) }
     )
-)
+))
 
-local wrapcmd = s(
+table.insert(snippets, s(
     {
         trig = "_c",
         snippetType = "autosnippet",
@@ -125,9 +142,9 @@ local wrapcmd = s(
     fmta([[\<>{<><>}]],
         { i(1), d(2, get_visual), i(3) }
     )
-)
+))
 
-local sidenote = s(
+table.insert(snippets, s(
     {
         trig = "_sn",
         snippetType = "autosnippet",
@@ -137,10 +154,10 @@ local sidenote = s(
     fmta([[\sidenote[<>]{<>}]],
         { d(1, get_visual), i(2) }
     )
-)
+))
 
 
-local div = s(
+table.insert(snippets, s(
     {
         trig = "_div",
         snippetType = "autosnippet",
@@ -153,6 +170,6 @@ local div = s(
 ]],
         { i(1), i(2) },
         { delimiters = '{}' })
-)
+))
 
-return { wrapenv, color, wrapcmd, sidenote, align, fragment, remrk, div }
+return snippets

@@ -5,6 +5,12 @@ local actions = require "telescope.actions"
 local status_ok_util, utils = pcall(require, "telescope-bibtex.utils")
 if not status_ok_util then return end
 
+local status_utils, _utils = pcall(require, "schuurvim.util")  -- Expose FormatDate
+if not status_utils then
+    vim.notify("Could not load utilities from schuurvim.", vim.log.levels.ERROR)
+    return
+end
+
 local options = {}
 options.literature_dir = "literature"
 
@@ -80,9 +86,12 @@ local function format_authors_short(author_list, opts)
     local sep = opts.sep or ", "
     local result = ""
     local max_cnt = opts.max_authors or 2
+    local use_etal = opts.etal or true
     for cnt, author in ipairs(author_list) do
         if cnt > max_cnt then
-            result = result .. " et al"
+            if use_etal then
+                result = result .. " et al"
+            end
             break
         end
         if cnt > 1 then
@@ -191,13 +200,14 @@ end
 local function generate_literature_page(reference)
     local template = [[
 ---
-title: "{{title}}"
+title: "{{author_short}} {{year}} - {{title}}"
 year: {{year}}
 author: {{author_list}}
 URL: {{url}}
 citekey: {{label}}
+date_created: {{today}}
 ---
-#literature #literature/{{type}}
+#literature/{{type}}
 
 # {{title}}
 {{author}}{{link}}{{abstract}}
@@ -208,12 +218,14 @@ citekey: {{label}}
     local all_authors = authors_to_list(reference.author)
     local replacements = {}
     replacements.title = reference.title
+    replacements.author_short = format_authors_short(all_authors, { max_authors = 1 })
     replacements.author_list = format_author_list(all_authors)
     replacements.author = format_authors_long(all_authors)
     replacements.year = reference.year
     replacements.url = reference.url
     replacements.label = reference.label
     replacements.type = reference.type
+    replacements.today= FormatDate(os.date("*t", os.time()))
 
     replacements.link = ""
     if reference.url then
