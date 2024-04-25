@@ -209,7 +209,7 @@ end, {})
 
 -- Define a function to handle opening URLs
 local function openUrl(url)
-    vim.system({ 'firefox', url })
+    vim.fn.system({ 'firefox', url })
 end
 
 vim.api.nvim_create_user_command("GotoPage", function()
