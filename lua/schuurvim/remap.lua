@@ -17,10 +17,13 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("i", "<C-BS>", "<C-w>")
 vim.keymap.set("i", "<C-c>", "<Esc>") -- This is almost the same as the default, but it fixes some minor differences.
+vim.keymap.set("i", "c:w<CR>", "<Esc>:w<CR>",
+    { desc =
+    "This combination is usually the result of mistyping <C-c> to exist insert mode and immediately saving, so just detect it as such. I will never type this in real life." })
 
 -- leader-paste: replace the current word with whatever is pasted.
 vim.keymap.set("x", "<leader>p", [["_dP]])
-
+ 
 -- Yank to the system clipboard.
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
 vim.keymap.set({ "v" }, "<C-c>", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
@@ -115,6 +118,7 @@ vim.api.nvim_create_user_command("W", function() vim.cmd([[:w]]) end, {})
 vim.keymap.set("n", "<Leader><Tab>", [[gt]])
 vim.keymap.set("n", "<C-t>", [[<Cmd>tabnew<CR>]])
 
+vim.keymap.set("n", "<Leader>dd", function() AddStringAtCursor(FillChars('.', 80)) end, { desc = "Fill the current line with dots until the specified width (80)." })
 
 -- Map caps lock to escape
 local function set_caps(on)
