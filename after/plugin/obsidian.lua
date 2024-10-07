@@ -185,11 +185,10 @@ end
 
 obsidian.setup(options)
 
-local function get_weekly_note_file()
-    local monday = get_monday_before()
+local function get_weekly_note_file(date, offset)
+    local monday = get_monday_before(date, offset)
     return "weekly/" .. FormatDate(monday) .. " - weekly update.md"
 end
-
 
 vim.api.nvim_create_user_command("WeekNote", function()
     local weekly_path = get_weekly_note_file()
@@ -205,6 +204,40 @@ vim.api.nvim_create_user_command("FromTemplate", function()
     vim.cmd("normal! gg")
     vim.cmd("normal! dG") -- go to end of file
     vim.cmd("ObsidianTemplate")
+end, {})
+
+vim.api.nvim_create_user_command("FillWeeklyGap", function()
+    local current_buffer_name = vim.fn.bufname('%')
+    local curr_date = get_date_from_title(current_buffer_name)
+    if curr_date == nil then
+        vim.notify("Could not parse date from title. Stopping.", vim.log.levels.WARN)
+        return
+    end
+
+    local offset = -1
+    local file = get_weekly_note_file(curr_date, offset)
+    require('schuurvim.pathman')
+    local list_of_offsets = {}
+    local max_weeks = 50
+
+    while not FileExists(file) and -offset <= max_weeks do
+        table.insert(list_of_offsets, offset)
+        offset = offset - 1
+        file = get_weekly_note_file(curr_date, offset)
+        --NewFile(file)
+        --vim.cmd(string.format("ObsidianTemplate weekly.md"))
+    end
+    local choice = vim.fn.confirm(string.format("Updating %d notes. Proceed?", -1 - offset), "&Yes\n&No", 2) -- 2 is the default selection (No)
+    if choice == 1 then                                                                                      -- 1 corresponds to 'Yes'
+        for i, o in ipairs(list_of_offsets) do
+            file = get_weekly_note_file(curr_date, o)
+            NewFile(file)
+            vim.cmd(string.format("ObsidianTemplate weekly.md"))
+            vim.cmd("write")
+        end
+    else
+        vim.notify("Cancelled creation of weekly notes.")
+    end
 end, {})
 
 -- Define a function to handle opening URLs
