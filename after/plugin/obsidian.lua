@@ -193,10 +193,12 @@ end
 vim.api.nvim_create_user_command("WeekNote", function()
     local weekly_path = get_weekly_note_file()
     require('schuurvim.pathman')
-
+    local is_empty = not FileExists(weekly_path)
     NewFile(weekly_path)
-    --SplitPath(weekly_path)
-    --vim.cmd(":e " .. get_weekly_note_file())
+    if is_empty then
+        vim.cmd("ObsidianTemplate weekly.md")
+        vim.cmd("write")
+    end
 end, {})
 
 vim.api.nvim_create_user_command("FromTemplate", function()
