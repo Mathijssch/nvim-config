@@ -49,9 +49,9 @@ return require('packer').startup(function(use)
             "nvim-telescope/telescope.nvim",
         },
     })
-    use {"nvim-telescope/telescope-bibtex.nvim" ,
-          requires = {
-                {'nvim-telescope/telescope.nvim'},
+    use { "nvim-telescope/telescope-bibtex.nvim",
+        requires = {
+            { 'nvim-telescope/telescope.nvim' },
         },
     }
     --use { "/home/mathijs/side-projects/forks/telescope-bibtex.nvim",
@@ -59,8 +59,8 @@ return require('packer').startup(function(use)
     --            {'nvim-telescope/telescope.nvim'},
     --    },
     --}
-    use('junegunn/goyo.vim') -- Zen-mode in nvim
-    use {'akinsho/git-conflict.nvim', tag = "*", config = function() -- Fix merge conflicts
+    use('junegunn/goyo.vim')                                         -- Zen-mode in nvim
+    use { 'akinsho/git-conflict.nvim', tag = "*", config = function() -- Fix merge conflicts
         require('git-conflict').setup()
     end }
     -----------------------------------------------------------
@@ -110,10 +110,10 @@ return require('packer').startup(function(use)
             require("nvim-tree").setup {}
         end
     }
-    use('norcalli/nvim-colorizer.lua') -- Syntax colors
-    use('airblade/vim-gitgutter')   -- Gutter with git information
-    use('lervag/vimtex')               -- LaTeX support
-    use('peterbjorgensen/sved')        -- Fixes reverse syncing with latex in evince
+    use('norcalli/nvim-colorizer.lua')     -- Syntax colors
+    use('airblade/vim-gitgutter')          -- Gutter with git information
+    use { 'lervag/vimtex', tag = 'v2.15' } -- LaTeX support
+    use('peterbjorgensen/sved')            -- Fixes reverse syncing with latex in evince
     --use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
     --requires = { 'lewis6991/gitsigns.nvim' } -- For git info
     --}
@@ -159,6 +159,7 @@ return require('packer').startup(function(use)
     --      version = '^4', -- Recommended
     --      ft = { 'rust' },
     --}
-    use "stevearc/oil.nvim"    -- Edit directory as a buffer
+    use "stevearc/oil.nvim"       -- Edit directory as a buffer
+    use "jupyter-vim/jupyter-vim" -- Jupyter notebook integration
 end
 )

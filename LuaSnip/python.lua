@@ -9,12 +9,14 @@ local d = ls.dynamic_node
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
 
+local snippets = {}
+
 -- Title
-local title = s(
+table.insert(snippets, s(
     {
         trig = "_title",
         dscr = "Draw a title line in comments",
-        regTrig = false
+        wordTrig = false,
     },
     fmt(
         [[
@@ -26,8 +28,9 @@ local title = s(
         { delimiters = "<>" }
     )
 )
+)
 
-local namemain = s(
+table.insert(snippets, s(
     {
         trig = "if __name",
         dscr = "`if __name__ == '__main__'",
@@ -35,5 +38,24 @@ local namemain = s(
     },
     t([[if __name__ == "__main__" ]])
 )
+)
 
-return {title, namemain}
+table.insert(snippets, s(
+    {
+        trig = "_pytest",
+        dscr = "Set up a new pytest file",
+        regTrig = false
+    },
+    fmt([[
+    import pytest
+    {}
+    if __name__ == '__main__':
+        pytest.main([__file__])]],
+        { i(1) }
+    )
+)
+)
+
+
+
+return snippets

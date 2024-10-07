@@ -37,6 +37,10 @@ function FileExists(path)
     end
 end
 
+function CreateFile(path)
+    vim.cmd(string.format("silent !touch %s", path))
+end
+
 function NewFile(input)
     if FileExists(input) then
         vim.cmd.edit(input)
