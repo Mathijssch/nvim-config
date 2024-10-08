@@ -33,6 +33,10 @@ local paths = {
         path = "~/Work/notebook/notes",
     },
     {
+        name = "fwo",
+        path = "~/Work/Proposals/FWO/fwo-postdoc/notes",
+    },
+    {
         name = "GET",
         path = "~/Work/Research/GET/GET-notes/notes",
     },
