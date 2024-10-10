@@ -37,6 +37,10 @@ local paths = {
         path = "~/Work/Proposals/FWO/fwo-postdoc/notes",
     },
     {
+        name = "fwo-macos",
+        path = "~/repos/fwo-postdoc/notes",
+    },
+    {
         name = "GET",
         path = "~/Work/Research/GET/GET-notes/notes",
     },
@@ -248,13 +252,26 @@ end, {})
 
 -- Define a function to handle opening URLs
 local function openUrl(url)
-    vim.fn.system({ 'firefox', url })
+    --vim.fn.system({ 'firefox', url })
+    local uname = vim.loop.os_uname().sysname
+    url = url:gsub("%s+$", "") -- Removes any trailing whitespace, including newlines
+    if uname == "Darwin" then
+        -- macOS detected
+        vim.fn.system({ 'open', url })
+        --os.execute('open "' .. url .. '"')
+    elseif uname == "Linux" then
+        -- Linux detected
+        vim.fn.system({ 'xdg-open', url })
+        --os.execute('xdg-open "' .. url .. '"')
+    else
+        print("Unsupported OS: " .. uname)
+    end
 end
 
 vim.api.nvim_create_user_command("GotoPage", function()
     local relative_filename = vim.fn.expand('%:~:.')
     local output = vim.fn.system('oxidian where --file \"' .. relative_filename .. '\" ' .. vim.fn.getcwd())
-    local url = 'localhost:8080/' .. output
+    local url = 'http://localhost:8080/' .. output
     vim.notify('Opening ' .. url)
     openUrl(url)
 end, {})
