@@ -55,3 +55,23 @@ function NewFile(input)
     vim.cmd.edit(input)
     --vim.Open(input)
 end
+
+vim.api.nvim_create_user_command('Open', function()
+    local file = vim.fn.expand('<cfile>')
+    local dir = vim.fn.expand('%:h')
+    local command
+    if file:sub(1, 1) == '/' then
+        command = file               -- absolute path
+    else
+        command = dir .. '/' .. file -- relative path
+    end
+
+    local uname = vim.loop.os_uname()
+    if uname.sysname == 'Darwin' then
+        vim.notify('Opening ' .. command)
+        os.execute('open ' .. command)
+    else
+        vim.notify('Using xdg-open on ' .. command)
+        os.execute('xdg-open ' .. command)
+    end
+end, {})

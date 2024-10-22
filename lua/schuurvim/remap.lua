@@ -66,7 +66,6 @@ vim.keymap.set("n", "<C-n>", function()
     { desc = "Create new file" }
 )
 
-
 -- Resizing
 --
 -- - Horizontal resize
