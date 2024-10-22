@@ -41,6 +41,10 @@ local paths = {
         path = "~/repos/fwo-postdoc/notes",
     },
     {
+        name = "schuurjans-macos",
+        path = "/Users/mathijssch/Dropbox/admin/Schuurjans/schuurjans",
+    },
+    {
         name = "GET",
         path = "~/Work/Research/GET/GET-notes/notes",
     },
