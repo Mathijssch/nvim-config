@@ -23,7 +23,6 @@ return require('packer').startup(function(use)
     }
     use { "neanias/everforest-nvim", as = "everforest" }
     use { "Shatur/neovim-ayu", as = "ayu" }
-    use('rmehri01/onenord.nvim')
     use { "wadackel/vim-dogrun", as = "dogrun" }
     use { "easymotion/vim-easymotion" } -- Super fast vim motions
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
@@ -59,7 +58,7 @@ return require('packer').startup(function(use)
     --            {'nvim-telescope/telescope.nvim'},
     --    },
     --}
-    use('junegunn/goyo.vim')                                         -- Zen-mode in nvim
+    use('junegunn/goyo.vim')                                          -- Zen-mode in nvim
     use { 'akinsho/git-conflict.nvim', tag = "*", config = function() -- Fix merge conflicts
         require('git-conflict').setup()
     end }
@@ -113,7 +112,9 @@ return require('packer').startup(function(use)
     use('norcalli/nvim-colorizer.lua')     -- Syntax colors
     use('airblade/vim-gitgutter')          -- Gutter with git information
     use { 'lervag/vimtex', tag = 'v2.15' } -- LaTeX support
-    use('peterbjorgensen/sved')            -- Fixes reverse syncing with latex in evince
+    if vim.loop.os_uname().sysname ~= "Darwin" then
+        use('peterbjorgensen/sved')        -- Fixes reverse syncing with latex in evince
+    end
     --use { 'freddiehaddad/feline.nvim',           -- Nice statusbar
     --requires = { 'lewis6991/gitsigns.nvim' } -- For git info
     --}
@@ -161,5 +162,6 @@ return require('packer').startup(function(use)
     --}
     use "stevearc/oil.nvim"       -- Edit directory as a buffer
     use "jupyter-vim/jupyter-vim" -- Jupyter notebook integration
+    use "nvim-telescope/telescope-symbols.nvim"
 end
 )

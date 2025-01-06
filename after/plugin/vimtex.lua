@@ -36,7 +36,7 @@ end
 
 local function scandir(directory)
     local i, t, popen = 0, {}, io.popen
-    local pfile = popen('ls -a "'..directory..'"')
+    local pfile = popen('ls -a "' .. directory .. '"')
     if pfile == nil then return {} end
     for filename in pfile:lines() do
         i = i + 1
@@ -93,3 +93,8 @@ vim.g.vimtex_quickfix_ignore_filters = {
     'Overfull',
 }
 
+if vim.loop.os_uname().sysname == "Darwin" then
+    vim.g.vimtex_view_method = 'skim'   -- Choose which program to use to view PDF file
+    vim.g.vimtex_view_skim_sync = 1     -- Value 1 allows forward search after every successful compilation
+    vim.g.vimtex_view_skim_activate = 1 -- Value 1 allows change focus to skim after command `:VimtexView` is given
+end
