@@ -83,8 +83,8 @@ local ObsidianSmartAction = function(opts)
     local obs_util = require("obsidian.util")
     if obs_util.cursor_on_markdown_link(nil, nil, true) then
         vim.cmd("ObsidianFollowLink")
-    else
-        vim.cmd("ObsidianToggleCheckbox")
+    --else
+    --    vim.cmd("ObsidianToggleCheckbox")
     end
 end
 
