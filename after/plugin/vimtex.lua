@@ -18,6 +18,9 @@ vim.keymap.set("i", "<C-A-b>", "<Cmd>wa<CR><Cmd>VimtexCompileSS<CR>")
 vim.keymap.set("n", "<C-A-k>", "<Cmd>VimtexStop<CR>")
 vim.keymap.set("n", "<C-A-R>", "<Cmd>VimtexReload<CR>")
 
+vim.keymap.set("n", "<localleader>lb", "<Cmd>wa<CR><Cmd>VimtexCompileSS<CR>")
+vim.keymap.set("n", "<localleader>lr", "<Cmd>VimtexReload<CR>")
+
 local function createFile(path)
     local file = vim.loop.fs_open(path, 'w', 438)
     if not file then
