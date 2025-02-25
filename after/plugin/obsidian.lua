@@ -45,6 +45,10 @@ local paths = {
         path = "/Users/mathijssch/Dropbox/admin/Schuurjans/schuurjans",
     },
     {
+        name = "gd",
+        path = "/Users/mathijssch/repos/gdnotes/src",
+    },
+    {
         name = "GET",
         path = "~/Work/Research/GET/GET-notes/notes",
     },
