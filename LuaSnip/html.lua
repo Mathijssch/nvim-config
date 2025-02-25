@@ -211,6 +211,4 @@ local div = s(
 { delimiters = '{}' })
 )
 
-
-
 return { boilerplate, columns, wrapenv, color, environment, todo, fragment, emph, remrk, ul, img, div}

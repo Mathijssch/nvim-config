@@ -47,7 +47,7 @@ table.insert(snippets, s(
 
 table.insert(snippets, s(
     {
-    trig = "_subtitle",
+        trig = "_subtitle",
         snippetType = "autosnippet",
         dscr = "Add a subtitle.",
     },
@@ -134,7 +134,7 @@ table.insert(snippets, s(
 
 table.insert(snippets, s(
     {
-        trig = "_c",
+        trig = "_cmd",
         snippetType = "autosnippet",
         wordTrig = true,
         dscr = "Wrap current selection in a command",
@@ -170,6 +170,31 @@ table.insert(snippets, s(
 ]],
         { i(1), i(2) },
         { delimiters = '{}' })
+))
+
+table.insert(snippets, s(
+    {
+        trig = "_count",
+        snippetType = "autosnippet",
+        dscr = "Add a count tag.",
+    },
+    t([[<count></count>]])
+))
+
+table.insert(snippets, s(
+    {
+        trig = "_fig",
+        snippetType = "autosnippet",
+        dscr = "Add a new figure",
+    },
+    fmt([[
+<figure>
+<img alt="{}" src="{}"/>
+<figcaption>
+{}
+</figcaption>
+</figure>
+]], { i(1), i(2), rep(1) }, { delimiters = '{}' })
 ))
 
 return snippets
