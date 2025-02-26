@@ -87,8 +87,8 @@ local ObsidianSmartAction = function(opts)
     local obs_util = require("obsidian.util")
     if obs_util.cursor_on_markdown_link(nil, nil, true) then
         vim.cmd("ObsidianFollowLink")
-    --else
-    --    vim.cmd("ObsidianToggleCheckbox")
+        --else
+        --    vim.cmd("ObsidianToggleCheckbox")
     end
 end
 
@@ -277,10 +277,25 @@ local function openUrl(url)
     end
 end
 
+
+local function retrievePort(dir)
+    local port = "8080"
+    local file_path = dir .. "/" .. ".live_port"
+
+    if not file_exists(file_path) then return port end
+
+    local lines = vim.fn.readfile(file_path)
+    if #lines < 1 then return port end
+
+    port = lines[1]
+    return port
+end
+
 vim.api.nvim_create_user_command("GotoPage", function()
     local relative_filename = vim.fn.expand('%:~:.')
-    local output = vim.fn.system('oxidian where --file \"' .. relative_filename .. '\" ' .. vim.fn.getcwd())
-    local url = 'http://localhost:8080/' .. output
+    local filename_in_output = vim.fn.system('oxidian where --file \"' .. relative_filename .. '\" ' .. vim.fn.getcwd())
+    local port = retrievePort(vim.fn.getcwd())
+    local url = 'http://localhost:' .. port .. '/' .. filename_in_output
     vim.notify('Opening ' .. url)
     openUrl(url)
 end, {})
