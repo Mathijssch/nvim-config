@@ -176,6 +176,19 @@ options.preferred_link_style = "wiki";
 options.attachments = {};
 options.attachments.img_folder = "Attachments";
 
+-- A function that determines the text to insert in the note when pasting an image.
+-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+-- This is the default implementation.
+---@param client obsidian.Client
+---@param path obsidian.Path the absolute path to the image file
+---@return string
+options.attachments.img_text_func = function(client, path)
+    path = client:vault_relative_path(path) or path
+    return string.format("![[%s]]", path)
+end
+
+vim.keymap.set("n", "<localleader>p", "<cmd>ObsidianPasteImg<CR>")
+
 options.ui = { enable = false }
 options.disable_frontmatter = true;
 --options.note_frontmatter_func = function(note)
