@@ -46,7 +46,7 @@ local paths = {
     },
     {
         name = "gd",
-        path = "/Users/mathijssch/repos/gdnotes/src",
+        path = "/Users/mathijssch/repos/gd/gdnotes/src",
     },
     {
         name = "GET",
@@ -123,6 +123,14 @@ options.mappings = {
     },
     ["<localleader>e"] = {
         action = function()
+            vim.cmd([[:ObsidianTemplate]])
+        end
+    },
+    ["<localleader>E"] = {
+        action = function()
+            -- clear the buffer
+            vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
+
             vim.cmd([[:ObsidianTemplate]])
         end
     },
