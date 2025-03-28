@@ -124,11 +124,12 @@ local todo = s(
         trig = "_todo",
         dscr = "Add a todo div",
     },
-    fmt([[
-<div class="todo">
-{}
-</div>
-    ]],
+    --    fmt([[
+    --<div class="todo">
+    --{}
+    --</div>
+    --    ]],
+    fmt([[<todo>{}</todo>]],
         { i(1) },
         { delimiters = '{}' })
 )
@@ -207,8 +208,8 @@ local div = s(
     {}
 </div>
 ]],
-{ i(1), i(2) },
-{ delimiters = '{}' })
+        { i(1), i(2) },
+        { delimiters = '{}' })
 )
 
-return { boilerplate, columns, wrapenv, color, environment, todo, fragment, emph, remrk, ul, img, div}
+return { boilerplate, columns, wrapenv, color, environment, todo, fragment, emph, remrk, ul, img, div }
