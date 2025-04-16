@@ -1,14 +1,5 @@
-local status_ok, obsidian = pcall(require, "obsidian")
-if not status_ok then return end
-
-local status_utils, _utils = pcall(require, "schuurvim.util") -- Exposes FormatDate
-if not status_utils then
-    vim.notify("Could not load utilities from schuurvim.", vim.log.levels.ERROR)
-    return
-end
-
-
 local options = {};
+options.workspaces = {}
 
 local function file_exists(path)
     local file = io.open(path, "r")
@@ -19,9 +10,6 @@ local function file_exists(path)
         return false
     end
 end
-
-
-options.workspaces = {}
 
 local paths = {
     {
@@ -63,6 +51,18 @@ for _, pathInfo in ipairs(paths) do
     if file_exists(resolvedPath) then
         table.insert(options.workspaces, pathInfo)
     end
+end
+
+if next(options.workspaces) == nil then return end
+
+
+local status_ok, obsidian = pcall(require, "obsidian")
+if not status_ok then return end
+
+local status_utils, _utils = pcall(require, "schuurvim.util") -- Exposes FormatDate
+if not status_utils then
+    vim.notify("Could not load utilities from schuurvim.", vim.log.levels.ERROR)
+    return
 end
 
 
