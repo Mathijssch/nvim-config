@@ -5,7 +5,7 @@ local actions = require "telescope.actions"
 local status_ok_util, utils = pcall(require, "telescope-bibtex.utils")
 if not status_ok_util then return end
 
-local status_utils, _utils = pcall(require, "schuurvim.util")  -- Expose FormatDate
+local status_utils, _utils = pcall(require, "schuurvim.util") -- Expose FormatDate
 if not status_utils then
     vim.notify("Could not load utilities from schuurvim.", vim.log.levels.ERROR)
     return
@@ -23,6 +23,21 @@ local function write_text(txt)
         vim.api.nvim_put({ txt }, '', true, true)
     end
 end
+
+
+local function extract_year(str)
+    return str:match("(%d%d%d%d)")
+end
+
+local function get_year(reference)
+    local year = reference.year
+    if year then return year end
+    local date = reference.date
+    year = extract_year(date)
+    if year then return year end
+    return year
+end
+
 
 
 local function replace_templates(template, values)
@@ -160,7 +175,8 @@ end
 
 local function generate_filename(reference)
     local authors = format_authors_short(authors_to_list(reference.author), { sep = "_" })
-    local year = format_year(reference.year)
+    local year_data = get_year(reference)
+    local year = format_year(year_data)
     local prefix = string.format("%s%s", authors, year)
     local separator = ""
     if prefix:len() > 0 then
@@ -221,11 +237,11 @@ date_created: {{today}}
     replacements.author_short = format_authors_short(all_authors, { max_authors = 1 })
     replacements.author_list = format_author_list(all_authors)
     replacements.author = format_authors_long(all_authors)
-    replacements.year = reference.year
+    replacements.year = get_year(reference)
     replacements.url = reference.url
     replacements.label = reference.label
     replacements.type = reference.type
-    replacements.today= FormatDate(os.date("*t", os.time()))
+    replacements.today = FormatDate(os.date("*t", os.time()))
 
     replacements.link = ""
     if reference.url then
