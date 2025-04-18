@@ -23,29 +23,11 @@ return require('packer').startup(function(use)
     }
     -- Color schemes
     -- ----------------------------------------------------
-    use {
-        'rebelot/kanagawa.nvim',
-        as = "kanagawa",
-        --config = function()
-        --vim.cmd('colorscheme kanagawa')
-        --end
-    }
-    use { "neanias/everforest-nvim", as = "everforest" }
     use { "Shatur/neovim-ayu", as = "ayu" }
     use { "wadackel/vim-dogrun", as = "dogrun" }
     use { "easymotion/vim-easymotion" } -- Super fast vim motions
     use { "ghifarit53/tokyonight-vim", as = "tokyonight" }
     use { "catppuccin/nvim", as = "catppuccin" }
-    --use { "JoosepAlviste/palenightfall.nvim", as = "palenightfall",
-    --    config = function()
-    --        require('palenightfall').setup({
-    --            color_overrides = {
-    --                references = '#3E4B6E',
-    --                highlight  = '#3F4654'
-    --            }
-    --        })
-    --    end
-    --}
     use 'marko-cerovac/material.nvim'
     use({
         "epwalsh/obsidian.nvim",
@@ -62,12 +44,13 @@ return require('packer').startup(function(use)
             { 'nvim-telescope/telescope.nvim' },
         },
     }
+
+    use 'Civitasv/cmake-tools.nvim'
     --use { "/home/mathijs/side-projects/forks/telescope-bibtex.nvim",
     --      requires = {
     --            {'nvim-telescope/telescope.nvim'},
     --    },
     --}
-    use('junegunn/goyo.vim')                                          -- Zen-mode in nvim
     use { 'akinsho/git-conflict.nvim', tag = "*", config = function() -- Fix merge conflicts
         require('git-conflict').setup()
     end }
