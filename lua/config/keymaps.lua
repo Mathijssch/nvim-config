@@ -63,11 +63,11 @@ require("schuurvim.pathman")
 -- Resizing
 --
 -- - Horizontal resize
-vim.keymap.set("n", "<C-Left>", [[10<C-w><]], { desc = "Decrease width of current window" })
-vim.keymap.set("n", "<C-Right>", [[10<C-w>>]], { desc = "Increase width of current window" })
+-- vim.keymap.set("n", "<C-Left>", [[10<C-w><]], { desc = "Decrease width of current window" })
+-- vim.keymap.set("n", "<C-Right>", [[10<C-w>>]], { desc = "Increase width of current window" })
 -- - Vertical resize
-vim.keymap.set("n", "<C-Down>", [[<C-w>-]], { desc = "Decrease height of current window" })
-vim.keymap.set("n", "<C-Up>", [[<C-w>+]], { desc = "Increase height of current window" })
+-- vim.keymap.set("n", "<C-Down>", [[<C-w>-]], { desc = "Decrease height of current window" })
+-- vim.keymap.set("n", "<C-Up>", [[<C-w>+]], { desc = "Increase height of current window" })
 
 -- Keymaps for the debugger.
 vim.g.vimspector_enable_mappings = "VISUAL_STUDIO" -- Use VS-code mappings for vimspector
