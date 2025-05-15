@@ -9,7 +9,6 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", "y", "ygv")
 
-vim.keymap.set("n", "<F12>", "<cmd>Goyo<CR>")
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Keep cursor in the middle during half-page jumping" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Keep cursor in the middle during half-page jumping" })
@@ -17,13 +16,13 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("i", "<C-BS>", "<C-w>")
 vim.keymap.set("i", "<C-c>", "<Esc>") -- This is almost the same as the default, but it fixes some minor differences.
-vim.keymap.set("i", "c:w<CR>", "<Esc>:w<CR>",
-    { desc =
-    "This combination is usually the result of mistyping <C-c> to exist insert mode and immediately saving, so just detect it as such. I will never type this in real life." })
+vim.keymap.set("i", "c:w<CR>", "<Esc>:w<CR>", {
+  desc = "This combination is usually the result of mistyping <C-c> to exist insert mode and immediately saving, so just detect it as such. I will never type this in real life.",
+})
 
 -- leader-paste: replace the current word with whatever is pasted.
 vim.keymap.set("x", "<leader>p", [["_dP]])
- 
+
 -- Yank to the system clipboard.
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
 vim.keymap.set({ "v" }, "<C-c>", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
@@ -55,16 +54,7 @@ vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select everything" })
 vim.keymap.set("n", "<C-x>", "<cmd>Telescope bibtex<CR>", { desc = "Open citation picker" })
 
 -- Create a new file
-require('schuurvim.pathman')
-
-vim.keymap.set("n", "<C-n>", function()
-        vim.ui.input({ prompt = 'new file: ' }, function(input)
-            print(input)
-            NewFile(input)
-        end)
-    end,
-    { desc = "Create new file" }
-)
+require("schuurvim.pathman")
 
 -- Resizing
 --
@@ -100,34 +90,40 @@ vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, { desc = "Get signature help" })
 
-
 local function copyBuf()
-    local path = vim.fn.expand('%:p')
-    local cmd = string.format("let @+ = '%s'", path)
-    vim.cmd(cmd)
-    vim.notify(string.format(
-        [[Copied current path
+  local path = vim.fn.expand("%:p")
+  local cmd = string.format("let @+ = '%s'", path)
+  vim.cmd(cmd)
+  vim.notify(string.format(
+    [[Copied current path
 %s
-to clipboard.]], path))
+to clipboard.]],
+    path
+  ))
 end
 
 vim.api.nvim_create_user_command("CpBuf", copyBuf, {})
-vim.api.nvim_create_user_command("W", function() vim.cmd([[:w]]) end, {})
 
 vim.keymap.set("n", "<Leader><Tab>", [[gt]])
 vim.keymap.set("n", "<C-t>", [[<Cmd>tabnew<CR>]])
 
-vim.keymap.set("n", "<Leader>dd", function() AddStringAtCursor(FillChars('.', 80)) end, { desc = "Fill the current line with dots until the specified width (80)." })
+vim.keymap.set("n", "<Leader>dd", function()
+  AddStringAtCursor(FillChars(".", 80))
+end, { desc = "Fill the current line with dots until the specified width (80)." })
 
 -- Map caps lock to escape
 local function set_caps(on)
-    local cmd = [[!xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape']]
-    if on then
-        cmd = [[! xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock']]
-    end
-    vim.cmd([[silent exec "]] .. cmd .. [["]])
+  local cmd = [[!xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape']]
+  if on then
+    cmd = [[! xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock']]
+  end
+  vim.cmd([[silent exec "]] .. cmd .. [["]])
 end
 
-vim.api.nvim_create_user_command("CapsOn", function() set_caps(true) end, {})
-vim.api.nvim_create_user_command("CapsOff", function() set_caps(false) end, {})
+vim.api.nvim_create_user_command("CapsOn", function()
+  set_caps(true)
+end, {})
+vim.api.nvim_create_user_command("CapsOff", function()
+  set_caps(false)
+end, {})
 set_caps(false)
