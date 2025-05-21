@@ -44,23 +44,6 @@ local function draw_column()
 end
 
 
-
---vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" },
---    {
---        callback = function()
---            --print("I am so triggered")
---            if draw_column() then
---                --print("Enable column")
---                vim.cmd([[let &colorcolumn="80,".join(range(80,300),",")]])
---            else
---                --print("Disable column")
---                vim.cmd([[let &colorcolumn=""]])
---            end
---        end
---    }
---)
-
-
 vim.cmd([[let &colorcolumn="80,".join(range(80,300),",")]])
 vim.cmd([[set spell spelllang=en_us]])
 
