@@ -7,7 +7,7 @@ return {
         pyright = {
           mason = false,
           autostart = false
-        }
+        },
         pylsp = {
           settings = {
             pylsp = {
