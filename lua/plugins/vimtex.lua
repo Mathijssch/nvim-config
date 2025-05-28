@@ -94,6 +94,9 @@ return {
     end
 
     vim.api.nvim_create_user_command("ToggleMain", toggleMain, {})
+    vim.cmd([[ let g:vimtex_syntax_conceal_disable = 1 ]])
+    -- vim.g.vimtex_syntax_conceal_default = 0
+
 
     -- Keybindings
     local map = vim.keymap.set
