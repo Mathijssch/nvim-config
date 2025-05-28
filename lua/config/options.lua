@@ -3,3 +3,6 @@
 -- Add any additional options here
 --
 vim.g.autoformat = false
+vim.opt.conceallevel = 1
+
+require("config.max-columns")

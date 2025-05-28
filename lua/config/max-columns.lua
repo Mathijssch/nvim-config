@@ -19,4 +19,3 @@ vim.cmd([[set spell spelllang=en_us]])
 vim.cmd([[set fillchars+=vert:▏]])
 
 vim.opt.fillchars.vert = "▏"
-
