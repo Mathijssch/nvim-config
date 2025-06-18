@@ -21,7 +21,8 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("i", "<C-BS>", "<C-w>")
 vim.keymap.set("i", "<C-c>", "<Esc>") -- This is almost the same as the default, but it fixes some minor differences.
 vim.keymap.set("i", "c:w<CR>", "<Esc>:w<CR>", {
-  desc = "This combination is usually the result of mistyping <C-c> to exist insert mode and immediately saving, so just detect it as such. I will never type this in real life.",
+  desc =
+  "This combination is usually the result of mistyping <C-c> to exist insert mode and immediately saving, so just detect it as such. I will never type this in real life.",
 })
 
 -- leader-paste: replace the current word with whatever is pasted.
@@ -87,7 +88,7 @@ vim.keymap.set("n", "<leader>-", vim.cmd.split, { desc = "Make a vertical split"
 
 -- Open a new terminal to the side.
 vim.cmd.set("splitbelow")
-vim.keymap.set("n", "<leader>t", [[<cmd>:split | resize 20 | terminal<CR>i]], { desc = "Open a new terminal below" })
+vim.keymap.set("n", "<leader>tt", [[<cmd>:split | resize 20 | terminal<CR>i]], { desc = "Open a new terminal below" })
 
 -- Exit terminal mode
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
@@ -111,6 +112,7 @@ vim.api.nvim_create_user_command("CpBuf", copyBuf, {})
 vim.keymap.set("n", "<Leader><Tab>", [[gt]])
 vim.keymap.set("n", "<C-t>", [[<Cmd>tabnew<CR>]])
 
+require("schuurvim.typing")
 vim.keymap.set("n", "<Leader>dd", function()
   AddStringAtCursor(FillChars(".", 80))
 end, { desc = "Fill the current line with dots until the specified width (80)." })
@@ -131,3 +133,39 @@ vim.api.nvim_create_user_command("CapsOff", function()
   set_caps(false)
 end, {})
 set_caps(false)
+
+
+
+local function ignore(gitignore_path, patterns)
+  for _, file in ipairs(patterns) do
+    local ext = file:match("^.+(%..+)$")
+    if ext then
+      patterns["*" .. ext] = true
+    end
+  end
+
+  -- Write to .gitignore
+  local f = assert(io.open(gitignore_path, "a+"))
+  local existing = f:read("*a")
+  f:close()
+
+  f = assert(io.open(gitignore_path, "a"))
+  for pattern in pairs(patterns) do
+    if not existing:match(pattern) then
+      f:write(pattern .. "\n")
+    end
+  end
+  f:close()
+end
+
+--- Write some latex build artifacts to a given gitignore path
+---@param gitignore_path string: path to write to
+local function ignore_latex(gitignore_path)
+  local defaults = {
+    "*.aux", "*.fdb_latexmk", "*.fls", "*.log", "*.synctex.gz", "*.toc",
+    "*.out", "*.bbl", "*.blg", "*.nav", "*.snm", "*.vrb", "*.xdv"
+  }
+  ignore(gitignore_path, defaults)
+end
+
+vim.api.nvim_create_user_command("IgnoreLaTeX", function() ignore_latex(".gitignore") end, {})
