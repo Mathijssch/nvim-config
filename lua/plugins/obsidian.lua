@@ -19,13 +19,13 @@ return {
       end
 
       local paths = {
-        { name = "old", path = "~/Work/Obsidian-notes/Notebook" },
-        { name = "new", path = "~/Work/notebook/notes" },
-        { name = "fwo", path = "~/Work/Proposals/FWO/fwo-postdoc/notes" },
-        { name = "fwo-macos", path = "~/repos/fwo-postdoc/notes" },
+        { name = "old",              path = "~/Work/Obsidian-notes/Notebook" },
+        { name = "new",              path = "~/Work/notebook/notes" },
+        { name = "fwo",              path = "~/Work/Proposals/FWO/fwo-postdoc/notes" },
+        { name = "fwo-macos",        path = "~/repos/fwo-postdoc/notes" },
         { name = "schuurjans-macos", path = "/Users/mathijssch/Dropbox/admin/Schuurjans/schuurjans" },
-        { name = "gd", path = "/Users/mathijssch/repos/gd/gdnotes/src" },
-        { name = "GET", path = "~/Work/Research/GET/GET-notes/notes" },
+        { name = "gd",               path = "/Users/mathijssch/repos/gd/gdnotes/src" },
+        { name = "GET",              path = "~/Work/Research/GET/GET-notes/notes" },
       }
 
       for _, pathInfo in ipairs(paths) do
@@ -141,8 +141,108 @@ return {
         vim.ui.open(url)
       end
 
+      local function get_weekly_note_file(date, offset)
+        local monday = get_monday_before(date, offset)
+        return "weekly/" .. FormatDate(monday) .. " - weekly update.md"
+      end
+
+      vim.api.nvim_create_user_command("WeekNote", function()
+        local weekly_path = get_weekly_note_file()
+        require('schuurvim.pathman')
+        local is_empty = not FileExists(weekly_path)
+        NewFile(weekly_path)
+        if is_empty then
+          vim.cmd("ObsidianTemplate weekly.md")
+          vim.cmd("write")
+        end
+      end, {})
+
+      vim.api.nvim_create_user_command("FromTemplate", function()
+        vim.cmd("ObsidianNew")
+        vim.cmd("normal! gg")
+        vim.cmd("normal! dG") -- go to end of file
+        vim.cmd("ObsidianTemplate")
+      end, {})
+
+      vim.api.nvim_create_user_command("FillWeeklyGap", function()
+        local current_buffer_name = vim.fn.bufname('%')
+        local curr_date = get_date_from_title(current_buffer_name)
+        if curr_date == nil then
+          vim.notify("Could not parse date from title. Stopping.", vim.log.levels.WARN)
+          return
+        end
+
+        local offset = -1
+        local file = get_weekly_note_file(curr_date, offset)
+        require('schuurvim.pathman')
+        local list_of_offsets = {}
+        local max_weeks = 50
+
+        while not FileExists(file) and -offset <= max_weeks do
+          table.insert(list_of_offsets, offset)
+          offset = offset - 1
+          file = get_weekly_note_file(curr_date, offset)
+          --NewFile(file)
+          --vim.cmd(string.format("ObsidianTemplate weekly.md"))
+        end
+        local choice = vim.fn.confirm(string.format("Updating %d notes. Proceed?", -1 - offset), "&Yes\n&No", 2) -- 2 is the default selection (No)
+        if choice == 1 then                                                                                      -- 1 corresponds to 'Yes'
+          for i, o in ipairs(list_of_offsets) do
+            file = get_weekly_note_file(curr_date, o)
+            NewFile(file)
+            vim.cmd(string.format("ObsidianTemplate weekly.md"))
+            vim.cmd("write")
+          end
+        else
+          vim.notify("Cancelled creation of weekly notes.")
+        end
+      end, {})
+
+      -- Define a function to handle opening URLs
+      local function openUrl(url)
+        --vim.fn.system({ 'firefox', url })
+        local uname = vim.loop.os_uname().sysname
+        url = url:gsub("%s+$", "") -- Removes any trailing whitespace, including newlines
+        if uname == "Darwin" then
+          -- macOS detected
+          vim.fn.system({ 'open', url })
+          --os.execute('open "' .. url .. '"')
+        elseif uname == "Linux" then
+          -- Linux detected
+          vim.fn.system({ 'xdg-open', url })
+          --os.execute('xdg-open "' .. url .. '"')
+        else
+          print("Unsupported OS: " .. uname)
+        end
+      end
+
+
+      local function retrievePort(dir)
+        local port = "8080"
+        local file_path = dir .. "/" .. ".live_port"
+
+        if not file_exists(file_path) then return port end
+
+        local lines = vim.fn.readfile(file_path)
+        if #lines < 1 then return port end
+
+        port = lines[1]
+        return port
+      end
+
+      vim.api.nvim_create_user_command("GotoPage", function()
+        local relative_filename = vim.fn.expand('%:~:.')
+        local filename_in_output = vim.fn.system('oxidian where --file \"' ..
+          relative_filename .. '\" ' .. vim.fn.getcwd())
+        local port = retrievePort(vim.fn.getcwd())
+        local url = 'http://localhost:' .. port .. '/' .. filename_in_output
+        vim.notify('Opening ' .. url)
+        openUrl(url)
+      end, {})
+
+
+
       return options
     end,
   },
 }
-
