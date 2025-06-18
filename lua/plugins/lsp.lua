@@ -12,6 +12,7 @@ return {
           settings = {
             pylsp = {
               plugins = {
+                pyflakes = { enabled = false },
                 pycodestyle = {
                   ignore = { "E501", "E203" },
                   maxLineLength = 100, -- Optional, override the default 79
