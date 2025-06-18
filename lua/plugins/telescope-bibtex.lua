@@ -21,7 +21,7 @@ return {
     --   return
     -- end
 
-    local status_helpers, helpers = pcall(require, "schuurvim.telescope-bibtex-utils")
+    local status_helpers, custom_helpers = pcall(require, "schuurvim.telescope-bibtex-utils")
     if not status_helpers then
       vim.notify("Could not load utilities from schuurvim.", vim.log.levels.ERROR)
       return
@@ -32,11 +32,11 @@ return {
         local entry = action_state.get_selected_entry().id.content
         local parsed = utils.parse_entry(entry)
         actions.close(prompt_bufnr)
-        if helpers.IsMarkdown() then
-          helpers.CreateIfNotExists(parsed)
-          helpers.WriteText(helpers.format_citation_md(parsed))
+        if IsMarkdown() then
+          CreateIfNotExists(parsed)
+          WriteText(Format_citation_md(parsed))
         else
-          helpers.WriteText(helpers.format_citation_tex(parsed))
+          WriteText(Format_citation_tex(parsed))
         end
       end
     end

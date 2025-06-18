@@ -11,8 +11,8 @@ function WriteText(txt)
   end
 end
 
-
 local function extract_year(str)
+  if (str == nil) then return '' end
   return str:match("(%d%d%d%d)")
 end
 
@@ -178,12 +178,12 @@ local function generate_filename(reference)
   return filename
 end
 
-local function format_citation_tex(reference)
+function Format_citation_tex(reference)
   return string.format([[\cite{%s}]], reference.label)
 end
 
 
-local function format_citation_md(reference)
+function Format_citation_md(reference)
   local authors = authors_to_list(reference.author)
   local author_str = format_authors_short(authors, { max_authors = 1 })
   local year = format_year(reference.year)
