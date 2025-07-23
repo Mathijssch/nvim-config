@@ -306,5 +306,32 @@ table.insert(snippets, s(
     )
 )
 )
+table.insert(snippets, s(
+    {
+        trig = "cjj",
+        dscr = "left braces",
+        snippetType = "autosnippet",
+        wordTrig=false
+    }, t("{")
+)
+)
+table.insert(snippets, s(
+    {
+        trig = "cll",
+        dscr = "right braces",
+        snippetType = "autosnippet",
+        wordTrig=false
+    }, t("}")
+)
+)
 
+table.insert(snippets, s(
+    {
+        trig = "gbs",
+        dscr = "backslash",
+        snippetType = "autosnippet",
+        wordTrig=false
+    }, t("\\")
+)
+)
 return snippets

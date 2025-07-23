@@ -163,7 +163,7 @@ end
 local function ignore_latex(gitignore_path)
   local defaults = {
     "*.aux", "*.fdb_latexmk", "*.fls", "*.log", "*.synctex.gz", "*.toc",
-    "*.out", "*.bbl", "*.blg", "*.nav", "*.snm", "*.vrb", "*.xdv"
+    "*.out", "*.bbl", "*.blg", "*.nav", "*.snm", "*.vrb", "*.xdv", "*.run.xml", "*.bcf"
   }
   ignore(gitignore_path, defaults)
 end

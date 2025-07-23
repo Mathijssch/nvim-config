@@ -24,7 +24,7 @@ return {
     }
 
     if vim.loop.os_uname().sysname == "Darwin" then
-      vim.g.vimtex_view_method = 'skim'
+      vim.g.vimtex_view_method = 'sioyek'
       vim.g.vimtex_view_skim_sync = 1
       vim.g.vimtex_view_skim_activate = 1
     end
@@ -94,6 +94,8 @@ return {
     end
 
     vim.api.nvim_create_user_command("ToggleMain", toggleMain, {})
+    vim.g.vimtex_quickfix_ignore_filters = { [[LaTeX Warning: Marginpar on page \d\+ moved.]] }
+
     vim.cmd([[ let g:vimtex_syntax_conceal_disable = 1 ]])
     -- vim.g.vimtex_syntax_conceal_default = 0
 
