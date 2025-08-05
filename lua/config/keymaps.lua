@@ -29,7 +29,7 @@ vim.keymap.set("i", "c:w<CR>", "<Esc>:w<CR>", {
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- Yank to the system clipboard.
-vim.keymap.set({ "n", "v" }, "<leader>y", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
+-- vim.keymap.set({ "n", "v" }, "<leader>y", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
 vim.keymap.set({ "v" }, "<C-c>", [["+ygv]], { desc = "Yank selected text to the system clipboard" })
 vim.keymap.set({ "i" }, "<C-v>", [[<Esc>"+pi]], { desc = "Paste selected text from the system clipboard" })
 vim.keymap.set("n", "<leader>Y", [["+Ygv]], { desc = "Yank the current line to the system clipboard" })
