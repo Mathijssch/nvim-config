@@ -4,6 +4,7 @@ return {
     version = "*",
     lazy = true,
     ft = "markdown",
+    cmd = { "WeekNote" },
     opts = function()
       local options = {}
       options.workspaces = {}
