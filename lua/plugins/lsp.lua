@@ -1,13 +1,16 @@
 return {
-  -- Example: customize LSP config
   {
     "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        pyright = {
-          mason = false,
-          autostart = false
-        },
+    opts = function(_, opts)
+      local caps = vim.lsp.protocol.make_client_capabilities()
+      caps.offsetEncoding = { "utf-8" }
+      opts.capabilities = vim.tbl_deep_extend("force", opts.capabilities or {}, caps)
+
+      opts.servers = vim.tbl_deep_extend("force", opts.servers or {}, {
+        -- pyright = {
+        --   mason = false,
+        --   autostart = false,
+        -- },
         pylsp = {
           settings = {
             pylsp = {
@@ -15,13 +18,15 @@ return {
                 pyflakes = { enabled = false },
                 pycodestyle = {
                   ignore = { "E501", "E203" },
-                  maxLineLength = 100, -- Optional, override the default 79
+                  maxLineLength = 100,
                 },
               },
             },
           },
         },
-      },
-    },
+      })
+
+      return opts
+    end,
   },
 }
