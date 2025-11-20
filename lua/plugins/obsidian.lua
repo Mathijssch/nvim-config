@@ -4,6 +4,7 @@ return {
     version = "*",
     lazy = true,
     ft = "markdown",
+    cmd = { "WeekNoteLight" },
     opts = function()
       local options = {}
       options.workspaces = {}
@@ -146,17 +147,27 @@ return {
         return "weekly/" .. FormatDate(monday) .. " - weekly update.md"
       end
 
-      vim.api.nvim_create_user_command("WeekNote", function()
+      local function create_weeknote()
         local weekly_path = get_weekly_note_file()
         require('schuurvim.pathman')
         local is_empty = not FileExists(weekly_path)
         NewFile(weekly_path)
+        return is_empty
+      end
+
+      local function populate_weeknote()
+        vim.cmd("ObsidianTemplate weekly.md")
+        vim.cmd("write")
+      end
+
+      vim.api.nvim_create_user_command("WeekNote", function()
+        local is_empty = create_weeknote();
         if is_empty then
-          vim.cmd("ObsidianTemplate weekly.md")
-          vim.cmd("write")
+          populate_weeknote()
         end
       end, {})
 
+      vim.api.nvim_create_user_command("WeekNoteLight", create_weeknote, {})
       vim.api.nvim_create_user_command("FromTemplate", function()
         vim.cmd("ObsidianNew")
         vim.cmd("normal! gg")
