@@ -20,13 +20,12 @@ return {
       end
 
       local paths = {
-        { name = "old",              path = "~/Work/Obsidian-notes/Notebook" },
-        { name = "new",              path = "~/Work/notebook/notes" },
-        { name = "fwo",              path = "~/Work/Proposals/FWO/fwo-postdoc/notes" },
-        { name = "fwo-macos",        path = "~/repos/fwo-postdoc/notes" },
-        { name = "schuurjans-macos", path = "/Users/mathijssch/Dropbox/admin/Schuurjans/schuurjans" },
-        { name = "gd",               path = "/Users/mathijssch/repos/gd/gdnotes/src" },
-        { name = "GET",              path = "~/Work/Research/GET/GET-notes/notes" },
+        { name = "old",       path = "~/Work/Obsidian-notes/Notebook" },
+        { name = "new",       path = "~/Work/notebook/notes" },
+        { name = "fwo",       path = "~/Work/Proposals/FWO/fwo-postdoc/notes" },
+        { name = "fwo-macos", path = "~/repos/fwo-postdoc/notes" },
+        { name = "gd",        path = "/Users/mathijssch/repos/gd/gdnotes/src" },
+        { name = "GET",       path = "/Users/mathijssch/repos/optia/GET-notes/notes" },
       }
 
       for _, pathInfo in ipairs(paths) do
@@ -85,7 +84,11 @@ return {
           end,
         },
         ["<CR>"] = { action = ObsidianSmartAction },
+        ["<localleader>n"] = { action = function() JumpWeek(1) end },
+        ["<localleader>p"] = { action = function() JumpWeek(-1) end },
+        ["<localleader>w"] = { action = function() JumpWeek(0) end },
       }
+
 
       local function get_monday_before(date, offset)
         offset = offset or 0
@@ -147,12 +150,19 @@ return {
         return "weekly/" .. FormatDate(monday) .. " - weekly update.md"
       end
 
-      local function create_weeknote()
-        local weekly_path = get_weekly_note_file()
+      local function create_weeknote(date, offset)
+        print(date, offset)
+        local weekly_path = get_weekly_note_file(date, offset)
         require('schuurvim.pathman')
         local is_empty = not FileExists(weekly_path)
         NewFile(weekly_path)
         return is_empty
+      end
+
+      function JumpWeek(offset)
+        local current_buffer_name = vim.fn.bufname('%')
+        local curr_date = get_date_from_title(current_buffer_name)
+        return create_weeknote(curr_date, offset)
       end
 
       local function populate_weeknote()
@@ -167,7 +177,7 @@ return {
         end
       end, {})
 
-      vim.api.nvim_create_user_command("WeekNoteLight", create_weeknote, {})
+      vim.api.nvim_create_user_command("WeekNoteLight", function() create_weeknote() end, {})
       vim.api.nvim_create_user_command("FromTemplate", function()
         vim.cmd("ObsidianNew")
         vim.cmd("normal! gg")
