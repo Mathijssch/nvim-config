@@ -186,6 +186,7 @@ end
 function Format_citation_md(reference)
   local authors = authors_to_list(reference.author)
   local author_str = format_authors_short(authors, { max_authors = 1 })
+  -- print(vim.inspect(reference))
   local year = format_year(reference.year)
   local filename = generate_filename(reference)
   return string.format("[[%s|%s %s]]", filename, author_str, year)

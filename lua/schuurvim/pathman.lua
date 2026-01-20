@@ -48,7 +48,6 @@ function NewFile(input)
     end
 
     local dir, file = SplitPath(input)
-    print(dir, file)
     if dir ~= nil then
         vim.cmd(string.format("silent !mkdir -p %s", dir))
     end
