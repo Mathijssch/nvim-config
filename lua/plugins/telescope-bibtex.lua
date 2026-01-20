@@ -2,7 +2,7 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
-    "nvim-telescope/telescope-bibtex.nvim",
+    "mathijssch/telescope-bibtex.nvim",
   },
   config = function()
     local status_ok, telescope = pcall(require, "telescope")
@@ -31,6 +31,7 @@ return {
       return function(prompt_bufnr)
         local entry = action_state.get_selected_entry().id.content
         local parsed = utils.parse_entry(entry)
+        -- vim.notify(parsed.year)
         actions.close(prompt_bufnr)
         if IsMarkdown() then
           CreateIfNotExists(parsed)
@@ -56,4 +57,3 @@ return {
     telescope.load_extension("bibtex")
   end
 }
-
