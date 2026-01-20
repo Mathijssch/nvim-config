@@ -15,6 +15,7 @@ return {
     -- }
   },
   keys = {
+    { "<leader>ff", false},
     { "<leader>p?",  function() require("telescope.builtin").oldfiles() end,                    desc = "[?] Find recently opened files" },
     { "<leader>pf", function() require("telescope.builtin").find_files() end,                  desc = "Search for [f]iles" },
     { "<leader>pF", function() require("telescope.builtin").find_files({ hidden = true }) end, desc = "Search hidden files" },
