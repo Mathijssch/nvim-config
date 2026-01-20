@@ -87,6 +87,10 @@ return {
         ["<localleader>n"] = { action = function() JumpWeek(1) end },
         ["<localleader>p"] = { action = function() JumpWeek(-1) end },
         ["<localleader>w"] = { action = function() JumpWeek(0) end },
+        ["<localleader>i"] = {
+          action = function() vim.cmd("ObsidianPasteImg") end,
+          opts = { buffer = true },
+        },
       }
 
 
