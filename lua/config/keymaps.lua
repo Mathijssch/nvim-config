@@ -39,7 +39,16 @@ vim.keymap.set("n", "<leader>Y", [["+Ygv]], { desc = "Yank the current line to t
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking." })
 
 --vim.keymap.set("n", "q", "<nop>")                     -- Disable Q
-vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format) -- format
+local function format()
+  local ok, conform = pcall(require, "conform")
+  if ok then
+    conform.format({ async = true, lsp_fallback = true })
+  else
+    vim.notify("couldn't load conform.")
+    vim.lsp.buf.format({ async = true })
+  end
+end
+vim.keymap.set("n", "<leader>ff", format) -- format
 
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Go to the next item in the quickfix list" })
 vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Go to the previous item in the quickfix list" })
