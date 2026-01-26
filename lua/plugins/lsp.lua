@@ -15,8 +15,11 @@ return {
           settings = {
             pylsp = {
               plugins = {
-                pyflakes = { enabled = false },
+                pyflakes = { enabled = false }, -- All of these are replaced by Ruff
+                mccabe = { enabled = false },
+                pylint = { enabled = false },
                 pycodestyle = {
+                  enabled = false,
                   ignore = { "E501", "E203" },
                   maxLineLength = 100,
                 },
