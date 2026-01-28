@@ -17,7 +17,8 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("i", "<C-BS>", "<C-w>")
 vim.keymap.set("i", "<C-c>", "<Esc>") -- This is almost the same as the default, but it fixes some minor differences.
 vim.keymap.set("i", "c:w<CR>", "<Esc>:w<CR>", {
-  desc = "This combination is usually the result of mistyping <C-c> to exist insert mode and immediately saving, so just detect it as such. I will never type this in real life.",
+  desc =
+  "This combination is usually the result of mistyping <C-c> to exist insert mode and immediately saving, so just detect it as such. I will never type this in real life.",
 })
 
 -- leader-paste: replace the current word with whatever is pasted.
@@ -34,7 +35,16 @@ vim.keymap.set("n", "<leader>Y", [["+Ygv]], { desc = "Yank the current line to t
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yanking." })
 
 --vim.keymap.set("n", "q", "<nop>")                     -- Disable Q
-vim.keymap.set("n", "<leader>ff", vim.lsp.buf.format) -- format
+local function format()
+  local ok, conform = pcall(require, "conform")
+  if ok then
+    conform.format({ async = true, lsp_fallback = true })
+  else
+    vim.notify("couldn't load conform.")
+    vim.lsp.buf.format({ async = true })
+  end
+end
+vim.keymap.set("n", "<leader>ff", format) -- format
 
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz", { desc = "Go to the next item in the quickfix list" })
 vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz", { desc = "Go to the previous item in the quickfix list" })
