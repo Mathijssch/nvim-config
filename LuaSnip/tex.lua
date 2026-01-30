@@ -124,8 +124,8 @@ table.insert(snippets, s(
 
 table.insert(snippets, s(
     {
-        trig = "be",
-        --snippetType = "autosnippet",
+        trig = "_b",
+        snippetType = "autosnippet",
         wordTrig = true,
         dscr = "Wrap the selected text in an envrionment block.",
         --condition = in_select_mode
@@ -212,20 +212,20 @@ table.insert(snippets, s(
     )
 ))
 
-table.insert(snippets, s(
-    {
-        trig = "_b",
-        snippetType = "autosnippet",
-        dscr = "Boldface",
-        regTrig = true,
-    },
-    fmt([[
-\textbf{<>}
-]],
-        { d(1, get_visual) },
-        { delimiters = "<>" }
-    )
-))
+-- table.insert(snippets, s(
+--     {
+--         trig = "_b",
+--         snippetType = "autosnippet",
+--         dscr = "Boldface",
+--         regTrig = true,
+--     },
+--     fmt([[
+-- \textbf{<>}
+-- ]],
+--         { d(1, get_visual) },
+--         { delimiters = "<>" }
+--     )
+-- ))
 table.insert(snippets, s(
     {
         trig = "_tc",
@@ -256,7 +256,7 @@ table.insert(snippets, s(
 
 table.insert(snippets, s(
     {
-        trig = "begin",
+        trig = "_b",
         dscr = "Insert a new environment",
         regTrig = false,
     },
