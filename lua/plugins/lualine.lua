@@ -3,7 +3,7 @@ local tiny = function()
 end
 
 local function is_fugitive()
-  return vim.bo.filetype == 'fugitive'
+  return vim.bo.filetype == "fugitive"
 end
 
 return {
@@ -14,21 +14,29 @@ return {
         return is_fugitive()
       end,
       buffer_not_terminal = function()
-        if tiny() then return false end
-        if is_fugitive() then return false end
-        return vim.bo.buftype ~= 'terminal'
+        if tiny() then
+          return false
+        end
+        if is_fugitive() then
+          return false
+        end
+        return vim.bo.buftype ~= "terminal"
       end,
-      not_tiny = function() return not tiny() end,
+      not_tiny = function()
+        return not tiny()
+      end,
       buffer_not_empty = function()
-        if tiny() then return false end
-        return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+        if tiny() then
+          return false
+        end
+        return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
       end,
       hide_in_width = function()
         return vim.fn.winwidth(0) > 80
       end,
       check_git_workspace = function()
-        local filepath = vim.fn.expand('%:p:h')
-        local gitdir = vim.fn.finddir('.git', filepath .. ';')
+        local filepath = vim.fn.expand("%:p:h")
+        local gitdir = vim.fn.finddir(".git", filepath .. ";")
         return gitdir and #gitdir > 0 and #gitdir < #filepath
       end,
     }
@@ -36,24 +44,28 @@ return {
       function()
         return "Git status"
       end,
-      cond = conditions.buffer_is_git
+      cond = conditions.buffer_is_git,
     }
 
     local term_config = {
       function()
         return "Terminal"
       end,
-      cond = function() return not conditions.buffer_not_terminal() end
+      cond = function()
+        return not conditions.buffer_not_terminal()
+      end,
     }
 
     local filename_config = {
-      'filename',
+      "filename",
       cond = conditions.buffer_not_terminal,
       path = 1,
-      symbols = { modified = '●', unmodified = ' ' },
+      symbols = { modified = "●", unmodified = " " },
     }
-    local empty_content = function() return " " end
-    local empty_config = { empty_content, cond = conditions.not_tiny };
+    local empty_content = function()
+      return " "
+    end
+    local empty_config = { empty_content, cond = conditions.not_tiny }
 
     opts.winbar = {
       lualine_a = {},
@@ -61,7 +73,7 @@ return {
       lualine_c = {},
       lualine_x = {},
       lualine_y = {},
-      lualine_z = {}
+      lualine_z = {},
     }
     opts.inactive_winbar = {
       lualine_a = {},
@@ -69,7 +81,7 @@ return {
       lualine_c = {},
       lualine_x = {},
       lualine_y = {},
-      lualine_z = {}
+      lualine_z = {},
     }
 
     table.insert(opts.winbar.lualine_b, empty_config)
@@ -93,6 +105,34 @@ return {
       return table.concat(names, ", ")
     end
 
+    local va = vim.api
+    local vf = vim.fn
+    va.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+      callback = function()
+        if vf.expand("%:e") == "tex" then
+          local words = vf.system("texcount " .. vf.shellescape(vf.expand("%:p")) .. " | awk 'FNR==3 {printf $NF}'")
+          if words:find("command not found") ~= nil then
+            va.nvim_buf_set_var(0, "words", "")
+          elseif words == "1" then
+            va.nvim_buf_set_var(0, "words", words .. " word")
+          else
+            va.nvim_buf_set_var(0, "words", words .. " words")
+          end
+        end
+      end,
+    })
+
+    local function wordcount()
+      if vf.expand("%:e") == "tex" then
+        return va.nvim_buf_get_var(0, "words")
+      else
+        return ""
+      end
+    end
+
+    table.insert(opts.sections.lualine_x, {
+      wordcount, icon = " ",
+    })
     -- Insert into lualine_c (or wherever you want)
     table.insert(opts.sections.lualine_x, { lsp_client_names, icon = " " })
 
