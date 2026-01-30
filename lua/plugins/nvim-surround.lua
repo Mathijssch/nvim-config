@@ -1,10 +1,21 @@
 return {
   "kylechui/nvim-surround",
-  version = "^3.0.0",   -- Use for stability; omit to use `main` branch for the latest features
+  version = "^3.0.0",
   event = "VeryLazy",
   config = function()
     require("nvim-surround").setup({
-      -- Configuration here, or leave empty to use defaults
+      surrounds = {
+        e = {
+          add = function()
+            local env = vim.fn.input("Environment: ")
+            return {
+              { "\\begin{" .. env .. "}\n" },
+              { "\n\\end{" .. env .. "}" },
+            }
+          end,
+        },
+      },
     })
-  end
+  end,
 }
+
