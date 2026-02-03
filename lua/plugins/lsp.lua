@@ -11,6 +11,16 @@ return {
         -- },
         --
         -- capabilities = vim.tbl_deep_extend("force", opts.servers.capabilities or {}, caps),
+        ruff_lsp = {
+          init_options = {
+            settings = {
+              args = {
+                "--line-length=100",
+                "--ignore=E501,E203",
+              },
+            },
+          },
+        },
         pylsp = {
           settings = {
             pylsp = {
@@ -18,6 +28,7 @@ return {
                 pyflakes = { enabled = false }, -- All of these are replaced by Ruff
                 mccabe = { enabled = false },
                 pylint = { enabled = false },
+                pyright = { enabled = false },
                 pycodestyle = {
                   enabled = false,
                   ignore = { "E501", "E203" },
