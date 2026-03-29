@@ -21,23 +21,23 @@ return {
             },
           },
         },
-        pylsp = {
-          settings = {
-            pylsp = {
-              plugins = {
-                pyflakes = { enabled = false }, -- All of these are replaced by Ruff
-                mccabe = { enabled = false },
-                pylint = { enabled = false },
-                pyright = { enabled = false },
-                pycodestyle = {
-                  enabled = false,
-                  ignore = { "E501", "E203" },
-                  maxLineLength = 100,
-                },
-              },
-            },
-          },
-        },
+        -- pylsp = {
+        --   settings = {
+        --     pylsp = {
+        --       plugins = {
+        --         pyflakes = { enabled = false }, -- All of these are replaced by Ruff
+        --         mccabe = { enabled = false },
+        --         pylint = { enabled = false },
+        --         pyright = { enabled = false },
+        --         pycodestyle = {
+        --           enabled = false,
+        --           ignore = { "E501", "E203" },
+        --           maxLineLength = 100,
+        --         },
+        --       },
+        --     },
+        --   },
+        -- },
       })
 
       return opts

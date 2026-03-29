@@ -5,5 +5,6 @@
 vim.g.autoformat = false
 vim.opt.conceallevel = 1
 vim.g.lazyvim_picker = "telescope"
+vim.g.snacks_animate = false
 
 require("config.max-columns")
