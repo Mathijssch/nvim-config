@@ -20,12 +20,12 @@ return {
       end
 
       local paths = {
-        { name = "old",       path = "~/Work/Obsidian-notes/Notebook" },
-        { name = "new",       path = "~/Work/notebook/notes" },
-        { name = "fwo",       path = "~/Work/Proposals/FWO/fwo-postdoc/notes" },
+        { name = "old", path = "~/Work/Obsidian-notes/Notebook" },
+        { name = "new", path = "~/Work/notebook/notes" },
+        { name = "fwo", path = "~/Work/Proposals/FWO/fwo-postdoc/notes" },
         { name = "fwo-macos", path = "~/repos/fwo-postdoc/notes" },
-        { name = "gd",        path = "/Users/mathijssch/repos/gd/gdnotes/src" },
-        { name = "GET",       path = "/Users/mathijssch/repos/optia/GET-notes/notes" },
+        { name = "gd", path = "/Users/mathijssch/repos/gd/gdnotes/src" },
+        { name = "GET", path = "/Users/mathijssch/repos/optia/GET-notes/notes" },
       }
 
       for _, pathInfo in ipairs(paths) do
@@ -39,7 +39,9 @@ return {
         end
       end
 
-      if next(options.workspaces) == nil then return {} end
+      if next(options.workspaces) == nil then
+        return {}
+      end
 
       local utils_ok, _utils = pcall(require, "schuurvim.util")
       if not utils_ok then
@@ -69,14 +71,22 @@ return {
 
       options.mappings = {
         ["gf"] = {
-          action = function() return require("obsidian.util").gf_passthrough() end,
+          action = function()
+            return require("obsidian.util").gf_passthrough()
+          end,
           opts = { noremap = false, expr = true, buffer = true },
         },
         ["<leader>ch"] = {
-          action = function() return require("obsidian.util").toggle_checkbox() end,
+          action = function()
+            return require("obsidian.util").toggle_checkbox()
+          end,
           opts = { buffer = true },
         },
-        ["<localleader>e"] = { action = function() vim.cmd("ObsidianTemplate") end },
+        ["<localleader>e"] = {
+          action = function()
+            vim.cmd("ObsidianTemplate")
+          end,
+        },
         ["<localleader>E"] = {
           action = function()
             vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
@@ -84,22 +94,44 @@ return {
           end,
         },
         ["<CR>"] = { action = ObsidianSmartAction },
-        ["<localleader>n"] = { action = function() JumpWeek(1) end },
-        ["<localleader>p"] = { action = function() JumpWeek(-1) end },
-        ["<localleader>w"] = { action = function() JumpWeek(0) end },
+        ["<localleader>n"] = {
+          action = function()
+            JumpWeek(1)
+          end,
+          opts = {
+            desc = "Open previous weekly note",
+          },
+        },
+        ["<localleader>p"] = {
+          action = function()
+            JumpWeek(-1)
+          end,
+          opts = {
+            desc = "Open next weekly note",
+          },
+        },
+        ["<localleader>w"] = {
+          action = function()
+            JumpWeek(0)
+          end,
+          opts = {
+            desc = "Open current weekly note",
+          },
+        },
         ["<localleader>i"] = {
-          action = function() vim.cmd("ObsidianPasteImg") end,
+          action = function()
+            vim.cmd("ObsidianPasteImg")
+          end,
           opts = { buffer = true },
         },
       }
-
 
       local function get_monday_before(date, offset)
         offset = offset or 0
         local today = os.time()
         if date then
           local year, month, day = date:match("(%d+)-(%d+)-(%d+)")
-          today = os.time { year = year, month = month, day = day }
+          today = os.time({ year = year, month = month, day = day })
         end
         local days_to_subtract = (tonumber(os.date("%w", today)) - 1) % 7
         local monday = os.date("*t", today + (7 * offset - days_to_subtract) * 86400)
@@ -111,7 +143,7 @@ return {
       end
 
       local function title_to_date(offset)
-        local current_buffer_name = vim.fn.bufname('%')
+        local current_buffer_name = vim.fn.bufname("%")
         local date = get_date_from_title(current_buffer_name)
         if date == nil then
           vim.notify("Could not parse date from title. Using today's date.", vim.log.levels.WARN)
@@ -121,9 +153,15 @@ return {
       end
 
       local substitutions = {
-        this_week = function() return title_to_date(0) end,
-        next_week = function() return title_to_date(1) end,
-        last_week = function() return title_to_date(-1) end,
+        this_week = function()
+          return title_to_date(0)
+        end,
+        next_week = function()
+          return title_to_date(1)
+        end,
+        last_week = function()
+          return title_to_date(-1)
+        end,
       }
 
       options.templates = {
@@ -157,14 +195,14 @@ return {
       local function create_weeknote(date, offset)
         print(date, offset)
         local weekly_path = get_weekly_note_file(date, offset)
-        require('schuurvim.pathman')
+        require("schuurvim.pathman")
         local is_empty = not FileExists(weekly_path)
         NewFile(weekly_path)
         return is_empty
       end
 
       function JumpWeek(offset)
-        local current_buffer_name = vim.fn.bufname('%')
+        local current_buffer_name = vim.fn.bufname("%")
         local curr_date = get_date_from_title(current_buffer_name)
         return create_weeknote(curr_date, offset)
       end
@@ -175,13 +213,15 @@ return {
       end
 
       vim.api.nvim_create_user_command("WeekNote", function()
-        local is_empty = create_weeknote();
+        local is_empty = create_weeknote()
         if is_empty then
           populate_weeknote()
         end
       end, {})
 
-      vim.api.nvim_create_user_command("WeekNoteLight", function() create_weeknote() end, {})
+      vim.api.nvim_create_user_command("WeekNoteLight", function()
+        create_weeknote()
+      end, {})
       vim.api.nvim_create_user_command("FromTemplate", function()
         vim.cmd("ObsidianNew")
         vim.cmd("normal! gg")
@@ -190,7 +230,7 @@ return {
       end, {})
 
       vim.api.nvim_create_user_command("FillWeeklyGap", function()
-        local current_buffer_name = vim.fn.bufname('%')
+        local current_buffer_name = vim.fn.bufname("%")
         local curr_date = get_date_from_title(current_buffer_name)
         if curr_date == nil then
           vim.notify("Could not parse date from title. Stopping.", vim.log.levels.WARN)
@@ -199,7 +239,7 @@ return {
 
         local offset = -1
         local file = get_weekly_note_file(curr_date, offset)
-        require('schuurvim.pathman')
+        require("schuurvim.pathman")
         local list_of_offsets = {}
         local max_weeks = 50
 
@@ -211,7 +251,7 @@ return {
           --vim.cmd(string.format("ObsidianTemplate weekly.md"))
         end
         local choice = vim.fn.confirm(string.format("Updating %d notes. Proceed?", -1 - offset), "&Yes\n&No", 2) -- 2 is the default selection (No)
-        if choice == 1 then                                                                                      -- 1 corresponds to 'Yes'
+        if choice == 1 then -- 1 corresponds to 'Yes'
           for i, o in ipairs(list_of_offsets) do
             file = get_weekly_note_file(curr_date, o)
             NewFile(file)
@@ -230,42 +270,43 @@ return {
         url = url:gsub("%s+$", "") -- Removes any trailing whitespace, including newlines
         if uname == "Darwin" then
           -- macOS detected
-          vim.fn.system({ 'open', url })
+          vim.fn.system({ "open", url })
           --os.execute('open "' .. url .. '"')
         elseif uname == "Linux" then
           -- Linux detected
-          vim.fn.system({ 'xdg-open', url })
+          vim.fn.system({ "xdg-open", url })
           --os.execute('xdg-open "' .. url .. '"')
         else
           print("Unsupported OS: " .. uname)
         end
       end
 
-
       local function retrievePort(dir)
         local port = "8080"
         local file_path = dir .. "/" .. ".live_port"
 
-        if not file_exists(file_path) then return port end
+        if not file_exists(file_path) then
+          return port
+        end
 
         local lines = vim.fn.readfile(file_path)
-        if #lines < 1 then return port end
+        if #lines < 1 then
+          return port
+        end
 
         port = lines[1]
         return port
       end
 
       vim.api.nvim_create_user_command("GotoPage", function()
-        local relative_filename = vim.fn.expand('%:~:.')
-        local filename_in_output = vim.fn.system('oxidian where --file \"' ..
-          relative_filename .. '\" ' .. vim.fn.getcwd())
+        local relative_filename = vim.fn.expand("%:~:.")
+        local filename_in_output =
+          vim.fn.system('oxidian where --file "' .. relative_filename .. '" ' .. vim.fn.getcwd())
         local port = retrievePort(vim.fn.getcwd())
-        local url = 'http://localhost:' .. port .. '/' .. filename_in_output
-        vim.notify('Opening ' .. url)
+        local url = "http://localhost:" .. port .. "/" .. filename_in_output
+        vim.notify("Opening " .. url)
         openUrl(url)
       end, {})
-
-
 
       return options
     end,
