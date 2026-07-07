@@ -97,7 +97,7 @@ vim.keymap.set("n", "<leader>-", vim.cmd.split, { desc = "Make a vertical split"
 
 -- Open a new terminal to the side.
 vim.cmd.set("splitbelow")
-vim.keymap.set("n", "<leader>tt", [[<cmd>:split | resize 20 | terminal<CR>i]], { desc = "Open a new terminal below" })
+vim.keymap.set("n", "<localleader>t", [[<cmd>:split | resize 20 | terminal<CR>i]], { desc = "Open a new terminal below" })
 
 -- Exit terminal mode
 vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
