@@ -126,7 +126,6 @@ vim.keymap.set("n", "<Leader>dd", function()
   AddStringAtCursor(FillChars(".", 80))
 end, { desc = "Fill the current line with dots until the specified width (80)." })
 
-
 local function ignore(gitignore_path, patterns)
   for _, file in ipairs(patterns) do
     local ext = file:match("^.+(%..+)$")
